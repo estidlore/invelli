@@ -1,3 +1,3 @@
-import config from "eslint-config-estidlore/prettier.config";
+var config = require("eslint-config-estidlore/prettier.config");
 
 module.exports = config;
