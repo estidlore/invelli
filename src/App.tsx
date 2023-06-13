@@ -1,8 +1,14 @@
 import React from "react";
-import { Text } from "react-native";
+
+import { Screen } from "components";
+import { TabNav } from "navigation/TabNav";
 
 const App = (): JSX.Element => {
-  return <Text>{"Dummy Text"}</Text>;
+  return (
+    <Screen>
+      <TabNav />
+    </Screen>
+  );
 };
 
 export { App };
