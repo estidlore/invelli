@@ -1,6 +1,7 @@
 const colors = {
   dark: "#081018",
-  light: "#f0f8ff"
+  light: "#f0f8ff",
+  transparent: "transparent"
 };
 
 type ColorName = keyof typeof colors;
