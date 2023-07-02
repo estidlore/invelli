@@ -6,6 +6,16 @@ import "@testing-library/jest-native/extend-expect";
 // the native animated module is missing
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
 
+jest.mock("react-native-vision-camera", () => ({
+  Camera: {
+    requestCameraPermission: jest.fn()
+  },
+  useCameraDevices: jest.fn(() => ({
+    back: {}
+  })),
+  useFrameProcessor: jest.fn()
+}));
+
 // Enable excluding hidden elements from the queries by default
 configure({
   defaultIncludeHiddenElements: false

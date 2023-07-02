@@ -22,7 +22,7 @@ describe("SearchBar", () => {
   });
 
   it("Filter items", () => {
-    expect.assertions(1);
+    expect.assertions(3);
     const onChange = jest.fn();
     render(
       <SearchBar getKeywords={getKeywords} items={items} onChange={onChange} />
@@ -31,5 +31,8 @@ describe("SearchBar", () => {
     const input = screen.getByPlaceholderText("Producto");
     fireEvent.changeText(input, "Sal");
     expect(onChange).toHaveBeenCalledWith([items[0], items[1]]);
+    fireEvent.press(screen.queryByTestId("icon-eraser"));
+    expect(input.props.value).toBe("");
+    expect(onChange).toHaveBeenLastCalledWith([]);
   });
 });

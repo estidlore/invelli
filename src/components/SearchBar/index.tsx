@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { View } from "react-native";
 
-import { Button, Input } from "components";
+import { Button } from "components/Button";
+import { Input } from "components/Input";
 
 import { styles } from "./styles";
 import type { SearchBarProps } from "./types";
@@ -24,8 +25,8 @@ const SearchBar = <T extends unknown>({
   );
 
   const clearInput = useCallback(() => {
-    setInput("");
-  }, [setInput]);
+    handleChange("");
+  }, [handleChange]);
 
   return (
     <View style={styles.container}>

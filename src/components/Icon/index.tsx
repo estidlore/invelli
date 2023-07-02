@@ -17,6 +17,7 @@ const Icon = ({
       name={name}
       size={size}
       style={[{ lineHeight: size }, style]}
+      testID={`icon-${name}`}
     />
   );
 };
