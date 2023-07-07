@@ -63,3 +63,4 @@ yarn-error.log
 .metro-health-check*
 
 coverage/
+android/app/src/main/assets/index.android.bundle

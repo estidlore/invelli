@@ -5,6 +5,7 @@ import type { IconProps } from "react-native-vector-icons/Icon";
 import { colors } from "utils/colors";
 
 const Icon = ({
+  color = colors.light,
   name,
   size = 20,
   style,
@@ -13,7 +14,7 @@ const Icon = ({
   return (
     <FA5Icon
       {...otherProps}
-      color={colors.light}
+      color={color}
       name={name}
       size={size}
       style={[{ lineHeight: size }, style]}

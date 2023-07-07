@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: colors.light,
     flexGrow: 1,
+    flexShrink: 1,
     fontSize: 16,
     paddingHorizontal: 8,
     paddingVertical: 4
