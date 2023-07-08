@@ -6,6 +6,16 @@ import "@testing-library/jest-native/extend-expect";
 // the native animated module is missing
 jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
 
+jest.mock("react-native/Libraries/EventEmitter/NativeEventEmitter");
+
+jest.mock("react-native-fs", () => ({}));
+jest.mock("react-native-document-picker", () => ({
+  pick: jest.fn().mockResolvedValue([""]),
+  types: {
+    allFiles: "*"
+  }
+}));
+
 jest.mock("react-native-vision-camera", () => ({
   Camera: {
     requestCameraPermission: jest.fn()

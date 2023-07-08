@@ -1,6 +1,7 @@
 const esModules = [
   "@react-native",
   "react-native",
+  "react-native-fs",
   "react-native-reanimated",
   "react-native-vector-icons"
 ].join("|");
