@@ -10,21 +10,26 @@ import { FilePicker } from ".";
 
 describe("FilePicker", () => {
   const text = "Pick file";
+  let onPick: jest.Mock;
+
+  beforeEach(() => {
+    onPick = jest.fn();
+    render(<FilePicker onPick={onPick}>{text}</FilePicker>);
+  });
 
   it("Render content", () => {
     expect.assertions(1);
-    render(<FilePicker>{text}</FilePicker>);
 
     expect(screen.queryByText(text)).toBeOnTheScreen();
   });
 
   it("Call onPick", async () => {
     expect.assertions(2);
-    const onPick = jest.fn();
-    render(<FilePicker onPick={onPick}>{text}</FilePicker>);
 
     fireEvent.press(screen.getByText(text));
-    await waitFor(() => expect(DocPicker.pick).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(DocPicker.pickSingle).toHaveBeenCalled();
+    });
     expect(onPick).toHaveBeenCalledTimes(1);
   });
 });

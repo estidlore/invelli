@@ -7,7 +7,7 @@ import type { FilePickerProps } from "./types";
 
 const FilePicker = ({ children, onPick }: FilePickerProps): JSX.Element => {
   const handlePick = useCallback(() => {
-    DocPicker.pick().then(onPick).catch(console.error);
+    DocPicker.pickSingle().then(onPick).catch(console.error);
   }, [onPick]);
 
   return (

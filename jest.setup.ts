@@ -11,9 +11,7 @@ jest.mock("react-native/Libraries/EventEmitter/NativeEventEmitter");
 jest.mock("react-native-fs", () => ({}));
 jest.mock("react-native-document-picker", () => ({
   pick: jest.fn().mockResolvedValue([""]),
-  types: {
-    allFiles: "*"
-  }
+  pickSingle: jest.fn().mockResolvedValue("")
 }));
 
 jest.mock("react-native-vision-camera", () => ({
