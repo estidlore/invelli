@@ -7,12 +7,6 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
         root: ["src"]
       }
-    ],
-    [
-      "react-native-reanimated/plugin",
-      {
-        globals: ["__decode", "__scanCodes"]
-      }
     ]
   ]
 };

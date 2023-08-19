@@ -14,16 +14,6 @@ jest.mock("react-native-document-picker", () => ({
   pickSingle: jest.fn().mockResolvedValue("")
 }));
 
-jest.mock("react-native-vision-camera", () => ({
-  Camera: {
-    requestCameraPermission: jest.fn()
-  },
-  useCameraDevices: jest.fn(() => ({
-    back: {}
-  })),
-  useFrameProcessor: jest.fn()
-}));
-
 // Enable excluding hidden elements from the queries by default
 configure({
   defaultIncludeHiddenElements: false
