@@ -1,7 +1,9 @@
 export { Button } from "./Button";
+export { BarcodeScanner } from "./BarcodeScanner";
 export { FilePicker } from "./FilePicker";
 export { Icon } from "./Icon";
 export { Input } from "./Input";
+export { Modal } from "./Modal";
 export { Screen } from "./Screen";
 export { SearchBar } from "./SearchBar";
 export { Text } from "./Text";
