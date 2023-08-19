@@ -34,7 +34,7 @@ describe("Modal", () => {
     );
 
     expect(screen.queryByText(t.title)).toBeOnTheScreen();
-    expect(screen.getByTestId("icon-angle-down")).toBeOnTheScreen();
+    expect(screen.getByTestId("icon-times")).toBeOnTheScreen();
     expect(screen.queryByText(t.content)).toBeOnTheScreen();
   });
 
@@ -45,7 +45,7 @@ describe("Modal", () => {
     expect(screen.queryByText(t.title)).not.toBeOnTheScreen();
     fireEvent.press(screen.getByText(t.button));
     expect(screen.queryByText(t.title)).toBeOnTheScreen();
-    fireEvent.press(screen.getByTestId("icon-angle-down"));
+    fireEvent.press(screen.getByTestId("icon-times"));
     expect(screen.queryByText(t.title)).not.toBeOnTheScreen();
   });
 });

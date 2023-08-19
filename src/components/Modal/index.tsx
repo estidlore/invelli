@@ -24,7 +24,7 @@ const Modal = ({
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
-            <Button icon={"angle-down"} onPress={onClose} />
+            <Button icon={"times"} onPress={onClose} />
           </View>
           {children}
         </View>

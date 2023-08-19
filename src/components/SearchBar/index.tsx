@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import { View } from "react-native";
 
+import { BarcodeScanner } from "components/BarcodeScanner";
 import { Button } from "components/Button";
 import { Input } from "components/Input";
 
@@ -13,6 +14,7 @@ const SearchBar = <T extends unknown>({
   items,
   onChange
 }: SearchBarProps<T>): JSX.Element => {
+  const [readCode, toggleReadCode] = useReducer((val) => !val, false);
   const [input, setInput] = useState("");
 
   const handleChange = useCallback(
@@ -30,9 +32,14 @@ const SearchBar = <T extends unknown>({
 
   return (
     <View style={styles.container}>
-      <Button icon={"qrcode"} />
+      <Button icon={"qrcode"} onPress={toggleReadCode} />
       <Input onChange={handleChange} placeholder={"Producto"} value={input} />
       <Button icon={"eraser"} onPress={clearInput} />
+      <BarcodeScanner
+        onClose={toggleReadCode}
+        onScan={handleChange}
+        visible={readCode}
+      />
     </View>
   );
 };
