@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useReducer } from "react";
 import { Modal, Vibration } from "react-native";
 import { Camera, CameraType } from "react-native-camera-kit";
 
@@ -8,34 +8,40 @@ import { styles } from "./styles";
 import type { BarcodeScannerProps, ReadCodeEvent } from "./types";
 
 const BarcodeScanner = ({
-  onClose,
-  onScan,
-  visible
+  onScan
 }: BarcodeScannerProps): JSX.Element | null => {
+  const [scan, toggleScan] = useReducer((val) => !val, false);
   const handleReadCode = useCallback(
     (ev: ReadCodeEvent) => {
       const code = ev.nativeEvent.codeStringValue;
       onScan(code);
       Vibration.vibrate(100);
-      onClose?.();
+      toggleScan();
     },
-    [onClose, onScan]
+    [onScan, toggleScan]
   );
 
   return (
-    <Modal onRequestClose={onClose} visible={visible}>
-      <Camera
-        cameraType={CameraType.Back}
-        flashMode={"auto"}
-        frameColor={"white"}
-        laserColor={"red"}
-        onReadCode={handleReadCode}
-        scanBarcode
-        style={styles.camera}
-        surfaceColor={"blue"}
-      />
-      <Button icon={"times"} onPress={onClose} style={styles.closeButton} />
-    </Modal>
+    <>
+      <Button icon={"qrcode"} onPress={toggleScan} />
+      <Modal onRequestClose={toggleScan} visible={scan}>
+        <Camera
+          cameraType={CameraType.Back}
+          flashMode={"auto"}
+          frameColor={"white"}
+          laserColor={"red"}
+          onReadCode={handleReadCode}
+          scanBarcode
+          style={styles.camera}
+          surfaceColor={"blue"}
+        />
+        <Button
+          icon={"times"}
+          onPress={toggleScan}
+          style={styles.closeButton}
+        />
+      </Modal>
+    </>
   );
 };
 

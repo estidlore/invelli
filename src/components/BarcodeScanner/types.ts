@@ -1,6 +1,4 @@
-import type { ModalBaseProps } from "components/Modal/types";
-
-interface BarcodeScannerProps extends ModalBaseProps {
+interface BarcodeScannerProps {
   onScan: (barcode: string) => void;
 }
 
