@@ -1,5 +1,6 @@
 export { Button } from "./Button";
 export { BarcodeScanner } from "./BarcodeScanner";
+export { Card } from "./Card";
 export { FilePicker } from "./FilePicker";
 export { Icon } from "./Icon";
 export { Input } from "./Input";
