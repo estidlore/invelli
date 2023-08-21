@@ -12,6 +12,7 @@ const Input = ({
   placeholder,
   type = "default",
   secure = false,
+  style,
   value
 }: InputProps): JSX.Element => {
   return (
@@ -22,7 +23,7 @@ const Input = ({
       placeholder={placeholder}
       placeholderTextColor={colors.gray}
       secureTextEntry={secure}
-      style={styles.input}
+      style={[style, styles.input]}
       value={value}
     />
   );

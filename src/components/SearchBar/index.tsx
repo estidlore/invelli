@@ -32,7 +32,12 @@ const SearchBar = <T extends unknown>({
   return (
     <View style={styles.container}>
       <BarcodeScanner onScan={handleChange} />
-      <Input onChange={handleChange} placeholder={"Producto"} value={input} />
+      <Input
+        onChange={handleChange}
+        placeholder={"Producto"}
+        style={styles.input}
+        value={input}
+      />
       <Button icon={"eraser"} onPress={clearInput} />
     </View>
   );

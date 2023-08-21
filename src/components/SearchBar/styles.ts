@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "row"
+  },
+  input: {
+    marginHorizontal: 4
   }
 });
 
