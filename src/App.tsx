@@ -2,12 +2,15 @@ import React from "react";
 
 import { Screen } from "components";
 import { TabNav } from "navigation/TabNav";
+import { RealmProvider } from "utils/db";
 
 const App = (): JSX.Element => {
   return (
-    <Screen>
-      <TabNav />
-    </Screen>
+    <RealmProvider>
+      <Screen>
+        <TabNav />
+      </Screen>
+    </RealmProvider>
   );
 };
 

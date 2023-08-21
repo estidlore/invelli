@@ -21,6 +21,11 @@ jest.mock("react-native-document-picker", () => ({
   pickSingle: jest.fn().mockResolvedValue("")
 }));
 
+jest.mock("utils/db", () => ({
+  useCollection: jest.fn(() => []),
+  useRealm: jest.fn(() => ({}))
+}));
+
 // Enable excluding hidden elements from the queries by default
 configure({
   defaultIncludeHiddenElements: false
