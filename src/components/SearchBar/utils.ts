@@ -1,16 +1,20 @@
+const cleanKeywords = (keywords: string[]): string[] => {
+  return keywords.filter((kw) => kw.length > 0).map((kw) => kw.toLowerCase());
+};
+
 const searchItems = <T>(
   input: string,
   items: T[],
   getKeywords: (item: T) => string[]
 ): T[] => {
-  const keywords = input.trim().toLowerCase().split(" ");
+  const keywords = cleanKeywords(input.split(" "));
 
   return items
     .map((item) => {
-      const itemKeywords = getKeywords(item);
-      const matches = keywords.flatMap((keyword) => {
-        return itemKeywords.map((itemKeyword) => {
-          if (itemKeyword.toLowerCase().includes(keyword)) {
+      const itemKeywords = cleanKeywords(getKeywords(item));
+      const matches = itemKeywords.flatMap((itemKeyword) => {
+        return keywords.map((keyword) => {
+          if (itemKeyword.includes(keyword)) {
             return keyword.length / itemKeyword.length;
           }
           return 0;

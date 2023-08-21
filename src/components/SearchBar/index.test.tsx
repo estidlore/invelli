@@ -12,9 +12,9 @@ describe("SearchBar", () => {
 
   it("Render content", () => {
     expect.assertions(1);
-    const onChange = jest.fn();
+    const onSearch = jest.fn();
     render(
-      <SearchBar getKeywords={getKeywords} items={items} onChange={onChange} />
+      <SearchBar getKeywords={getKeywords} items={items} onSearch={onSearch} />
     );
 
     const input = screen.queryByPlaceholderText("Producto");
@@ -25,14 +25,14 @@ describe("SearchBar", () => {
     expect.assertions(3);
     const onChange = jest.fn();
     render(
-      <SearchBar getKeywords={getKeywords} items={items} onChange={onChange} />
+      <SearchBar getKeywords={getKeywords} items={items} onSearch={onChange} />
     );
 
     const input = screen.getByPlaceholderText("Producto");
     fireEvent.changeText(input, "Sal");
-    expect(onChange).toHaveBeenCalledWith([items[0], items[1]]);
+    expect(onChange).toHaveBeenCalledWith([items[0], items[1]], "Sal");
     fireEvent.press(screen.queryByTestId("icon-eraser"));
     expect(input.props.value).toBe("");
-    expect(onChange).toHaveBeenLastCalledWith([]);
+    expect(onChange).toHaveBeenLastCalledWith([], "");
   });
 });

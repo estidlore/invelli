@@ -1,7 +1,7 @@
 interface SearchBarProps<T> {
   getKeywords: (item: T) => string[];
   items: T[];
-  onChange: (items: T[]) => void;
+  onSearch: (items: T[], input: string) => void;
 }
 
 export type { SearchBarProps };

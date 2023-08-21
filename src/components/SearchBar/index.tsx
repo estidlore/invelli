@@ -12,7 +12,7 @@ import { searchItems } from "./utils";
 const SearchBar = <T extends unknown>({
   getKeywords,
   items,
-  onChange
+  onSearch
 }: SearchBarProps<T>): JSX.Element => {
   const [readCode, toggleReadCode] = useReducer((val) => !val, false);
   const [input, setInput] = useState("");
@@ -21,9 +21,9 @@ const SearchBar = <T extends unknown>({
     (text: string) => {
       const result = searchItems(text, items, getKeywords);
       setInput(text);
-      onChange(result);
+      onSearch(result, text);
     },
-    [getKeywords, items, onChange, setInput]
+    [getKeywords, items, onSearch, setInput]
   );
 
   const clearInput = useCallback(() => {

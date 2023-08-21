@@ -24,7 +24,9 @@ const Modal = ({
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
-            <Button icon={"times"} onPress={onClose} />
+            {onClose === undefined ? null : (
+              <Button icon={"times"} onPress={onClose} />
+            )}
           </View>
           {children}
         </View>

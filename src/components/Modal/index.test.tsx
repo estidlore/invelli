@@ -12,6 +12,7 @@ describe("Modal", () => {
     content: "Important message",
     title: "Important"
   };
+  const closeIcon = "icon-times";
 
   const ModalDemo = (): JSX.Element => {
     const [visible, toggleVisible] = useReducer((val) => !val, false);
@@ -34,8 +35,8 @@ describe("Modal", () => {
     );
 
     expect(screen.queryByText(t.title)).toBeOnTheScreen();
-    expect(screen.getByTestId("icon-times")).toBeOnTheScreen();
     expect(screen.queryByText(t.content)).toBeOnTheScreen();
+    expect(screen.queryByTestId(closeIcon)).not.toBeOnTheScreen();
   });
 
   it("Toggle visibility", () => {
@@ -45,7 +46,7 @@ describe("Modal", () => {
     expect(screen.queryByText(t.title)).not.toBeOnTheScreen();
     fireEvent.press(screen.getByText(t.button));
     expect(screen.queryByText(t.title)).toBeOnTheScreen();
-    fireEvent.press(screen.getByTestId("icon-times"));
+    fireEvent.press(screen.getByTestId(closeIcon));
     expect(screen.queryByText(t.title)).not.toBeOnTheScreen();
   });
 });
