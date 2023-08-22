@@ -7,7 +7,7 @@ describe("InventoryScreen", () => {
     expect.assertions(1);
     render(<InventoryScreen />);
 
-    const text = screen.queryByText("Inventory");
+    const text = screen.queryByText("Agregar artículo");
     expect(text).toBeOnTheScreen();
   });
 });
