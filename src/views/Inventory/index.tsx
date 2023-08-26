@@ -1,10 +1,11 @@
-import React, { useReducer, useState } from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import { ScrollView } from "react-native";
+import Realm from "realm";
 
 import { Button, SearchBar, Text } from "components";
-import { useCollection } from "utils/db";
+import { useCollection, useRealm } from "utils/db";
 import type { Item } from "utils/types";
-import { ItemAdd } from "views/modals/ItemAdd";
+import { ItemForm } from "views/modals/ItemForm";
 
 import { ItemCard } from "./ItemCard";
 import { styles } from "./styles";
@@ -14,6 +15,17 @@ const InventoryScreen = (): JSX.Element => {
   const items = useCollection("Item");
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [showItemAdd, toggleItemAdd] = useReducer((val) => !val, false);
+  const db = useRealm();
+
+  const handleAdd = useCallback(
+    (data: Omit<Item, "id">) => {
+      db.write(() => {
+        const item = Object.assign({}, data, { id: new Realm.BSON.UUID() });
+        db.create("Item", item);
+      });
+    },
+    [db]
+  );
 
   return (
     <>
@@ -25,7 +37,11 @@ const InventoryScreen = (): JSX.Element => {
       <Button icon={"plus"} onPress={toggleItemAdd} style={styles.addButton}>
         {"Agregar artículo"}
       </Button>
-      <ItemAdd onClose={toggleItemAdd} visible={showItemAdd} />
+      <ItemForm
+        onClose={toggleItemAdd}
+        onSave={handleAdd}
+        visible={showItemAdd}
+      />
       <ScrollView>
         {filteredItems.length === 0 ? (
           <Text>{"Artículo(s) no encontrado(s)"}</Text>

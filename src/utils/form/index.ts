@@ -10,7 +10,7 @@ const initField = <T extends keyof FieldType>(
     case "boolean":
       return (val ?? false) as FieldMap[T];
     case "number":
-      return `${val ?? ""}` as FieldMap[T];
+      return (val?.toString() ?? "") as FieldMap[T];
     default:
       return (val ?? "") as FieldMap[T];
   }
