@@ -2,6 +2,10 @@ import type { PropertySchema } from "realm";
 
 import type { Item, Purchase, PurchaseItem, Sale, SaleItem } from "utils/types";
 
+interface BackUp {
+  items: Item[];
+}
+
 interface Collections {
   Item: Item;
   Purchase: Purchase;
@@ -18,4 +22,4 @@ interface Schema<T extends CollectionName> {
   properties: Record<keyof Collections[T], PropertySchema | string>;
 }
 
-export type { Collections, CollectionName, Schema };
+export type { BackUp, Collections, CollectionName, Schema };

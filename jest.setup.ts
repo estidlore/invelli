@@ -20,6 +20,9 @@ jest.mock("react-native-document-picker", () => ({
   pick: jest.fn().mockResolvedValue([""]),
   pickSingle: jest.fn().mockResolvedValue("")
 }));
+jest.mock("react-native-share", () => ({
+  open: jest.fn()
+}));
 
 jest.mock("utils/db", () => ({
   useCollection: jest.fn(() => []),
