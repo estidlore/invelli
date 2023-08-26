@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { InventoryScreen } from "views/Inventory";
 import { SalesScreen } from "views/Sales";
+import { SettingsScreen } from "views/Settings";
 
 const Tab = createBottomTabNavigator();
 const options: BottomTabNavigationOptions = {
@@ -34,6 +35,15 @@ const TabNav = (): JSX.Element => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon color={color} name={"money-bill"} size={size} />
+          )
+        }}
+      />
+      <Tab.Screen
+        component={SettingsScreen}
+        name={"Settings"}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name={"cog"} size={size} />
           )
         }}
       />
