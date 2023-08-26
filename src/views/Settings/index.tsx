@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import { Button } from "components";
 import { useCollection } from "utils/db";
-import { shareBackup } from "utils/files";
+import { shareBackup } from "utils/share";
 
 import { styles } from "./styles";
 
