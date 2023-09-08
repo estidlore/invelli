@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:aab": "cd android && gradlew app:bundleRelease && gradlew bundleDebug",
+    "android:apk": "cd android && gradlew app:assembleRelease && gradlew assembleDebug",
     "android:bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
-    "android:build": "npm run android:bundle && cd android && gradlew assembleRelease && gradlew assembleDebug",
+    "android:build": "npm run android:bundle && npm run android:apk && npm run android:aab",
     "ios": "react-native run-ios",
     "lint": "eslint src --ext .ts,.tsx --fix",
     "start": "react-native start",
