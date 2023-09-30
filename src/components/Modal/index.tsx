@@ -11,7 +11,7 @@ const Modal = ({
   children,
   onClose,
   title,
-  visible
+  visible,
 }: ModalProps): JSX.Element => {
   return (
     <NModal

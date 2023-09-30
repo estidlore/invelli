@@ -4,7 +4,7 @@ import type { FieldMap, FieldType } from "./types";
 
 const initField = <T extends keyof FieldType>(
   type: T,
-  val?: FieldType[T]
+  val?: FieldType[T],
 ): FieldMap[T] => {
   switch (type) {
     case "boolean":
@@ -18,7 +18,7 @@ const initField = <T extends keyof FieldType>(
 
 const useField = <T extends keyof FieldType>(
   type: T,
-  val?: FieldType[T]
+  val?: FieldType[T],
 ): [FieldMap[T], (val: FieldMap[T]) => void] => {
   return useState<FieldMap[T]>(initField(type, val));
 };

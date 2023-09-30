@@ -6,7 +6,7 @@ describe("SearchBar", () => {
   const items = [
     "12 Sal Refisal 500g",
     "23 Salsa Fruco 1000g",
-    "34 Mayonesa Fruco 1000g"
+    "34 Mayonesa Fruco 1000g",
   ];
   const getKeywords = (el: string): string[] => el.split(" ");
 
@@ -14,7 +14,7 @@ describe("SearchBar", () => {
     expect.assertions(1);
     const onSearch = jest.fn();
     render(
-      <SearchBar getKeywords={getKeywords} items={items} onSearch={onSearch} />
+      <SearchBar getKeywords={getKeywords} items={items} onSearch={onSearch} />,
     );
 
     const input = screen.queryByPlaceholderText("Producto");
@@ -25,7 +25,7 @@ describe("SearchBar", () => {
     expect.assertions(3);
     const onChange = jest.fn();
     render(
-      <SearchBar getKeywords={getKeywords} items={items} onSearch={onChange} />
+      <SearchBar getKeywords={getKeywords} items={items} onSearch={onChange} />,
     );
 
     const input = screen.getByPlaceholderText("Producto");

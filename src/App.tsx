@@ -1,7 +1,7 @@
-import ErrorBoundary from "react-native-error-boundary";
 import "react-native-get-random-values";
 
 import React from "react";
+import ErrorBoundary from "react-native-error-boundary";
 import Realm from "realm";
 
 import { Screen } from "components";

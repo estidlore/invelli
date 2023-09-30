@@ -10,7 +10,7 @@ describe("Screen", () => {
     render(
       <Screen>
         <Text>{"Inventory"}</Text>
-      </Screen>
+      </Screen>,
     );
 
     const text = screen.queryByText("Inventory");

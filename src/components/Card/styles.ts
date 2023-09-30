@@ -7,17 +7,17 @@ const styles = StyleSheet.create({
     borderColor: colors.light,
     borderRadius: 8,
     borderWidth: 1,
-    padding: 12
+    padding: 12,
   },
   hr: {
     borderBottomColor: colors.light,
     borderBottomWidth: 1,
-    marginVertical: 8
+    marginVertical: 8,
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });
 
 export { styles };

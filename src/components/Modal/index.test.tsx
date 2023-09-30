@@ -10,7 +10,7 @@ describe("Modal", () => {
   const t = {
     button: "Show modal",
     content: "Important message",
-    title: "Important"
+    title: "Important",
   };
   const closeIcon = "icon-times";
 
@@ -31,7 +31,7 @@ describe("Modal", () => {
     render(
       <Modal title={t.title} visible>
         <Text>{t.content}</Text>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.queryByText(t.title)).toBeOnTheScreen();

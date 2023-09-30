@@ -14,8 +14,8 @@ const schemas: ObjectSchema[] = [
       name: "string",
       price: "int",
       quantity: "int",
-      unit: "string?"
-    }
+      unit: "string?",
+    },
   } as Schema<"Item">,
   {
     name: "Purchase",
@@ -23,8 +23,8 @@ const schemas: ObjectSchema[] = [
     properties: {
       date: "date",
       id: "uuid",
-      items: "PurchaseItem[]"
-    }
+      items: "PurchaseItem[]",
+    },
   } as Schema<"Purchase">,
   {
     name: "PurchaseItem",
@@ -33,8 +33,8 @@ const schemas: ObjectSchema[] = [
       cost: "int",
       id: "uuid",
       item: "Item",
-      quantity: "int"
-    }
+      quantity: "int",
+    },
   } as Schema<"PurchaseItem">,
   {
     name: "Sale",
@@ -42,8 +42,8 @@ const schemas: ObjectSchema[] = [
     properties: {
       date: "date",
       id: "uuid",
-      items: "SaleItem[]"
-    }
+      items: "SaleItem[]",
+    },
   } as Schema<"Sale">,
   {
     name: "SaleItem",
@@ -52,9 +52,9 @@ const schemas: ObjectSchema[] = [
       id: "uuid",
       item: "Item",
       price: "int",
-      quantity: "int"
-    }
-  } as Schema<"SaleItem">
+      quantity: "int",
+    },
+  } as Schema<"SaleItem">,
 ];
 
 export { schemas };

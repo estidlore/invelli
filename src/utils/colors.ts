@@ -4,7 +4,7 @@ const colors = {
   grayDark: "#454a54",
   grayLight: "#abb0ba",
   light: "#e3e5e8",
-  transparent: "transparent"
+  transparent: "transparent",
 };
 
 type ColorName = keyof typeof colors;

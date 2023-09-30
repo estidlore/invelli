@@ -5,7 +5,7 @@ const cleanKeywords = (keywords: string[]): string[] => {
 const searchItems = <T>(
   input: string,
   items: T[],
-  getKeywords: (item: T) => string[]
+  getKeywords: (item: T) => string[],
 ): T[] => {
   const keywords = cleanKeywords(input.split(" "));
 

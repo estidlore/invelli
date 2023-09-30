@@ -11,7 +11,7 @@ describe("ItemCard", () => {
     name: "Sausage",
     price: 11,
     quantity: 7,
-    unit: "400g"
+    unit: "400g",
   };
   it("Show content", () => {
     expect.assertions(9);
@@ -25,7 +25,7 @@ describe("ItemCard", () => {
       item.price,
       item.quantity,
       item.unit,
-      item.code
+      item.code,
     ].map((el) => el.toString());
     texts.forEach((text) => {
       expect(screen.queryByText(text)).toBeOnTheScreen();

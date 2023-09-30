@@ -13,8 +13,8 @@ const options: BottomTabNavigationOptions = {
   tabBarActiveBackgroundColor: "#fff1",
   tabBarShowLabel: false,
   tabBarStyle: {
-    backgroundColor: "transparent"
-  }
+    backgroundColor: "transparent",
+  },
 };
 
 const TabNav = (): JSX.Element => {
@@ -26,7 +26,7 @@ const TabNav = (): JSX.Element => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon color={color} name={"box"} size={size} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -35,7 +35,7 @@ const TabNav = (): JSX.Element => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon color={color} name={"money-bill"} size={size} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -44,7 +44,7 @@ const TabNav = (): JSX.Element => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon color={color} name={"cog"} size={size} />
-          )
+          ),
         }}
       />
     </Tab.Navigator>

@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.dark,
     height: "100%",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 export { styles };

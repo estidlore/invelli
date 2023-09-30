@@ -12,7 +12,7 @@ const SettingsScreen = (): JSX.Element => {
 
   const handleShare = useCallback(() => {
     shareBackup({
-      items
+      items,
     }).catch(console.error);
   }, [items]);
 

@@ -24,7 +24,7 @@ const InventoryScreen = (): JSX.Element => {
         db.create("Item", item);
       });
     },
-    [db]
+    [db],
   );
 
   return (

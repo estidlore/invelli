@@ -4,7 +4,7 @@ const itemToKeywords = ({
   brand = "",
   code = "",
   name,
-  unit = ""
+  unit = "",
 }: Item): string[] => {
   return [code, name, brand, unit].join(" ").split(" ");
 };

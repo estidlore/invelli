@@ -10,7 +10,7 @@ describe("modals/ItemForm", () => {
     "Nombre",
     "Precio",
     "Cantidad",
-    "Unidad (g)"
+    "Unidad (g)",
   ];
   it("Show content", () => {
     expect.assertions(9);

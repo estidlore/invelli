@@ -7,14 +7,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     borderRadius: 4,
     flexGrow: 1,
-    padding: 16
+    padding: 16,
   },
   header: {
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 16
+    marginBottom: 16,
   },
   modal: {
     alignItems: "center",
@@ -24,13 +24,13 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     padding: 8,
-    width: "100%"
+    width: "100%",
   },
   title: {
     color: colors.light,
     fontSize: 20,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });
 
 export { styles };

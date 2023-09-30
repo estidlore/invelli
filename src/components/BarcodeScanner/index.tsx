@@ -8,7 +8,7 @@ import { styles } from "./styles";
 import type { BarcodeScannerProps, ReadCodeEvent } from "./types";
 
 const BarcodeScanner = ({
-  onScan
+  onScan,
 }: BarcodeScannerProps): JSX.Element | null => {
   const [scan, toggleScan] = useReducer((val) => !val, false);
   const handleReadCode = useCallback(
@@ -18,7 +18,7 @@ const BarcodeScanner = ({
       Vibration.vibrate(100);
       toggleScan();
     },
-    [onScan, toggleScan]
+    [onScan, toggleScan],
   );
 
   return (

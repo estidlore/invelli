@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from "react";
 import FS from "react-native-fs";
 import Share from "react-native-share";
+import type { ShareOpenResult } from "react-native-share/lib/typescript/src/types";
 import type { ShareData } from "react-native-share-menu";
 import ShareMenu from "react-native-share-menu";
-import { ShareOpenResult } from "react-native-share/lib/typescript/src/types";
 
 import { loadBackup, useRealm } from "utils/db";
-import { BackUp } from "utils/db/types";
+import type { BackUp } from "utils/db/types";
 
 const ShareConsumer = (): null => {
   const db = useRealm();
@@ -26,7 +26,7 @@ const ShareConsumer = (): null => {
           .catch(console.error);
       }
     },
-    [db]
+    [db],
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const shareBackup = async (data: BackUp): Promise<ShareOpenResult> => {
   return Share.open({
     filename: getBackupName(),
     type: "application/json",
-    url: `data:application/json;base64,${base64}`
+    url: `data:application/json;base64,${base64}`,
   });
 };
 

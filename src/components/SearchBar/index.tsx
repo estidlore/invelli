@@ -12,7 +12,7 @@ import { searchItems } from "./utils";
 const SearchBar = <T extends unknown>({
   getKeywords,
   items,
-  onSearch
+  onSearch,
 }: SearchBarProps<T>): JSX.Element => {
   const [input, setInput] = useState("");
 
@@ -22,7 +22,7 @@ const SearchBar = <T extends unknown>({
       setInput(text);
       onSearch(result, text);
     },
-    [getKeywords, items, onSearch, setInput]
+    [getKeywords, items, onSearch, setInput],
   );
 
   const clearInput = useCallback(() => {

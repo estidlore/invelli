@@ -12,7 +12,7 @@ const ItemForm = ({
   item = {},
   onClose,
   onSave,
-  visible
+  visible,
 }: ItemFormProps): JSX.Element => {
   const [brand, setBrand] = useField("string", item.brand);
   const [code, setCode] = useField("string", item.code);
@@ -31,7 +31,7 @@ const ItemForm = ({
       name,
       price: parseInt(price),
       quantity: parseInt(quantity),
-      unit
+      unit,
     });
     onClose?.();
   }, [db, brand, code, cost, name, onClose, onSave, price, quantity, unit]);

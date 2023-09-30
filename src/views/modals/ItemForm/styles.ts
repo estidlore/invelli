@@ -3,15 +3,15 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   codeInput: {
     flexGrow: 1,
-    marginStart: 8
+    marginStart: 8,
   },
   input: {
-    marginBottom: 8
+    marginBottom: 8,
   },
   row: {
     display: "flex",
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+  },
 });
 
 export { styles };

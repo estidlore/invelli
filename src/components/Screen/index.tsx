@@ -11,8 +11,8 @@ const theme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.transparent
-  }
+    background: colors.transparent,
+  },
 };
 
 const Screen = ({ children }: ScreenProps): JSX.Element => {

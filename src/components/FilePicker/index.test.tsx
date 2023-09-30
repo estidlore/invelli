@@ -2,7 +2,7 @@ import {
   fireEvent,
   render,
   screen,
-  waitFor
+  waitFor,
 } from "@testing-library/react-native";
 import DocPicker from "react-native-document-picker";
 

@@ -26,7 +26,7 @@ const ItemCard = ({ item }: ItemCardProps): JSX.Element => {
         });
       });
     },
-    [db]
+    [db],
   );
 
   return (

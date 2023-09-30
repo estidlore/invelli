@@ -10,7 +10,7 @@ describe("Card", () => {
     render(
       <Card title={"My Item"}>
         <Text>{"Description"}</Text>
-      </Card>
+      </Card>,
     );
     expect(screen.queryByText("My Item")).toBeOnTheScreen();
     expect(screen.queryByText("Description")).toBeOnTheScreen();

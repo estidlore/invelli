@@ -13,7 +13,7 @@ const Input = ({
   type = "default",
   secure = false,
   style,
-  value
+  value,
 }: InputProps): JSX.Element => {
   return (
     <TextInput

@@ -12,11 +12,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: 6,
-    paddingVertical: 8
+    paddingVertical: 8,
   },
   text: {
-    marginHorizontal: 4
-  }
+    marginHorizontal: 4,
+  },
 });
 
 export { styles };

@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     color: colors.light,
     fontSize: 16,
     paddingHorizontal: 8,
-    paddingVertical: 4
-  }
+    paddingVertical: 4,
+  },
 });
 
 export { styles };
