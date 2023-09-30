@@ -12,24 +12,25 @@ jest.mock("react-native-camera-kit", () => ({
   Camera: jest.fn(),
   CameraType: {
     Back: "back",
-    Front: "front"
-  }
+    Front: "front",
+  },
 }));
 jest.mock("react-native-fs", () => ({}));
 jest.mock("react-native-document-picker", () => ({
   pick: jest.fn().mockResolvedValue([""]),
-  pickSingle: jest.fn().mockResolvedValue("")
+  pickSingle: jest.fn().mockResolvedValue(""),
 }));
 jest.mock("react-native-share", () => ({
-  open: jest.fn()
+  open: jest.fn(),
 }));
+jest.mock("react-native-share-menu", () => ({}));
 
 jest.mock("utils/db", () => ({
   useCollection: jest.fn(() => []),
-  useRealm: jest.fn(() => ({}))
+  useRealm: jest.fn(() => ({})),
 }));
 
 // Enable excluding hidden elements from the queries by default
 configure({
-  defaultIncludeHiddenElements: false
+  defaultIncludeHiddenElements: false,
 });
