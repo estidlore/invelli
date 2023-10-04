@@ -1,4 +1,5 @@
-import { act, render, screen } from "@testing-library/react-native";
+import { render, screen } from "@testing-library/react-native";
+
 import { Alert } from ".";
 
 describe("Alert", () => {

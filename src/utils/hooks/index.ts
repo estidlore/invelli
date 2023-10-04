@@ -1,5 +1,5 @@
-import type { LayoutChangeEvent, LayoutRectangle } from "react-native";
 import { useCallback, useState } from "react";
+import type { LayoutChangeEvent, LayoutRectangle } from "react-native";
 
 const useLayout = (): [LayoutRectangle, (ev: LayoutChangeEvent) => void] => {
   const [layout, setLayout] = useState<LayoutRectangle>({

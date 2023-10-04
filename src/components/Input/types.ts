@@ -3,11 +3,15 @@ import type { KeyboardType, TextInputProps } from "react-native";
 interface InputProps
   extends Pick<
     TextInputProps,
-    "maxLength" | "placeholder" | "style" | "value"
+    "maxLength" | "onBlur" | "placeholder" | "style" | "value"
   > {
-  type?: KeyboardType;
-  secure?: boolean;
+  meta?: {
+    error?: string;
+    touched: boolean;
+  };
   onChange?: TextInputProps["onChangeText"];
+  secure?: boolean;
+  type?: KeyboardType;
 }
 
 export type { InputProps };
