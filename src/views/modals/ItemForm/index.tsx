@@ -5,6 +5,7 @@ import { number, object, string } from "yup";
 
 import { BarcodeScanner, Button, Input, Modal } from "components";
 
+import { useTranslation } from "./language";
 import { styles } from "./styles";
 import type { ItemFormProps } from "./types";
 
@@ -39,6 +40,7 @@ const ItemForm = ({
   onSave,
   visible,
 }: ItemFormProps): JSX.Element => {
+  const t = useTranslation();
   const { fields, reset, submit } = useForm({
     initialValues: {
       brand: item.brand ?? "",
@@ -67,38 +69,34 @@ const ItemForm = ({
   }, [reset]);
 
   return (
-    <Modal onClose={handleClose} title={"Agregar artículo"} visible={visible}>
+    <Modal onClose={handleClose} title={t.title(item)} visible={visible}>
       <View style={[styles.row, styles.input]}>
         <BarcodeScanner onScan={fields.code.onChange} />
-        <Input
-          {...fields.code}
-          placeholder={"Código"}
-          style={styles.codeInput}
-        />
+        <Input {...fields.code} placeholder={t.code} style={styles.codeInput} />
       </View>
-      <Input {...fields.brand} placeholder={"Marca"} style={styles.input} />
+      <Input {...fields.brand} placeholder={t.brand} style={styles.input} />
       <Input
         {...fields.cost}
-        placeholder={"Costo"}
+        placeholder={t.cost}
         style={styles.input}
         type={"numeric"}
       />
-      <Input {...fields.name} placeholder={"Nombre"} style={styles.input} />
+      <Input {...fields.name} placeholder={t.name} style={styles.input} />
       <Input
         {...fields.price}
-        placeholder={"Precio"}
+        placeholder={t.price}
         style={styles.input}
         type={"numeric"}
       />
       <Input
         {...fields.quantity}
-        placeholder={"Cantidad"}
+        placeholder={t.quantity}
         style={styles.input}
         type={"numeric"}
       />
-      <Input {...fields.unit} placeholder={"Unidad (g)"} style={styles.input} />
+      <Input {...fields.unit} placeholder={t.unit} style={styles.input} />
       <Button icon={"check"} onPress={submit}>
-        {"Guardar"}
+        {t.save}
       </Button>
     </Modal>
   );
