@@ -15,6 +15,9 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   root: true,
+  rules: {
+    "react/jsx-handler-names": "off",
+  },
   settings: {
     "import/ignore": ["react-native"],
   },
