@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@realm/react": "^0.5.2",
+    "litus": "^1.1.0",
     "react": "^18.2.0",
     "react-native": "^0.71.11",
     "react-native-camera-kit": "^13.0.0",
