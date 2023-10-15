@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react-native";
 import Realm from "realm";
 
+import { Language } from "utils/contexts";
+
 import { ItemCard } from ".";
 
 describe("ItemCard", () => {
@@ -15,7 +17,11 @@ describe("ItemCard", () => {
   };
   it("Show content", () => {
     expect.assertions(9);
-    render(<ItemCard item={item} />);
+    render(
+      <Language.Provider>
+        <ItemCard item={item} />
+      </Language.Provider>,
+    );
     const icons = ["dollar-sign", "hashtag", "ruler", "key"];
     icons.forEach((icon) => {
       expect(screen.queryByTestId(`icon-${icon}`)).toBeOnTheScreen();

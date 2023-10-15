@@ -6,9 +6,9 @@ import Realm from "realm";
 
 import { Screen } from "components";
 import { TabNav } from "navigation/TabNav";
+import { Language } from "utils/contexts";
 import { RealmProvider } from "utils/db";
 import { ShareConsumer } from "utils/share";
-import { Language } from "utils/contexts";
 
 Realm.flags.THROW_ON_GLOBAL_REALM = true;
 
