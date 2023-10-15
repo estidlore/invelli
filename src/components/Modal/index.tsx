@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal as NModal, View } from "react-native";
+import { Modal as NModal, ScrollView, View } from "react-native";
 
 import { Button } from "components/Button";
 import { Text } from "components/Text";
@@ -28,7 +28,7 @@ const Modal = ({
               <Button icon={"times"} onPress={onClose} />
             )}
           </View>
-          {children}
+          <ScrollView>{children}</ScrollView>
         </View>
       </View>
     </NModal>

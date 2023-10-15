@@ -8,4 +8,5 @@ export * from "./Input";
 export * from "./Modal";
 export * from "./Screen";
 export * from "./SearchBar";
+export * from "./Select";
 export * from "./Text";

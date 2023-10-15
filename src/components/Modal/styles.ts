@@ -6,8 +6,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.dark,
     borderRadius: 4,
-    flexGrow: 1,
+    maxHeight: "100%",
     padding: 16,
+    width: "100%",
   },
   header: {
     alignItems: "center",
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: `${colors.gray}88`,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     height: "100%",
     justifyContent: "center",
     padding: 8,
