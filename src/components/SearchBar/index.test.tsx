@@ -1,6 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 
+import { Language } from "utils/contexts";
+
 import { SearchBar } from ".";
+import { entries } from "./language";
 
 describe("SearchBar", () => {
   const items = [
@@ -9,15 +12,17 @@ describe("SearchBar", () => {
     "34 Mayonesa Fruco 1000g",
   ];
   const getKeywords = (el: string): string[] => el.split(" ");
+  const { ENG } = entries;
 
   it("Render content", () => {
     expect.assertions(1);
     const onSearch = jest.fn();
     render(
       <SearchBar getKeywords={getKeywords} items={items} onSearch={onSearch} />,
+      { wrapper: Language.Provider },
     );
 
-    const input = screen.queryByPlaceholderText("Producto");
+    const input = screen.queryByPlaceholderText(ENG.product);
     expect(input).toBeOnTheScreen();
   });
 
@@ -26,9 +31,10 @@ describe("SearchBar", () => {
     const onChange = jest.fn();
     render(
       <SearchBar getKeywords={getKeywords} items={items} onSearch={onChange} />,
+      { wrapper: Language.Provider },
     );
 
-    const input = screen.getByPlaceholderText("Producto");
+    const input = screen.getByPlaceholderText(ENG.product);
     fireEvent.changeText(input, "Sal");
     expect(onChange).toHaveBeenCalledWith([items[0], items[1]], "Sal");
     fireEvent.press(screen.queryByTestId("icon-eraser"));

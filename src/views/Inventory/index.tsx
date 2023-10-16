@@ -8,10 +8,12 @@ import type { Item } from "utils/types";
 import { ItemForm } from "views/modals/ItemForm";
 
 import { ItemCard } from "./ItemCard";
+import { useTranslation } from "./language";
 import { styles } from "./styles";
 import { itemToKeywords } from "./utils";
 
 const InventoryScreen = (): JSX.Element => {
+  const t = useTranslation();
   const items = useCollection("Item");
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [showItemAdd, toggleItemAdd] = useReducer((val) => !val, false);
@@ -35,7 +37,7 @@ const InventoryScreen = (): JSX.Element => {
         onSearch={setFilteredItems}
       />
       <Button icon={"plus"} onPress={toggleItemAdd} style={styles.addButton}>
-        {"Agregar artículo"}
+        {t.addItem}
       </Button>
       <ItemForm
         onClose={toggleItemAdd}
@@ -44,7 +46,7 @@ const InventoryScreen = (): JSX.Element => {
       />
       <ScrollView>
         {filteredItems.length === 0 ? (
-          <Text>{"Artículo(s) no encontrado(s)"}</Text>
+          <Text>{t.itemsNotFound}</Text>
         ) : (
           filteredItems.map((item) => (
             <ItemCard item={item} key={item.id.toString()} />

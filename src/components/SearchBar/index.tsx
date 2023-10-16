@@ -5,6 +5,7 @@ import { BarcodeScanner } from "components/BarcodeScanner";
 import { Button } from "components/Button";
 import { Input } from "components/Input";
 
+import { useTranslation } from "./language";
 import { styles } from "./styles";
 import type { SearchBarProps } from "./types";
 import { searchItems } from "./utils";
@@ -14,6 +15,7 @@ const SearchBar = <T extends unknown>({
   items,
   onSearch,
 }: SearchBarProps<T>): JSX.Element => {
+  const t = useTranslation();
   const [input, setInput] = useState("");
 
   const handleChange = useCallback(
@@ -34,7 +36,7 @@ const SearchBar = <T extends unknown>({
       <BarcodeScanner onScan={handleChange} />
       <Input
         onChange={handleChange}
-        placeholder={"Producto"}
+        placeholder={t.product}
         style={styles.input}
         value={input}
       />
