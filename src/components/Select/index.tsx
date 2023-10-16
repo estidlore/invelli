@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { View } from "react-native";
 
 import { Button } from "components/Button";
@@ -22,38 +22,45 @@ const Select = <T extends SelectOption>({
   label,
   onChange,
   options,
+  style,
+  value,
 }: SelectProps<T>): JSX.Element => {
-  const [selection, setSelection] = useState(options[0]);
   const [showOptions, toggleShowOptions] = useReducer((val) => !val, false);
 
-  const mappedSelection = mapOption(selection);
+  const mappedOptions = options.map(mapOption) as Option<
+    T extends object ? T["value"] : T
+  >[];
+  const selection =
+    value === undefined
+      ? undefined
+      : mappedOptions.find((el) => el.value === value);
 
   return (
-    <View>
+    <View style={style}>
       <Text style={styles.label}>{label}</Text>
       <Button icon={"chevron-down"} onPress={toggleShowOptions}>
-        {mappedSelection.text}
+        {selection?.text ?? "-"}
       </Button>
       <Modal onClose={toggleShowOptions} title={label} visible={showOptions}>
-        {options.map((option) => {
+        {mappedOptions.map((option, idx) => {
+          const selected = selection?.value === option.value;
           const handlePress = (): void => {
-            setSelection(option);
             toggleShowOptions();
-            onChange?.(option);
+            if (!selected) {
+              onChange?.(option.value, idx);
+            }
           };
-          const selected = selection === option;
-          const mappedOption = mapOption(option);
 
           return (
             <Button
-              key={mappedOption.value}
+              key={option.value}
               onPress={handlePress}
               style={[
                 styles.option,
                 { backgroundColor: selected ? colors.grayDark : undefined },
               ]}
             >
-              {mappedOption.text}
+              {option.text}
             </Button>
           );
         })}
