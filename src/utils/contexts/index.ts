@@ -1,15 +1,17 @@
 import { createLanguageContext } from "ruxi";
 
-const Language = createLanguageContext({
-  languages: {
-    ENG: {
-      name: "English",
-    },
-    SPA: {
-      name: "Español",
-    },
+const languages = {
+  ENG: {
+    name: "English",
   },
+  SPA: {
+    name: "Español",
+  },
+};
+
+const Language = createLanguageContext({
+  languages,
   main: "ENG",
 });
 
-export { Language };
+export { Language, languages };
