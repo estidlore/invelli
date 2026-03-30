@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.light,
+    flexShrink: 1,
     fontSize: 20,
     fontWeight: "bold",
   },

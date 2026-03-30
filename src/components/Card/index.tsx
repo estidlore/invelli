@@ -1,18 +1,22 @@
 import React from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { Text } from "components/Text";
 
 import { styles } from "./styles";
 import type { CardProps } from "./types";
 
-const Card = ({ children, title }: CardProps): JSX.Element => {
+const Card = ({ children, onPress, style, title }: CardProps): JSX.Element => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={onPress === undefined ? 1 : 0.5}
+      onPress={onPress}
+      style={[style, styles.container]}
+    >
       <Text style={styles.title}>{title}</Text>
       <View style={styles.hr} />
       {children}
-    </View>
+    </TouchableOpacity>
   );
 };
 

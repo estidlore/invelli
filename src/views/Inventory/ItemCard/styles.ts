@@ -1,18 +1,8 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "utils/colors";
-
 const styles = StyleSheet.create({
-  button: {
-    marginEnd: 8,
-  },
   container: {
     marginVertical: 4,
-  },
-  hr: {
-    borderBottomColor: colors.light,
-    borderBottomWidth: 1,
-    marginVertical: 8,
   },
   icon: {
     marginEnd: 8,

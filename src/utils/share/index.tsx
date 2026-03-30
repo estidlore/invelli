@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import { useCallback, useEffect } from "react";
 import FS from "react-native-fs";
 import Share from "react-native-share";
