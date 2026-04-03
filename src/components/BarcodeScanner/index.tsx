@@ -1,6 +1,7 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback } from "react";
 import { Modal, Vibration } from "react-native";
 import { Camera, CameraType } from "react-native-camera-kit";
+import { useToggle } from "ruxi";
 
 import { Button } from "components/Button";
 
@@ -10,7 +11,7 @@ import type { BarcodeScannerProps, ReadCodeEvent } from "./types";
 const BarcodeScanner = ({
   onScan,
 }: BarcodeScannerProps): JSX.Element | null => {
-  const [scan, toggleScan] = useReducer((val) => !val, false);
+  const [scan, toggleScan] = useToggle(false);
   const handleReadCode = useCallback(
     (ev: ReadCodeEvent) => {
       const code = ev.nativeEvent.codeStringValue;

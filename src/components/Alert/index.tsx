@@ -3,7 +3,7 @@ import { Animated, View } from "react-native";
 
 import { Icon } from "components/Icon";
 import { Text } from "components/Text";
-import { useLayout } from "utils/hooks";
+import { useLayout } from "utils";
 
 import { styles } from "./styles";
 import type { AlertProps, AlertType } from "./types";

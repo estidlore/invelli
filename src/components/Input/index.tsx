@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, View } from "react-native";
 
 import { Alert } from "components/Alert";
-import { colors } from "utils/colors";
+import { colors } from "utils";
 
 import { styles } from "./styles";
 import type { InputProps } from "./types";

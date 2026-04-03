@@ -2,7 +2,7 @@ import type { Theme } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView, StatusBar } from "react-native";
 
-import { colors } from "utils/colors";
+import { colors } from "utils";
 
 import { styles } from "./styles";
 import type { ScreenProps } from "./types";

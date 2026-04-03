@@ -1,10 +1,11 @@
-import React, { useCallback, useReducer, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
 import Realm from "realm";
+import { useToggle } from "ruxi";
 
 import { Button, SearchBar, Text } from "components";
-import { useCollection, useRealm } from "utils/db";
-import type { Item } from "utils/types";
+import type { Item } from "utils";
+import { useCollection, useRealm } from "utils";
 import { ItemForm } from "views/modals/ItemForm";
 
 import { ItemCard } from "./ItemCard";
@@ -16,7 +17,7 @@ const InventoryScreen = (): JSX.Element => {
   const t = useTranslation();
   const items = useCollection("Item");
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
-  const [showItemAdd, toggleItemAdd] = useReducer((val) => !val, false);
+  const [showItemAdd, toggleItemAdd] = useToggle(false);
   const db = useRealm();
 
   const handleAdd = useCallback(

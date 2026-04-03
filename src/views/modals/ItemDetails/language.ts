@@ -1,4 +1,4 @@
-import { Language } from "utils/contexts";
+import { Language } from "utils";
 
 const { entries, useTranslation } = Language.translation({
   ENG: {

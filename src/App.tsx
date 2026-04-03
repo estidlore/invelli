@@ -5,9 +5,7 @@ import ErrorBoundary from "react-native-error-boundary";
 import Realm from "realm";
 
 import { Screen } from "components";
-import { Language } from "utils/contexts";
-import { RealmProvider } from "utils/db";
-import { ShareConsumer } from "utils/share";
+import { Language, RealmProvider, ShareConsumer } from "utils";
 import { LoadScreen } from "views/Load";
 
 Realm.flags.THROW_ON_GLOBAL_REALM = true;

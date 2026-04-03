@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 
-import { Language } from "utils/contexts";
+import { Language } from "utils";
 
 import { ItemDetails } from ".";
 import { entries } from "./language";

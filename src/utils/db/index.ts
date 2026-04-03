@@ -26,4 +26,5 @@ const loadBackup = (db: Realm, backup: BackUp): void => {
   });
 };
 
+export type * from "./types";
 export { loadBackup, RealmProvider, useCollection, useRealm };

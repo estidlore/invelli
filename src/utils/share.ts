@@ -6,8 +6,8 @@ import type { ShareOpenResult } from "react-native-share/lib/typescript/src/type
 import type { ShareData } from "react-native-share-menu";
 import ShareMenu from "react-native-share-menu";
 
-import { loadBackup, useRealm } from "utils/db";
-import type { BackUp } from "utils/db/types";
+import type { BackUp } from "utils";
+import { loadBackup, logError, useRealm } from "utils";
 
 const ShareConsumer = (): null => {
   const db = useRealm();
@@ -24,7 +24,7 @@ const ShareConsumer = (): null => {
             const backup = JSON.parse(data);
             loadBackup(db, backup);
           })
-          .catch(console.error);
+          .catch(logError);
       }
     },
     [db],
@@ -43,7 +43,7 @@ const ShareConsumer = (): null => {
 };
 
 const getBackupName = (): string => {
-  return `Invelli${Math.floor(new Date().getTime() / 6e4)}`;
+  return `Invelli${Math.floor(Date.now() / 6e4)}`;
 };
 
 const shareBackup = async (data: BackUp): Promise<ShareOpenResult> => {

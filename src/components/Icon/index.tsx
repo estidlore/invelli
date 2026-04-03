@@ -2,7 +2,7 @@ import React from "react";
 import FA5Icon from "react-native-vector-icons/FontAwesome5";
 import type { IconProps } from "react-native-vector-icons/Icon";
 
-import { colors } from "utils/colors";
+import { colors } from "utils";
 
 const Icon = ({
   color = colors.light,

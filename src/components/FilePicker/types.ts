@@ -1,5 +1,8 @@
 import type { ButtonProps } from "components/Button/types";
-import type { File } from "utils/files/types";
+
+interface File {
+  uri: string;
+}
 
 interface FilePickerProps extends Pick<ButtonProps, "children"> {
   onPick?: (res: File) => void;

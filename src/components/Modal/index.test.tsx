@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { useReducer } from "react";
+import { useToggle } from "ruxi";
 
 import { Button } from "components/Button";
 import { Text } from "components/Text";
@@ -15,7 +15,7 @@ describe("Modal", () => {
   const closeIcon = "icon-times";
 
   const ModalDemo = (): JSX.Element => {
-    const [visible, toggleVisible] = useReducer((val) => !val, false);
+    const [visible, toggleVisible] = useToggle(false);
     return (
       <>
         <Button onPress={toggleVisible}>{t.button}</Button>

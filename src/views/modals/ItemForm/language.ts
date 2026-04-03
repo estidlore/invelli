@@ -1,4 +1,6 @@
-import { Language } from "utils/contexts";
+import { size } from "litus";
+
+import { Language } from "utils";
 
 const { entries, useTranslation } = Language.translation({
   ENG: {
@@ -10,7 +12,7 @@ const { entries, useTranslation } = Language.translation({
     quantity: "Quantity",
     save: "Save",
     title: (item: object): string => {
-      const empty = Object.keys(item).length === 0;
+      const empty = size(item) === 0;
       return `${empty ? "Add" : "Edit"} item`;
     },
     unit: "Unit (g/ml)",
@@ -24,7 +26,7 @@ const { entries, useTranslation } = Language.translation({
     quantity: "Cantidad",
     save: "Guardar",
     title: (item: object): string => {
-      const empty = Object.keys(item).length === 0;
+      const empty = size(item) === 0;
       return `${empty ? "Agregar" : "Editar"} artículo`;
     },
     unit: "Unidad (g/ml)",

@@ -1,6 +1,41 @@
 import type { PropertySchema } from "realm";
 
-import type { Item, Purchase, PurchaseItem, Sale, SaleItem } from "utils/types";
+interface Item {
+  brand?: string;
+  code?: string;
+  cost: number;
+  id: Realm.BSON.UUID;
+  name: string;
+  price: number;
+  quantity: number;
+  unit?: string;
+}
+
+interface Purchase {
+  id: Realm.BSON.UUID;
+  date: Date;
+  items: PurchaseItem[];
+}
+
+interface PurchaseItem {
+  cost: number;
+  id: Realm.BSON.UUID;
+  item: Item;
+  quantity: number;
+}
+
+interface Sale {
+  date: Date;
+  id: Realm.BSON.UUID;
+  items: SaleItem[];
+}
+
+interface SaleItem {
+  id: Realm.BSON.UUID;
+  item: Item;
+  price: number;
+  quantity: number;
+}
 
 interface BackUp {
   items: Item[];
@@ -22,4 +57,14 @@ interface Schema<T extends CollectionName> {
   properties: Record<keyof Collections[T], PropertySchema | string>;
 }
 
-export type { BackUp, Collections, CollectionName, Schema };
+export type {
+  Item,
+  Purchase,
+  PurchaseItem,
+  Sale,
+  SaleItem,
+  BackUp,
+  Collections,
+  CollectionName,
+  Schema,
+};

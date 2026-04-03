@@ -1,4 +1,4 @@
-import type { Item } from "utils/types";
+import type { Item } from "utils";
 
 const itemToKeywords = ({
   brand = "",

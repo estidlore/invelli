@@ -2,12 +2,13 @@ import React, { useCallback } from "react";
 import DocPicker from "react-native-document-picker";
 
 import { Button } from "components/Button";
+import { logError } from "utils";
 
 import type { FilePickerProps } from "./types";
 
 const FilePicker = ({ children, onPick }: FilePickerProps): JSX.Element => {
   const handlePick = useCallback(() => {
-    DocPicker.pickSingle().then(onPick).catch(console.error);
+    DocPicker.pickSingle().then(onPick).catch(logError);
   }, [onPick]);
 
   return (

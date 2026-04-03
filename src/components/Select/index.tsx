@@ -1,10 +1,11 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { View } from "react-native";
+import { useToggle } from "ruxi";
 
 import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { Text } from "components/Text";
-import { colors } from "utils/colors";
+import { colors } from "utils";
 
 import { styles } from "./styles";
 import type { Option, SelectOption, SelectProps } from "./types";
@@ -25,7 +26,7 @@ const Select = <T extends SelectOption>({
   style,
   value,
 }: SelectProps<T>): JSX.Element => {
-  const [showOptions, toggleShowOptions] = useReducer((val) => !val, false);
+  const [showOptions, toggleShowOptions] = useToggle(false);
 
   const mappedOptions = options.map(mapOption) as Option<
     T extends object ? T["value"] : T

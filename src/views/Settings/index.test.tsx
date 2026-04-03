@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react-native";
 
-import { Language } from "utils/contexts";
+import { Language } from "utils";
 
 import { SettingsScreen } from ".";
 import { entries } from "./language";

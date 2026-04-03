@@ -1,12 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { obj } from "litus";
+import { entries } from "litus";
 import React, { useCallback, useMemo } from "react";
 import { View } from "react-native";
 
 import { Button, Select } from "components";
-import { Language, languages } from "utils/contexts";
-import { useCollection } from "utils/db";
-import { shareBackup } from "utils/share";
+import {
+  Language,
+  languages,
+  logError,
+  shareBackup,
+  useCollection,
+} from "utils";
 
 import { useTranslation } from "./language";
 import { styles } from "./styles";
@@ -18,7 +22,7 @@ const SettingsScreen = (): JSX.Element => {
 
   const languageOptions = useMemo(
     () =>
-      obj.entries(languages).map(([key, val]) => ({
+      entries(languages).map(([key, val]) => ({
         text: val.name,
         value: key,
       })),
@@ -26,9 +30,7 @@ const SettingsScreen = (): JSX.Element => {
   );
 
   const handleShare = useCallback(() => {
-    shareBackup({
-      items,
-    }).catch(console.error);
+    shareBackup({ items }).catch(logError);
   }, [items]);
 
   const handleChangeLanguage = useCallback(
@@ -37,7 +39,7 @@ const SettingsScreen = (): JSX.Element => {
         .then(() => {
           lang.setLanguage(value);
         })
-        .catch(console.error);
+        .catch(logError);
     },
     [lang],
   );

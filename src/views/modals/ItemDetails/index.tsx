@@ -1,9 +1,11 @@
-import { useCallback, useReducer } from "react";
+import { keys } from "litus";
+import { useCallback } from "react";
 import { View } from "react-native";
+import { useToggle } from "ruxi";
 
 import { Button, Icon, Modal, Text } from "components";
-import { useRealm } from "utils/db";
-import type { Item } from "utils/types";
+import type { Item } from "utils";
+import { useRealm } from "utils";
 import { ItemForm } from "views/modals/ItemForm";
 
 import { useTranslation } from "./language";
@@ -15,15 +17,15 @@ const ItemDetails = ({
   onClose,
   visible,
 }: ItemDetailsProps): JSX.Element => {
-  const [showEdit, toggleEdit] = useReducer((val) => !val, false);
+  const [showEdit, toggleEdit] = useToggle(false);
   const db = useRealm();
   const t = useTranslation();
 
   const handleEdit = useCallback(
     (data: Omit<Item, "id">) => {
       db.write(() => {
-        Object.keys(data).forEach((el) => {
-          const key = el as keyof Omit<Item, "id">;
+        keys(data).forEach((el) => {
+          const key = el;
           if (item[key] !== data[key]) {
             Object.assign(item, { [key]: data[key] });
           }

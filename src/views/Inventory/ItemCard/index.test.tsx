@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react-native";
 import Realm from "realm";
 
-import { Language } from "utils/contexts";
+import { Language } from "utils";
 
 import { ItemCard } from ".";
 

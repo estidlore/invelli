@@ -1,4 +1,4 @@
-import type { Item } from "utils/types";
+import type { Item } from "utils";
 
 interface ItemCardProps {
   item: Item;
