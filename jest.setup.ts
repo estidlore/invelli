@@ -1,4 +1,5 @@
 import { configure } from "@testing-library/react-native";
+import mockSafeAreaContext from "react-native-safe-area-context/jest/mock";
 
 import "@testing-library/jest-native/extend-expect";
 
@@ -23,6 +24,7 @@ jest.mock("react-native-document-picker", () => ({
   pick: jest.fn().mockResolvedValue([""]),
   pickSingle: jest.fn().mockResolvedValue(""),
 }));
+jest.mock("react-native-safe-area-context", () => mockSafeAreaContext);
 jest.mock("react-native-share", () => ({
   open: jest.fn(),
 }));

@@ -1,6 +1,7 @@
 import "react-native-get-random-values";
 
 import ErrorBoundary from "react-native-error-boundary";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Realm from "realm";
 
 import { Screen } from "components";
@@ -15,9 +16,11 @@ const App = (): React.JSX.Element => {
       <RealmProvider>
         <Language.Provider>
           <ShareConsumer />
-          <Screen>
-            <LoadScreen />
-          </Screen>
+          <SafeAreaProvider>
+            <Screen>
+              <LoadScreen />
+            </Screen>
+          </SafeAreaProvider>
         </Language.Provider>
       </RealmProvider>
     </ErrorBoundary>
