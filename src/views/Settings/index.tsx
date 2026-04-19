@@ -30,7 +30,7 @@ const SettingsScreen = (): React.JSX.Element => {
   );
 
   const handleShare = useCallback(() => {
-    shareBackup({ items }).catch(logError);
+    shareBackup({ items });
   }, [items]);
 
   const handleChangeLanguage = useCallback(
