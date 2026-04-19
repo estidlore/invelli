@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { Animated, View } from "react-native";
+import { useEffect } from "react";
+import { Animated, useAnimatedValue, View } from "react-native";
 
 import { Icon } from "components/Icon";
 import { Text } from "components/Text";
@@ -21,20 +21,18 @@ const Alert = ({
   type,
 }: AlertProps): React.JSX.Element => {
   const [layout, handleLayout] = useLayout();
-  const heightAnim = useMemo(() => new Animated.Value(0), []);
+  const height = useAnimatedValue(0);
 
   useEffect(() => {
-    Animated.timing(heightAnim, {
+    Animated.timing(height, {
       duration: 300,
       toValue: hide ? 0 : layout.height,
       useNativeDriver: false,
     }).start();
-  }, [layout.height, hide]);
+  }, [height, hide, layout.height]);
 
   return (
-    <Animated.View
-      style={[style, styles.wrapper, styles[type], { height: heightAnim }]}
-    >
+    <Animated.View style={[style, styles.wrapper, styles[type], { height }]}>
       <View onLayout={handleLayout} style={styles.container}>
         <Icon name={icons[type]} size={14} />
         <Text style={styles.text}>{children}</Text>
