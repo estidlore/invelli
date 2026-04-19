@@ -14,7 +14,7 @@ describe("Modal", () => {
   };
   const closeIcon = "icon-times";
 
-  const ModalDemo = (): JSX.Element => {
+  const ModalDemo = (): React.JSX.Element => {
     const [visible, toggleVisible] = useToggle(false);
     return (
       <>

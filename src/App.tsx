@@ -1,6 +1,5 @@
 import "react-native-get-random-values";
 
-import React from "react";
 import ErrorBoundary from "react-native-error-boundary";
 import Realm from "realm";
 
@@ -10,7 +9,7 @@ import { LoadScreen } from "views/Load";
 
 Realm.flags.THROW_ON_GLOBAL_REALM = true;
 
-const App = (): JSX.Element => {
+const App = (): React.JSX.Element => {
   return (
     <ErrorBoundary>
       <RealmProvider>

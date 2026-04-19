@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { entries } from "litus";
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 
 import { Button, Select } from "components";
@@ -15,7 +15,7 @@ import {
 import { useTranslation } from "./language";
 import { styles } from "./styles";
 
-const SettingsScreen = (): JSX.Element => {
+const SettingsScreen = (): React.JSX.Element => {
   const t = useTranslation();
   const lang = Language.useLanguage();
   const items = useCollection("Item");

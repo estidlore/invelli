@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { View } from "react-native";
 
 import { BarcodeScanner } from "components/BarcodeScanner";
@@ -14,7 +14,7 @@ const SearchBar = <T extends unknown>({
   getKeywords,
   items,
   onSearch,
-}: SearchBarProps<T>): JSX.Element => {
+}: SearchBarProps<T>): React.JSX.Element => {
   const t = useTranslation();
   const [input, setInput] = useState("");
 

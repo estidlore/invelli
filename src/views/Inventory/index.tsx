@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
 import Realm from "realm";
 import { useToggle } from "ruxi";
@@ -13,7 +13,7 @@ import { useTranslation } from "./language";
 import { styles } from "./styles";
 import { itemToKeywords } from "./utils";
 
-const InventoryScreen = (): JSX.Element => {
+const InventoryScreen = (): React.JSX.Element => {
   const t = useTranslation();
   const items = useCollection("Item");
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);

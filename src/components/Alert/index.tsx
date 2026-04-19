@@ -19,7 +19,7 @@ const Alert = ({
   hide = false,
   style,
   type,
-}: AlertProps): JSX.Element => {
+}: AlertProps): React.JSX.Element => {
   const [layout, handleLayout] = useLayout();
   const heightAnim = useMemo(() => new Animated.Value(0), []);
 

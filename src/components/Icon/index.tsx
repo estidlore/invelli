@@ -1,4 +1,3 @@
-import React from "react";
 import FA5Icon from "react-native-vector-icons/FontAwesome5";
 import type { IconProps } from "react-native-vector-icons/Icon";
 
@@ -10,7 +9,7 @@ const Icon = ({
   size = 20,
   style,
   ...otherProps
-}: IconProps): JSX.Element => {
+}: IconProps): React.JSX.Element => {
   return (
     <FA5Icon
       {...otherProps}

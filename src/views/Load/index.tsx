@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { identity, vals } from "litus";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useUpdate } from "ruxi";
 
@@ -10,7 +10,7 @@ import { colors, Language, logError } from "utils";
 
 import { styles } from "./styles";
 
-const LoadScreen = (): JSX.Element => {
+const LoadScreen = (): React.JSX.Element => {
   const [load, updateLoad] = useUpdate({ language: false });
   const lang = Language.useLanguage();
 

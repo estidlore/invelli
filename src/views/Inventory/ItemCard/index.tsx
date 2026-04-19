@@ -1,4 +1,3 @@
-import React from "react";
 import { View } from "react-native";
 import { useToggle } from "ruxi";
 
@@ -8,7 +7,7 @@ import { ItemDetails } from "views/modals/ItemDetails";
 import { styles } from "./styles";
 import type { ItemCardProps } from "./types";
 
-const ItemCard = ({ item }: ItemCardProps): JSX.Element => {
+const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   const { brand = "", code, name, price, quantity, unit } = item;
 
   const [showDetails, toggleDetails] = useToggle(false);

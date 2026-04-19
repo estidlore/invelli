@@ -15,7 +15,7 @@ const theme: Theme = {
   },
 };
 
-const Screen = ({ children }: ScreenProps): JSX.Element => {
+const Screen = ({ children }: ScreenProps): React.JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.dark} barStyle={"light-content"} />

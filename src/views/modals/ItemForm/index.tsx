@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { View } from "react-native";
 import { useForm } from "ruxi";
 import { number, object, string } from "yup";
@@ -39,7 +39,7 @@ const ItemForm = ({
   onClose,
   onSave,
   visible,
-}: ItemFormProps): JSX.Element => {
+}: ItemFormProps): React.JSX.Element => {
   const t = useTranslation();
   const { fields, reset, submit } = useForm({
     initialValues: {
