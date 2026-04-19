@@ -18,11 +18,7 @@ describe("modals/ItemForm", () => {
   ];
   it("Show content", () => {
     expect.assertions(9);
-    render(
-      <Language.Provider>
-        <ItemForm visible />
-      </Language.Provider>,
-    );
+    render(<ItemForm visible />, { wrapper: Language.Provider });
     expect(screen.queryByTestId("icon-qrcode")).toBeOnTheScreen();
 
     placeholders.forEach((el) => {
@@ -34,11 +30,9 @@ describe("modals/ItemForm", () => {
   it("Save data", () => {
     expect.assertions(2);
     const onSave = jest.fn();
-    render(
-      <Language.Provider>
-        <ItemForm onSave={onSave} visible />
-      </Language.Provider>,
-    );
+    render(<ItemForm onSave={onSave} visible />, {
+      wrapper: Language.Provider,
+    });
 
     const values = ["123", "Alpina", "100", "Milk", "110", "7", "900g"];
     placeholders.forEach((el, idx) => {

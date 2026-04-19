@@ -17,11 +17,7 @@ describe("ItemCard", () => {
   };
   it("Show content", () => {
     expect.assertions(9);
-    render(
-      <Language.Provider>
-        <ItemCard item={item} />
-      </Language.Provider>,
-    );
+    render(<ItemCard item={item} />, { wrapper: Language.Provider });
     const icons = ["dollar-sign", "hashtag", "ruler", "key"];
     icons.forEach((icon) => {
       expect(screen.queryByTestId(`icon-${icon}`)).toBeOnTheScreen();
