@@ -8,7 +8,7 @@ const esModules = [
 
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+  collectCoverageFrom: ["src/**/*.tsx?"],
   coverageDirectory: "coverage",
   coveragePathIgnorePatterns: ["src/index.js", "src/.*types.*"],
   coverageThreshold: {

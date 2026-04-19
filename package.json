@@ -10,6 +10,7 @@
     "android:build": "npm run android:bundle && npm run android:apk && npm run android:aab",
     "ios": "react-native run-ios",
     "lint": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
     "start": "react-native start",
     "test": "jest"
   },
