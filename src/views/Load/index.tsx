@@ -12,7 +12,7 @@ import { styles } from "./styles";
 
 const LoadScreen = (): React.JSX.Element => {
   const [load, updateLoad] = useUpdate({ language: false });
-  const lang = Language.useLanguage();
+  const { setLanguage } = Language.useLanguage();
 
   useEffect(() => {
     AsyncStorage.getItem("language")
@@ -20,12 +20,12 @@ const LoadScreen = (): React.JSX.Element => {
         if (language === null) {
           AsyncStorage.setItem("language", "ENG").catch(logError);
         } else {
-          lang.setLanguage(language as "ENG" | "SPA");
+          setLanguage(language as "ENG" | "SPA");
         }
         updateLoad({ language: true });
       })
       .catch(logError);
-  }, []);
+  }, [setLanguage, updateLoad]);
 
   if (vals(load).every(identity)) {
     return <TabNav />;
