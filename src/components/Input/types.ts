@@ -1,10 +1,9 @@
 import type { KeyboardType, TextInputProps } from "react-native";
 
-interface InputProps
-  extends Pick<
-    TextInputProps,
-    "maxLength" | "onBlur" | "placeholder" | "style" | "value"
-  > {
+interface InputProps extends Pick<
+  TextInputProps,
+  "maxLength" | "onBlur" | "placeholder" | "style" | "value"
+> {
   meta?: {
     error?: string;
     touched: boolean;
