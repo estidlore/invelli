@@ -1,6 +1,7 @@
 import type { Theme } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { SafeAreaView, StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors } from "utils";
 
@@ -15,12 +16,24 @@ const theme: Theme = {
   },
 };
 
-const Screen = ({ children }: ScreenProps): JSX.Element => {
+const Screen = ({ children }: ScreenProps): React.JSX.Element => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+          paddingTop: insets.top,
+        },
+      ]}
+    >
       <StatusBar backgroundColor={colors.dark} barStyle={"light-content"} />
       <NavigationContainer theme={theme}>{children}</NavigationContainer>
-    </SafeAreaView>
+    </View>
   );
 };
 

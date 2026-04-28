@@ -1,8 +1,7 @@
 import { Buffer } from "buffer";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import FS from "react-native-fs";
 import Share from "react-native-share";
-import type { ShareOpenResult } from "react-native-share/lib/typescript/src/types";
 import type { ShareData } from "react-native-share-menu";
 import ShareMenu from "react-native-share-menu";
 
@@ -12,8 +11,8 @@ import { loadBackup, logError, useRealm } from "utils";
 const ShareConsumer = (): null => {
   const db = useRealm();
 
-  const handleShare = useCallback(
-    (share?: ShareData) => {
+  useEffect(() => {
+    const handleShare = (share?: ShareData): void => {
       if (share === undefined || share === null) {
         return;
       }
@@ -26,18 +25,15 @@ const ShareConsumer = (): null => {
           })
           .catch(logError);
       }
-    },
-    [db],
-  );
+    };
 
-  useEffect(() => {
     ShareMenu.getInitialShare(handleShare);
     const listener = ShareMenu.addNewShareListener(handleShare);
 
-    return () => {
+    return (): void => {
       listener.remove();
     };
-  }, [handleShare]);
+  }, [db]);
 
   return null;
 };
@@ -46,14 +42,14 @@ const getBackupName = (): string => {
   return `Invelli${Math.floor(Date.now() / 6e4)}`;
 };
 
-const shareBackup = async (data: BackUp): Promise<ShareOpenResult> => {
+const shareBackup = (data: BackUp): void => {
   const json = JSON.stringify(data);
   const base64 = Buffer.from(json, "utf-8").toString("base64");
-  return Share.open({
+  Share.open({
     filename: getBackupName(),
     type: "application/json",
     url: `data:application/json;base64,${base64}`,
-  });
+  }).catch(logError);
 };
 
 export { shareBackup, ShareConsumer };

@@ -1,4 +1,3 @@
-import React from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import { Text } from "components/Text";
@@ -6,7 +5,12 @@ import { Text } from "components/Text";
 import { styles } from "./styles";
 import type { CardProps } from "./types";
 
-const Card = ({ children, onPress, style, title }: CardProps): JSX.Element => {
+const Card = ({
+  children,
+  onPress,
+  style,
+  title,
+}: CardProps): React.JSX.Element => {
   return (
     <TouchableOpacity
       activeOpacity={onPress === undefined ? 1 : 0.5}

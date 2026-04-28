@@ -10,11 +10,7 @@ describe("views/Settings", () => {
 
   it("Show content", () => {
     expect.assertions(2);
-    render(
-      <Language.Provider>
-        <SettingsScreen />
-      </Language.Provider>,
-    );
+    render(<SettingsScreen />, { wrapper: Language.Provider });
 
     expect(screen.queryByText(ENG.language)).toBeOnTheScreen();
     expect(screen.queryByText(ENG.shareData)).toBeOnTheScreen();

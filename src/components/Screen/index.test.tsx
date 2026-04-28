@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { Text } from "components";
 
@@ -11,6 +12,7 @@ describe("Screen", () => {
       <Screen>
         <Text>{"Inventory"}</Text>
       </Screen>,
+      { wrapper: SafeAreaProvider },
     );
 
     const text = screen.queryByText("Inventory");

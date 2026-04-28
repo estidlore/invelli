@@ -1,4 +1,3 @@
-import React from "react";
 import { TextInput, View } from "react-native";
 
 import { Alert } from "components/Alert";
@@ -17,7 +16,7 @@ const Input = ({
   secure = false,
   style,
   value,
-}: InputProps): JSX.Element => {
+}: InputProps): React.JSX.Element => {
   const showAlert = meta?.touched && meta.error !== undefined;
 
   return (

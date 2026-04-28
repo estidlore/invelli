@@ -15,7 +15,7 @@ describe("Input", () => {
   it("Call onChange", () => {
     expect.assertions(2);
 
-    const ControlledInput = (): JSX.Element => {
+    const ControlledInput = (): React.JSX.Element => {
       const [value, setValue] = useState("");
 
       return (

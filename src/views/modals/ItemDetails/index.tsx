@@ -16,7 +16,7 @@ const ItemDetails = ({
   item,
   onClose,
   visible,
-}: ItemDetailsProps): JSX.Element => {
+}: ItemDetailsProps): React.JSX.Element => {
   const [showEdit, toggleEdit] = useToggle(false);
   const db = useRealm();
   const t = useTranslation();

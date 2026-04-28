@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal as NModal, ScrollView, View } from "react-native";
 
 import { Button } from "components/Button";
@@ -12,7 +11,7 @@ const Modal = ({
   onClose,
   title,
   visible,
-}: ModalProps): JSX.Element => {
+}: ModalProps): React.JSX.Element => {
   return (
     <NModal
       animationType={"fade"}

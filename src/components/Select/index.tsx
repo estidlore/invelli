@@ -1,4 +1,3 @@
-import React from "react";
 import { View } from "react-native";
 import { useToggle } from "ruxi";
 
@@ -25,7 +24,7 @@ const Select = <T extends SelectOption>({
   options,
   style,
   value,
-}: SelectProps<T>): JSX.Element => {
+}: SelectProps<T>): React.JSX.Element => {
   const [showOptions, toggleShowOptions] = useToggle(false);
 
   const mappedOptions = options.map(mapOption) as Option<

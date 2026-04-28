@@ -5,8 +5,8 @@ module.exports = {
       "module-resolver",
       {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
-        root: ["src"]
-      }
-    ]
-  ]
+        root: ["src"],
+      },
+    ],
+  ],
 };

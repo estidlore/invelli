@@ -1,8 +1,6 @@
-import React from "react";
-
 import { Text } from "components";
 
-const SalesScreen = (): JSX.Element => {
+const SalesScreen = (): React.JSX.Element => {
   return <Text>{"Sales"}</Text>;
 };
 

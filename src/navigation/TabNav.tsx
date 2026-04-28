@@ -1,6 +1,5 @@
 import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import { InventoryScreen } from "views/Inventory";
@@ -17,7 +16,7 @@ const options: BottomTabNavigationOptions = {
   },
 };
 
-const TabNav = (): JSX.Element => {
+const TabNav = (): React.JSX.Element => {
   return (
     <Tab.Navigator screenOptions={options}>
       <Tab.Screen

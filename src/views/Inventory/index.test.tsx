@@ -9,11 +9,7 @@ describe("InventoryScreen", () => {
   const { ENG } = entries;
   it("Render content", () => {
     expect.assertions(1);
-    render(
-      <Language.Provider>
-        <InventoryScreen />
-      </Language.Provider>,
-    );
+    render(<InventoryScreen />, { wrapper: Language.Provider });
 
     expect(screen.queryByText(ENG.addItem)).toBeOnTheScreen();
   });
