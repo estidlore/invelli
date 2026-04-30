@@ -3,5 +3,11 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
-  }
+  },
+  "editor.rulers": [
+    {
+      "color": "#888",
+      "column": 100
+    }
+  ]
 }
