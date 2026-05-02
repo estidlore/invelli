@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
 
-export default function RootLayout() {
+const RootLayout = (): React.JSX.Element => {
   return <Stack />;
-}
+};
+
+export default RootLayout;
