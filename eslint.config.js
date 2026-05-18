@@ -25,7 +25,7 @@ module.exports = defineConfig([
     },
     rules: {
       // js rules
-      camelcase: "error",
+      camelcase: ["error", { allow: ["unstable_settings"] }],
       "comma-spacing": "off",
       complexity: ["error", 20],
       "constructor-super": "error",

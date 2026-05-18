@@ -5,8 +5,11 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "android:clean": "expo prebuild --clean && expo run:android",
+    "android:preview": "eas build -p android --profile preview",
+    "ios": "expo run:ios",
+    "ios:clean": "expo prebuild --clean && expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint --fix"
   },
