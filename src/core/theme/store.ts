@@ -26,4 +26,5 @@ const useThemeStore = create<ThemeState>()(
   ),
 );
 
+export type { ThemePreference };
 export { useThemeStore };
