@@ -1,21 +1,21 @@
-import { Stack } from "expo-router";
+import { setButtonStyleAsync } from "expo-navigation-bar";
+import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { useColors } from "@/core/theme";
+import { useTheme } from "@/core/theme";
+import { logError } from "@/utils";
 
 const RootLayout = (): React.JSX.Element => {
-  const colors = useColors();
+  const theme = useTheme();
+  const barsStyle = theme === "dark" ? "light" : "dark";
+  setButtonStyleAsync(barsStyle).catch(logError);
 
   return (
     <SafeAreaProvider>
-      <Stack
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: colors.bg,
-          },
-          headerShown: false,
-        }}
-      />
+      <StatusBar style={barsStyle} />
+      <Slot />
     </SafeAreaProvider>
   );
 };
