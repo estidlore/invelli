@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-import { Select } from "@/components/Select";
-import { Text } from "@/components/Text";
+import { Select, Text } from "@/components";
 import { languages, useLanguageStore, useTranslation } from "@/core/language";
 import type { ThemePreference } from "@/core/theme";
 import { useThemeStore } from "@/core/theme";

@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Icon } from "@/components/Icon";
+import { Icon } from "@/components";
 import { useColors } from "@/core/theme";
 
 const TabsLayout = (): React.JSX.Element => {
