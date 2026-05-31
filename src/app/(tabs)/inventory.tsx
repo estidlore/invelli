@@ -1,13 +1,3 @@
-import { View } from "react-native";
+import { InventoryScreen } from "@/screens/inventory";
 
-import { Text } from "@/components";
-
-const Inventory = (): React.JSX.Element => {
-  return (
-    <View>
-      <Text>{"Inventory"}</Text>
-    </View>
-  );
-};
-
-export default Inventory;
+export default InventoryScreen;

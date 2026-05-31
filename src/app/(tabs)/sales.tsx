@@ -1,13 +1,3 @@
-import { View } from "react-native";
+import { SalesScreen } from "@/screens/sales";
 
-import { Text } from "@/components";
-
-const Sales = (): React.JSX.Element => {
-  return (
-    <View>
-      <Text>{"Sales"}</Text>
-    </View>
-  );
-};
-
-export default Sales;
+export default SalesScreen;
