@@ -1,9 +1,6 @@
-import type { LanguageId } from "./store";
+import { identity } from "litus";
 
-interface LanguageInfo {
-  id: LanguageId;
-  label: string;
-}
+import type { LanguageInfo, Translation, Translations } from "./types";
 
 const languages: LanguageInfo[] = [
   {
@@ -16,6 +13,8 @@ const languages: LanguageInfo[] = [
   },
 ];
 
+const createTranslations: <T extends Translation>(t: Translations<T>) => Translations<T> = identity;
+
 export * from "./store";
 export * from "./useTranslation";
-export { languages };
+export { createTranslations, languages };

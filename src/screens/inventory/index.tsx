@@ -1,19 +1,19 @@
 import { ScrollView, StyleSheet } from "react-native";
 
 import { Button } from "@/components";
-import { useTranslation } from "@/core/language";
+import { createTranslations, useTranslation } from "@/core/language";
 
 import { ItemCard } from "./ItemCard";
 import { dummyItems } from "./dummy";
 
-const translations = {
+const translations = createTranslations({
   ENG: {
     addItem: "Add item",
   },
   SPA: {
     addItem: "Agregar artículo",
   },
-};
+});
 
 const styles = StyleSheet.create({
   addItem: {

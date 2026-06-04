@@ -2,12 +2,12 @@ import { useReducer } from "react";
 import { View } from "react-native";
 
 import { Button, Card, Icon, Text } from "@/components";
-import { useTranslation } from "@/core/language";
+import { createTranslations, useTranslation } from "@/core/language";
 
 import { styles } from "./styles";
 import type { ItemCardProps } from "./types";
 
-const translations = {
+const translations = createTranslations({
   ENG: {
     cost: "Cost",
     edit: "Edit",
@@ -20,7 +20,7 @@ const translations = {
     price: "Precio",
     updatedAt: "Actualizado:",
   },
-};
+});
 
 const gridItemStyle = [styles.grid, styles.item];
 const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {

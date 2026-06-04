@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-type LanguageId = "ENG" | "SPA";
+import type { LanguageId } from "./types";
 
 interface LanguageState {
   languagePreference: LanguageId;
@@ -24,5 +24,4 @@ const useLanguageStore = create<LanguageState>()(
   ),
 );
 
-export type { LanguageId };
 export { useLanguageStore };

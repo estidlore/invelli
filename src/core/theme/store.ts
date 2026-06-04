@@ -7,8 +7,8 @@ import type { ThemeName } from "./colors";
 type ThemePreference = ThemeName | "system";
 
 interface ThemeState {
-  themePreference: ThemePreference;
   setThemePreference: (preference: ThemePreference) => void;
+  themePreference: ThemePreference;
 }
 
 const useThemeStore = create<ThemeState>()(

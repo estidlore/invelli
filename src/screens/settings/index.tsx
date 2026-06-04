@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 
 import { Select, Text } from "@/components";
-import { languages, useLanguageStore, useTranslation } from "@/core/language";
+import { createTranslations, languages, useLanguageStore, useTranslation } from "@/core/language";
 import type { ThemePreference } from "@/core/theme";
 import { useThemeStore } from "@/core/theme";
 
-const translations = {
+const translations = createTranslations({
   ENG: {
     darkMode: {
       dark: "Enabled",
@@ -26,7 +26,7 @@ const translations = {
     language: "Lenguaje",
     settings: "Configuraciones",
   },
-};
+});
 
 const styles = StyleSheet.create({
   button: {
