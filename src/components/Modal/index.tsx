@@ -12,8 +12,8 @@ const Modal = ({ children, onClose, title, visible }: ModalProps): React.JSX.Ele
 
   return (
     <NModal animationType={"fade"} onRequestClose={onClose} transparent visible={visible}>
-      <View style={[styles.modal, { backgroundColor: `${colors.bg}88` }]}>
-        <View style={[styles.container, { backgroundColor: colors.bg2 }]}>
+      <View style={[styles.modal, { backgroundColor: `${colors.background}88` }]}>
+        <View style={[styles.container, { backgroundColor: colors.card }]}>
           <View style={styles.header}>
             <Text style={styles.title} type={"title"}>
               {title}

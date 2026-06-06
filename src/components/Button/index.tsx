@@ -20,7 +20,7 @@ const Button = ({
     <TouchableOpacity
       {...otherProps}
       activeOpacity={activeOpacity}
-      style={[styles.container, { borderColor: colors.bg3 }, style]}
+      style={[styles.container, { borderColor: colors.border }, style]}
     >
       {icon === undefined ? null : <Icon name={icon} size={20} style={styles.text} />}
       {children === undefined ? null : <Text style={styles.text}>{children}</Text>}

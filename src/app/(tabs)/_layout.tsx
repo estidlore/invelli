@@ -13,7 +13,7 @@ const TabsLayout = (): React.JSX.Element => {
       screenOptions={{
         headerShown: false,
         sceneStyle: {
-          backgroundColor: colors.bg,
+          backgroundColor: colors.background,
           paddingLeft: insets.left + 10,
           paddingRight: insets.right + 10,
           paddingTop: insets.top + 10,
@@ -22,8 +22,8 @@ const TabsLayout = (): React.JSX.Element => {
         tabBarInactiveTintColor: colors.text,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colors.bg2,
-          borderColor: colors.bg3,
+          backgroundColor: colors.card,
+          borderColor: colors.border,
           paddingTop: 8,
         },
       }}

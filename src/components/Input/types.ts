@@ -4,6 +4,7 @@ interface InputProps extends Pick<
   TextInputProps,
   "maxLength" | "onBlur" | "placeholder" | "value"
 > {
+  label?: string;
   meta?: {
     error?: string;
     touched: boolean;

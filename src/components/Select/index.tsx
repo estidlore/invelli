@@ -51,7 +51,7 @@ const Select = <T extends SelectOption>({
             <Button
               key={option.value}
               onPress={handlePress}
-              style={[styles.option, { backgroundColor: selected ? colors.bg2 : undefined }]}
+              style={[styles.option, { backgroundColor: selected ? colors.card : undefined }]}
             >
               {option.text}
             </Button>

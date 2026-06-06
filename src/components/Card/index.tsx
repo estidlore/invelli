@@ -13,10 +13,10 @@ const Card = ({ children, onPress, style, title }: CardProps): React.JSX.Element
     <TouchableOpacity
       activeOpacity={onPress === undefined ? 1 : 0.5}
       onPress={onPress}
-      style={[styles.container, { borderColor: colors.bg3 }, style]}
+      style={[styles.container, { borderColor: colors.border }, style]}
     >
       <Text type={"subtitle"}>{title}</Text>
-      <View style={[styles.hr, { borderBottomColor: colors.bg3 }]} />
+      <View style={[styles.hr, { borderBottomColor: colors.border }]} />
       {children}
     </TouchableOpacity>
   );
