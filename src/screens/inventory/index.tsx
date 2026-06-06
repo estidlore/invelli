@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet } from "react-native";
 
 import { Button } from "@/components";
@@ -25,11 +26,16 @@ const styles = StyleSheet.create({
 });
 
 const InventoryScreen = (): React.JSX.Element => {
+  const router = useRouter();
   const t = useTranslation(translations);
+
+  const handleAdd = (): void => {
+    router.push("/item-form");
+  };
 
   return (
     <>
-      <Button icon={"plus"} style={styles.addItem}>
+      <Button icon={"plus"} onPress={handleAdd} style={styles.addItem}>
         {t.addItem}
       </Button>
       <ScrollView style={styles.list}>

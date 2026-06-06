@@ -13,6 +13,7 @@ import { useColors } from "@/core/theme";
  */
 const NAMES = {
   bell: { android: "notifications", ios: "bell.fill" },
+  check: { android: "check", ios: "checkmark" },
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
   dollar: { android: "attach-money", ios: "dollarsign" },
   error: { android: "clear", ios: "xmark" },
@@ -24,6 +25,7 @@ const NAMES = {
   search: { android: "search", ios: "magnifyingglass" },
   settings: { android: "settings", ios: "gearshape.fill" },
   success: { android: "check", ios: "checkmark" },
+  trash: { android: "delete", ios: "trash.fill" },
   warning: { android: "warning", ios: "exclamationmark.triangle.fill" },
   xmark: { android: "clear", ios: "xmark" },
 } as const;

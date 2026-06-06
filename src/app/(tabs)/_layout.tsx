@@ -11,6 +11,7 @@ const TabsLayout = (): React.JSX.Element => {
   return (
     <Tabs
       screenOptions={{
+        animation: "fade",
         headerShown: false,
         sceneStyle: {
           backgroundColor: colors.background,

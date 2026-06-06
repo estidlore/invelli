@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useReducer } from "react";
 import { View } from "react-native";
 
@@ -27,6 +28,16 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   const { costPrice, quantity, name, sellPrice, sku, updatedAt } = item;
   const [expanded, toggleExpanded] = useReducer((val) => !val, false);
   const t = useTranslation(translations);
+  const router = useRouter();
+
+  const handleEdit = (): void => {
+    router.push({
+      params: {
+        id: item.id,
+      },
+      pathname: "/item-form",
+    });
+  };
 
   return (
     <Card onPress={toggleExpanded} style={styles.card} title={name}>
@@ -53,7 +64,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
               <Text>{t.updatedAt}</Text>
               <Text>{updatedAt}</Text>
             </View>
-            <Button icon={"pencil"} style={styles.item}>
+            <Button icon={"pencil"} onPress={handleEdit} style={styles.item}>
               {t.edit}
             </Button>
           </>
