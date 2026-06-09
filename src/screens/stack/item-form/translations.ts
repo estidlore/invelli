@@ -1,4 +1,6 @@
-const translations = {
+import { createTranslations } from "@/core/language";
+
+const translations = createTranslations({
   ENG: {
     addItem: "Add item",
     editItem: "Edit item",
@@ -31,6 +33,6 @@ const translations = {
     },
     save: "Guardar",
   },
-};
+});
 
 export { translations };
