@@ -1,5 +1,5 @@
-const logError = (error: unknown): void => {
-  console.error(error);
+const logError = (...error: unknown[]): void => {
+  console.error(...error);
 };
 
 export { logError };

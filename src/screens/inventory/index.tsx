@@ -1,55 +1,24 @@
 import type { OneOrMany } from "drizzle-orm";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 
 import { Button, Input, Text } from "@/components";
-import { createTranslations, useTranslation } from "@/core/language";
+import { useTranslation } from "@/core/language";
+import { useScanStore } from "@/core/scanner";
 import { searchItems } from "@/db";
 import { useDebounce } from "@/hooks/useDebounce";
+import { logError } from "@/utils";
 
 import { ItemCard } from "./ItemCard";
-
-const translations = createTranslations({
-  ENG: {
-    addItem: "Add item",
-    itemsNotFound: "No items found\nCheck the spelling",
-    itemsSearchError: "Failed to search items",
-    searchPlaceholder: "Soda Coke 1.5L",
-  },
-  SPA: {
-    addItem: "Agregar artículo",
-    itemsNotFound: "No se encontraron artículos\nRevisa la ortografía",
-    itemsSearchError: "Fallo al buscar artículos",
-    searchPlaceholder: "Gaseosa CocaCola 1.5L",
-  },
-});
-
-const styles = StyleSheet.create({
-  addItem: {
-    marginBottom: 16,
-  },
-  list: {
-    flex: 1,
-  },
-  searchBar: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 8,
-    marginBottom: 16,
-  },
-  searchError: {
-    textAlign: "center",
-  },
-  searchInput: {
-    flexGrow: 1,
-  },
-});
+import { styles } from "./styles";
+import { translations } from "./translations";
 
 const InventoryScreen = (): React.JSX.Element => {
   const router = useRouter();
   const t = useTranslation(translations);
+  const { scannedBarcode } = useScanStore();
   const [searchInput, setSearchInput] = useState("");
   const searchText = useDebounce(searchInput, 400);
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
@@ -62,8 +31,19 @@ const InventoryScreen = (): React.JSX.Element => {
     router.push("/item-form");
   };
 
+  const handleScan = (): void => {
+    router.push("/scanner");
+  };
+
+  useEffect(() => {
+    if (scannedBarcode) {
+      setSearchInput(scannedBarcode);
+    }
+  }, [scannedBarcode]);
+
   const renderItems = (): OneOrMany<React.JSX.Element> => {
     if (itemsError) {
+      logError("renderItems.itemsError", itemsError);
       return <Text style={styles.searchError}>{t.itemsSearchError}</Text>;
     }
     if (items.length === 0) {
@@ -75,7 +55,7 @@ const InventoryScreen = (): React.JSX.Element => {
   return (
     <>
       <View style={styles.searchBar}>
-        <Button icon={"qrcode"} />
+        <Button icon={"qrcode"} onPress={handleScan} />
         <Input
           onChange={setSearchInput}
           placeholder={t.searchPlaceholder}

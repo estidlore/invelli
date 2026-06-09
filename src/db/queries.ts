@@ -1,4 +1,4 @@
-import { and, desc, eq, like } from "drizzle-orm";
+import { and, desc, eq, like, or } from "drizzle-orm";
 import { randomUUID } from "expo-crypto";
 import type { SQLiteRunResult } from "expo-sqlite";
 
@@ -24,14 +24,22 @@ const insertItem = async (item: Omit<Item, "id">): Promise<SQLiteRunResult> => {
   });
 };
 
-const searchItems = (searchQuery: string): SelectQuery<typeof items> => {
-  const words = searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+const searchItems = (searchText: string): SelectQuery<typeof items> => {
+  const trimmed = searchText.trim().toLowerCase();
+
+  if (trimmed.length === 0) {
+    return db.select().from(items).orderBy(desc(items.updatedAt)).limit(20) as SelectQuery<
+      typeof items
+    >;
+  }
+
+  const words = trimmed.split(/\s+/).filter(Boolean);
   const conditions = words.map((word) => like(items.name, `%${word}%`));
 
   return db
     .select()
     .from(items)
-    .where(and(...conditions))
+    .where(or(like(items.sku, `%${trimmed}%`), and(...conditions)))
     .orderBy(desc(items.updatedAt))
     .limit(20) as SelectQuery<typeof items>;
 };

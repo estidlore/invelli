@@ -28,6 +28,15 @@ const styles = StyleSheet.create({
   save: {
     flexGrow: 1,
   },
+  skuInput: {
+    flexGrow: 1,
+  },
+  skuRow: {
+    display: "flex",
+    flexDirection: "row",
+    flexGrow: 1,
+    gap: 8,
+  },
 });
 
 export { styles };

@@ -5,6 +5,7 @@ import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } f
 import { Button, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
+import { useScanStore } from "@/core/scanner";
 import { useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
 import { logError } from "@/utils";
@@ -18,12 +19,17 @@ const ItemFormScreen = (): React.JSX.Element => {
   const params = useLocalSearchParams<{ id?: string }>();
   const isEditMode = !!params.id;
   const [isPending, startTransition] = useTransition();
+  const { scannedBarcode } = useScanStore();
 
   const colors = useColors();
   const t = useTranslation(translations);
 
   const handleBack = (): void => {
     router.back();
+  };
+
+  const handleScan = (): void => {
+    router.navigate({ pathname: "/scanner" });
   };
 
   const handleDelete = (): void => {
@@ -87,6 +93,12 @@ const ItemFormScreen = (): React.JSX.Element => {
     }
   }, [isEditMode, params.id, setValues]);
 
+  useEffect(() => {
+    if (scannedBarcode) {
+      setValues((prev) => ({ ...prev, sku: scannedBarcode }));
+    }
+  }, [scannedBarcode, setValues]);
+
   if (isPending) {
     return (
       <View style={styles.loadingWrapper}>
@@ -107,12 +119,14 @@ const ItemFormScreen = (): React.JSX.Element => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardAvoiding}
         >
-          <Input
-            label={t.label.sku}
-            placeholder={t.placeholder.sku}
-            style={styles.input}
-            {...getFieldProps("sku")}
-          />
+          <View style={styles.skuRow}>
+            <Button icon={"qrcode"} onPress={handleScan} />
+            <Input
+              placeholder={t.placeholder.sku}
+              style={styles.skuInput}
+              {...getFieldProps("sku")}
+            />
+          </View>
           <Input
             label={t.label.name}
             placeholder={t.placeholder.name}

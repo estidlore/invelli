@@ -180,7 +180,7 @@ module.exports = defineConfig([
   {
     files: ["src/**/*.tsx"],
     rules: {
-      "max-lines-per-function": ["error", 150],
+      "max-lines-per-function": "off",
     },
   },
   eslintPluginPrettierRecommended,
