@@ -1,4 +1,4 @@
-import type { Item } from "../dummy";
+import type { Item } from "@/db";
 
 interface ItemCardProps {
   item: Item;

@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
   keyboardAvoiding: {
     flex: 1,
   },
+  loadingWrapper: {
+    alignItems: "center",
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+  },
   save: {
     flexGrow: 1,
   },

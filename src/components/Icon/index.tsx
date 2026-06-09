@@ -22,6 +22,7 @@ const NAMES = {
   number: { android: "numbers", ios: "number" },
   pencil: { android: "edit", ios: "pencil" },
   plus: { android: "add", ios: "plus" },
+  qrcode: { android: "qr-code", ios: "qrcode" },
   search: { android: "search", ios: "magnifyingglass" },
   settings: { android: "settings", ios: "gearshape.fill" },
   success: { android: "check", ios: "checkmark" },
