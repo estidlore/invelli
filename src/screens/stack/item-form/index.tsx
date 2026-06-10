@@ -8,7 +8,7 @@ import { useTranslation } from "@/core/language";
 import { useScanStore } from "@/core/scanner";
 import { useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
-import { logError } from "@/utils";
+import { dateToString, logError } from "@/utils";
 
 import { itemFormSchema } from "./schema";
 import { styles } from "./styles";
@@ -50,20 +50,20 @@ const ItemFormScreen = (): React.JSX.Element => {
       sku: "",
     },
     onSubmit: async (values) => {
-      const nowIso = new Date().toISOString();
+      const date = dateToString(new Date());
       const data = {
         costPrice: parseFloat(values.costPrice),
         name: values.name,
         quantity: parseInt(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
         sku: values.sku,
-        updatedAt: nowIso,
+        updatedAt: date,
       };
 
       if (isEditMode && params.id) {
         await updateItem(params.id, data);
       } else {
-        await insertItem({ ...data, createdAt: nowIso });
+        await insertItem({ ...data, createdAt: date });
       }
 
       router.back();

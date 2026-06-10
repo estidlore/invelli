@@ -1,41 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
-import { Select, Text } from "@/components";
-import { createTranslations, languages, useLanguageStore, useTranslation } from "@/core/language";
+import { Button, Select, Text } from "@/components";
+import { languages, useLanguageStore, useTranslation } from "@/core/language";
 import type { ThemePreference } from "@/core/theme";
 import { useThemeStore } from "@/core/theme";
+import { exportToJson, importFromJson } from "@/db";
+import { logError } from "@/utils";
 
-const translations = createTranslations({
-  ENG: {
-    darkMode: {
-      dark: "Enabled",
-      light: "Disabled",
-      system: "Use system settings",
-      title: "Dark mode",
-    },
-    language: "Language",
-    settings: "Settings",
-  },
-  SPA: {
-    darkMode: {
-      dark: "Activado",
-      light: "Desactivado",
-      system: "Usar configuración del sistema",
-      title: "Modo oscuro",
-    },
-    language: "Lenguaje",
-    settings: "Configuraciones",
-  },
-});
-
-const styles = StyleSheet.create({
-  button: {
-    marginBottom: 16,
-  },
-  title: {
-    marginBottom: 24,
-  },
-});
+import { styles } from "./styles";
+import { translations } from "./translations";
 
 const languageOptions = languages.map((language) => ({
   text: language.label,
@@ -54,6 +27,14 @@ const SettingsScreen = (): React.JSX.Element => {
     text: t.darkMode[el],
     value: el,
   }));
+
+  const handleExport = (): void => {
+    exportToJson().catch(logError);
+  };
+
+  const handleImport = (): void => {
+    importFromJson().catch(logError);
+  };
 
   return (
     <View>
@@ -74,6 +55,12 @@ const SettingsScreen = (): React.JSX.Element => {
         style={styles.button}
         value={languagePreference}
       />
+      <Button onPress={handleExport} style={styles.button}>
+        {t.exportData}
+      </Button>
+      <Button onPress={handleImport} style={styles.button}>
+        {t.importData}
+      </Button>
     </View>
   );
 };

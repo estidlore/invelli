@@ -1,3 +1,4 @@
+export * from "./backup";
 export * from "./config";
 export { default as migrations } from "./drizzle/migrations";
 export * from "./queries";
