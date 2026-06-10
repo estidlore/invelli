@@ -2,9 +2,10 @@ import { and, desc, eq, like, or } from "drizzle-orm";
 import { randomUUID } from "expo-crypto";
 import type { SQLiteRunResult } from "expo-sqlite";
 
-import { db } from "./config";
-import type { Item } from "./schema";
-import { items } from "./schema";
+import { db } from "@/db/config";
+import type { Item } from "@/db/schema";
+import { items } from "@/db/schema";
+
 import type { SelectQuery } from "./types";
 
 const deleteItem = async (id: string): Promise<SQLiteRunResult> => {
@@ -15,6 +16,10 @@ const findItem = async (id: string): Promise<Item | undefined> => {
   return await db.query.items.findFirst({
     where: eq(items.id, id),
   });
+};
+
+const getItems = async (): Promise<Item[]> => {
+  return await db.select().from(items);
 };
 
 const insertItem = async (item: Omit<Item, "id">): Promise<SQLiteRunResult> => {
@@ -48,4 +53,4 @@ const updateItem = async (id: string, data: Partial<Item>): Promise<SQLiteRunRes
   return await db.update(items).set(data).where(eq(items.id, id));
 };
 
-export { deleteItem, findItem, insertItem, searchItems, updateItem };
+export { deleteItem, findItem, getItems, insertItem, searchItems, updateItem };

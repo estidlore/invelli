@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4d7db2ad-6e50-4db6-bb52-46f6c19a3d60",
+  "id": "df5c0e26-3e58-4c6a-a014-1ef0c36cd1a4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "items": {
@@ -84,9 +84,16 @@
     "stock_logs": {
       "name": "stock_logs",
       "columns": {
-        "cost_price_at_time": {
-          "name": "cost_price_at_time",
+        "cost_price": {
+          "name": "cost_price",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -105,23 +112,16 @@
           "notNull": true,
           "autoincrement": false
         },
-        "quantity_changed": {
-          "name": "quantity_changed",
+        "quantity_delta": {
+          "name": "quantity_delta",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "sell_price_at_time": {
-          "name": "sell_price_at_time",
+        "sell_price": {
+          "name": "sell_price",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "timestamp": {
-          "name": "timestamp",
-          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

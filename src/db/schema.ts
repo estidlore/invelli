@@ -14,14 +14,14 @@ const items = sqliteTable("items", {
 });
 
 const stockLogs = sqliteTable("stock_logs", {
-  costPriceAtTime: integer("cost_price_at_time").notNull(),
+  costPrice: integer("cost_price").notNull(),
+  createdAt: text("created_at").notNull(),
   id: text("id").primaryKey(),
   itemId: text("item_id")
     .notNull()
     .references(() => items.id, { onDelete: "cascade" }),
-  quantityChanged: integer("quantity_changed").notNull(),
-  sellPriceAtTime: integer("sell_price_at_time").notNull(),
-  timestamp: text("timestamp").notNull(),
+  quantityDelta: integer("quantity_delta").notNull(),
+  sellPrice: integer("sell_price").notNull(),
   type: text("type").$type<"adjustment" | "restock" | "sale">().notNull(),
 });
 
