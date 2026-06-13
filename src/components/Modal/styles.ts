@@ -1,10 +1,7 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "utils";
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.dark,
     borderRadius: 4,
     maxHeight: "100%",
     padding: 16,
@@ -19,7 +16,6 @@ const styles = StyleSheet.create({
   },
   modal: {
     alignItems: "center",
-    backgroundColor: `${colors.gray}88`,
     display: "flex",
     flexDirection: "column",
     height: "100%",
@@ -28,10 +24,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   title: {
-    color: colors.light,
     flexShrink: 1,
-    fontSize: 20,
-    fontWeight: "bold",
   },
 });
 

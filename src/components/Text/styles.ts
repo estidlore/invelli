@@ -1,11 +1,32 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "utils";
-
 const styles = StyleSheet.create({
-  text: {
-    color: colors.light,
+  link: {
     fontSize: 16,
+    lineHeight: 20,
+  },
+  regular: {
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  semibold: {
+    fontSize: 16,
+    fontWeight: "600",
+    lineHeight: 20,
+  },
+  small: {
+    fontSize: 14,
+    lineHeight: 18,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    lineHeight: 22,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    lineHeight: 28,
   },
 });
 

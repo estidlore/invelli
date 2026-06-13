@@ -1,11 +1,8 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "utils";
-
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    borderColor: colors.gray,
     borderRadius: 4,
     borderWidth: 1,
     display: "flex",

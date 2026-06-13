@@ -1,17 +1,15 @@
+import { useReducer } from "react";
 import { View } from "react-native";
-import { useToggle } from "ruxi";
 
-import { Button } from "components/Button";
-import { Modal } from "components/Modal";
-import { Text } from "components/Text";
-import { colors } from "utils";
+import { Button } from "@/components/Button";
+import { Modal } from "@/components/Modal";
+import { Text } from "@/components/Text";
+import { useColors } from "@/core/theme";
 
 import { styles } from "./styles";
 import type { Option, SelectOption, SelectProps } from "./types";
 
-const mapOption = <T extends number | string>(
-  option: Option<T> | T,
-): Option<T> => {
+const mapOption = <T extends number | string>(option: Option<T> | T): Option<T> => {
   if (typeof option === "object") {
     return option;
   }
@@ -25,20 +23,18 @@ const Select = <T extends SelectOption>({
   style,
   value,
 }: SelectProps<T>): React.JSX.Element => {
-  const [showOptions, toggleShowOptions] = useToggle(false);
+  const [showOptions, toggleShowOptions] = useReducer((val) => !val, false);
 
-  const mappedOptions = options.map(mapOption) as Option<
-    T extends object ? T["value"] : T
-  >[];
+  const mappedOptions = options.map(mapOption) as Option<T extends object ? T["value"] : T>[];
   const selection =
-    value === undefined
-      ? undefined
-      : mappedOptions.find((el) => el.value === value);
+    value === undefined ? undefined : mappedOptions.find((el) => el.value === value);
+
+  const colors = useColors();
 
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
-      <Button icon={"chevron-down"} onPress={toggleShowOptions}>
+      <Button icon={"chevronDown"} onPress={toggleShowOptions}>
         {selection?.text ?? "-"}
       </Button>
       <Modal onClose={toggleShowOptions} title={label} visible={showOptions}>
@@ -55,10 +51,7 @@ const Select = <T extends SelectOption>({
             <Button
               key={option.value}
               onPress={handlePress}
-              style={[
-                styles.option,
-                { backgroundColor: selected ? colors.grayDark : undefined },
-              ]}
+              style={[styles.option, { backgroundColor: selected ? colors.card : undefined }]}
             >
               {option.text}
             </Button>

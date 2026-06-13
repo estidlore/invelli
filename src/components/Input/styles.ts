@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
 
-import { colors } from "utils";
-
 const styles = StyleSheet.create({
   alert: {
     borderTopLeftRadius: 0,
@@ -11,20 +9,17 @@ const styles = StyleSheet.create({
   alertWrapper: {
     position: "relative",
   },
-  container: {
-    borderColor: colors.light,
+  box: {
     borderRadius: 4,
     borderWidth: 1,
     overflow: "hidden",
   },
-  error: {
-    borderColor: colors.red,
-  },
   input: {
-    color: colors.light,
     fontSize: 16,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    padding: 8,
+  },
+  label: {
+    marginBottom: 4,
   },
 });
 

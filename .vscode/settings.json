@@ -1,11 +1,12 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+  },
   "editor.formatOnSave": true,
   "editor.rulers": [
     {
       "color": "#888",
-      "column": 80
+      "column": 100
     }
-  ],
-  "editor.tabSize": 2
+  ]
 }
