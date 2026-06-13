@@ -1,12 +1,11 @@
 import { randomUUID } from "expo-crypto";
 import * as DocumentPicker from "expo-document-picker";
 import { File } from "expo-file-system";
-import { any, get, has, isObj, randInt, vals } from "litus";
+import { any, get, has, isObj, vals } from "litus";
 
 import { db } from "@/db/config";
-import type { Item } from "@/db/schema";
+import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
-import { dateToString } from "@/utils";
 
 import type { Backup, BackupPayload } from "./types";
 
@@ -30,9 +29,8 @@ const parseJsonBackup = (json: string): Backup => {
 
 const processPayload = (payload: BackupPayload): BackupPayload => {
   const { items: rawItems } = payload;
-  const items: Item[] = [];
+  const items: NewItem[] = [];
 
-  const date = dateToString(new Date());
   for (let i = 0; i < rawItems.length; i++) {
     const item = rawItems[i];
     if (!isObj(item) || !has(item, "costPrice", "name", "sellPrice")) {
@@ -41,13 +39,13 @@ const processPayload = (payload: BackupPayload): BackupPayload => {
 
     items.push({
       costPrice: Number(item.costPrice),
-      createdAt: get(item, "createdAt", date),
-      id: get(item, "id", randomUUID()),
+      createdAt: get(item, "createdAt"),
+      id: get(item, "id") ?? randomUUID(),
       name: String(item.name),
-      quantity: get(item, "quantity", 0),
+      quantity: get(item, "quantity"),
       sellPrice: Number(item.sellPrice),
-      sku: String(get(item, "sku", randInt(1e6, 1e7 - 1))),
-      updatedAt: get(item, "updatedAt", date),
+      sku: get(item, "sku"),
+      updatedAt: get(item, "updatedAt"),
     });
   }
 

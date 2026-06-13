@@ -3,7 +3,7 @@ import { randomUUID } from "expo-crypto";
 import type { SQLiteRunResult } from "expo-sqlite";
 
 import { db } from "@/db/config";
-import type { Item } from "@/db/schema";
+import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
 
 import type { SelectQuery } from "./types";
@@ -22,11 +22,8 @@ const getItems = async (): Promise<Item[]> => {
   return await db.select().from(items);
 };
 
-const insertItem = async (item: Omit<Item, "id">): Promise<SQLiteRunResult> => {
-  return await db.insert(items).values({
-    ...item,
-    id: randomUUID(),
-  });
+const insertItem = async (item: Omit<NewItem, "id">): Promise<SQLiteRunResult> => {
+  return await db.insert(items).values({ ...item, id: randomUUID() });
 };
 
 const searchItems = (searchText: string): SelectQuery<typeof items> => {
@@ -49,8 +46,11 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
     .limit(20) as SelectQuery<typeof items>;
 };
 
-const updateItem = async (id: string, data: Partial<Item>): Promise<SQLiteRunResult> => {
-  return await db.update(items).set(data).where(eq(items.id, id));
+const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRunResult> => {
+  return await db
+    .update(items)
+    .set({ ...data, updatedAt: new Date().toISOString() })
+    .where(eq(items.id, id));
 };
 
 export { deleteItem, findItem, getItems, insertItem, searchItems, updateItem };
