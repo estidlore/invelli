@@ -1,5 +1,4 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 const items = sqliteTable("items", {
@@ -13,31 +12,8 @@ const items = sqliteTable("items", {
   updatedAt: text("updated_at").notNull(),
 });
 
-const stockLogs = sqliteTable("stock_logs", {
-  costPrice: integer("cost_price").notNull(),
-  createdAt: text("created_at").notNull(),
-  id: text("id").primaryKey(),
-  itemId: text("item_id")
-    .notNull()
-    .references(() => items.id, { onDelete: "cascade" }),
-  quantityDelta: integer("quantity_delta").notNull(),
-  sellPrice: integer("sell_price").notNull(),
-  type: text("type").$type<"adjustment" | "restock" | "sale">().notNull(),
-});
-
-const itemsRelations = relations(items, ({ many }) => ({
-  logs: many(stockLogs),
-}));
-
-const stockLogsRelations = relations(stockLogs, ({ one }) => ({
-  item: one(items, { fields: [stockLogs.itemId], references: [items.id] }),
-}));
-
 type Item = InferSelectModel<typeof items>;
 type NewItem = InferInsertModel<typeof items>;
 
-type StockLog = InferSelectModel<typeof stockLogs>;
-type NewStockLog = InferInsertModel<typeof stockLogs>;
-
-export type { Item, NewItem, NewStockLog, StockLog };
-export { items, itemsRelations, stockLogs, stockLogsRelations };
+export type { Item, NewItem };
+export { items };

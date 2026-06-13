@@ -3,7 +3,7 @@ interface BackupMetadata {
   version: number;
 }
 
-type BackupPayload = Record<"items" | "stockLogs", unknown[]>;
+type BackupPayload = Record<"items", unknown[]>;
 
 interface Backup {
   metadata: BackupMetadata;

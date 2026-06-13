@@ -4,8 +4,8 @@ import { File } from "expo-file-system";
 import { any, get, has, isObj, randInt, vals } from "litus";
 
 import { db } from "@/db/config";
-import type { Item, StockLog } from "@/db/schema";
-import { items, stockLogs } from "@/db/schema";
+import type { Item } from "@/db/schema";
+import { items } from "@/db/schema";
 import { dateToString } from "@/utils";
 
 import type { Backup, BackupPayload } from "./types";
@@ -19,8 +19,8 @@ const parseJsonBackup = (json: string): Backup => {
   if (!isObj(metadata) || !has(metadata, "exportedAt", "version")) {
     throw new Error("Backup metadata missing exportedAt or version");
   }
-  if (!isObj(payload) || !has(payload, "items", "stockLogs")) {
-    throw new Error("Backup payload missing items or stockLogs");
+  if (!isObj(payload) || !has(payload, "items")) {
+    throw new Error("Backup payload missing tables");
   }
   if (any(vals(payload), (table) => !Array.isArray(table))) {
     throw new Error("Backup payload tables must be arrays");
@@ -29,9 +29,8 @@ const parseJsonBackup = (json: string): Backup => {
 };
 
 const processPayload = (payload: BackupPayload): BackupPayload => {
-  const { items: rawItems, stockLogs: rawStockLogs } = payload;
+  const { items: rawItems } = payload;
   const items: Item[] = [];
-  const stockLogs: StockLog[] = [];
 
   const date = dateToString(new Date());
   for (let i = 0; i < rawItems.length; i++) {
@@ -52,45 +51,17 @@ const processPayload = (payload: BackupPayload): BackupPayload => {
     });
   }
 
-  const stockLogTypes = ["adjustment", "restock", "sale"];
-  for (let i = 0; i < rawStockLogs.length; i++) {
-    const stockLog = rawStockLogs[i];
-    if (
-      !isObj(stockLog) ||
-      !has(stockLog, "costPrice", "itemId", "quantityDelta", "sellPrice", "type")
-    ) {
-      continue;
-    }
-
-    const type = String(stockLog.type);
-    stockLogs.push({
-      costPrice: Number(stockLog.costPrice),
-      createdAt: get(stockLog, "createdAt", date),
-      id: get(stockLog, "id", randomUUID()),
-      itemId: String(stockLog.itemId),
-      quantityDelta: Number(stockLog.quantityDelta),
-      sellPrice: Number(stockLog.sellPrice),
-      type: (stockLogTypes.includes(type) ? type : "adjustment") as StockLog["type"],
-    });
-  }
-
-  return { items, stockLogs };
+  return { items };
 };
 
 const insertBackupTransaction = async (payload: BackupPayload): Promise<void> => {
-  const { items: itemsData, stockLogs: stockLogsData } = payload;
+  const { items: itemsData } = payload;
 
   await db.transaction(async (tx) => {
     if (itemsData.length > 0) {
       await tx
         .insert(items)
         .values(itemsData as Item[])
-        .onConflictDoNothing();
-    }
-    if (stockLogsData.length > 0) {
-      await tx
-        .insert(stockLogs)
-        .values(stockLogsData as StockLog[])
         .onConflictDoNothing();
     }
   });
