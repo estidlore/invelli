@@ -5,6 +5,7 @@ import type { SQLiteRunResult } from "expo-sqlite";
 import { db } from "@/db/config";
 import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
+import { nowISO } from "@/utils";
 
 import type { SelectQuery } from "./types";
 
@@ -27,7 +28,7 @@ const insertItem = async (item: Omit<NewItem, "id">): Promise<SQLiteRunResult> =
 };
 
 const searchItems = (searchText: string): SelectQuery<typeof items> => {
-  const trimmed = searchText.trim().toLowerCase();
+  const trimmed = searchText.trim();
 
   if (trimmed.length === 0) {
     return db.select().from(items).orderBy(desc(items.updatedAt)).limit(20) as SelectQuery<
@@ -36,12 +37,15 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
   }
 
   const words = trimmed.split(/\s+/).filter(Boolean);
-  const conditions = words.map((word) => like(items.name, `%${word}%`));
+  const wordMatchConditions = words.map((word) =>
+    or(like(items.name, `%${word}%`), like(items.sku, `%${word}%`)),
+  );
+  const textMatchCondition = and(...wordMatchConditions);
 
   return db
     .select()
     .from(items)
-    .where(or(like(items.sku, `%${trimmed}%`), and(...conditions)))
+    .where(textMatchCondition)
     .orderBy(desc(items.updatedAt))
     .limit(20) as SelectQuery<typeof items>;
 };
@@ -49,7 +53,7 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
 const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRunResult> => {
   return await db
     .update(items)
-    .set({ ...data, updatedAt: new Date().toISOString() })
+    .set({ ...data, updatedAt: nowISO() })
     .where(eq(items.id, id));
 };
 
