@@ -55,7 +55,7 @@ const ItemFormScreen = (): React.JSX.Element => {
         name: values.name,
         quantity: parseInt(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
-        sku: values.sku,
+        sku: values.sku.length == 0 ? null : values.sku,
       };
 
       if (isEditMode && params.id) {
@@ -84,7 +84,7 @@ const ItemFormScreen = (): React.JSX.Element => {
             name: itemRecord.name,
             quantity: itemRecord.quantity.toString(),
             sellPrice: itemRecord.sellPrice.toString(),
-            sku: itemRecord.sku,
+            sku: itemRecord.sku ?? "",
           });
         }
       });
