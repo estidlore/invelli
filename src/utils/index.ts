@@ -30,4 +30,6 @@ const logError = (...error: unknown[]): void => {
   console.error(...error);
 };
 
-export { dateToFileName, dateToString, logError };
+const nowISO = (): string => new Date().toISOString();
+
+export { dateToFileName, dateToString, logError, nowISO };

@@ -8,7 +8,7 @@ import { useTranslation } from "@/core/language";
 import { useScanStore } from "@/core/scanner";
 import { useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
-import { dateToString, logError } from "@/utils";
+import { logError } from "@/utils";
 
 import { itemFormSchema } from "./schema";
 import { styles } from "./styles";
@@ -50,20 +50,18 @@ const ItemFormScreen = (): React.JSX.Element => {
       sku: "",
     },
     onSubmit: async (values) => {
-      const date = dateToString(new Date());
       const data = {
         costPrice: parseFloat(values.costPrice),
         name: values.name,
         quantity: parseInt(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
-        sku: values.sku,
-        updatedAt: date,
+        sku: values.sku.length == 0 ? null : values.sku,
       };
 
       if (isEditMode && params.id) {
         await updateItem(params.id, data);
       } else {
-        await insertItem({ ...data, createdAt: date });
+        await insertItem(data);
       }
 
       router.back();
@@ -86,7 +84,7 @@ const ItemFormScreen = (): React.JSX.Element => {
             name: itemRecord.name,
             quantity: itemRecord.quantity.toString(),
             sellPrice: itemRecord.sellPrice.toString(),
-            sku: itemRecord.sku,
+            sku: itemRecord.sku ?? "",
           });
         }
       });

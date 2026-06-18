@@ -18,9 +18,8 @@ module.exports = defineConfig([
     languageOptions: {
       parser: eslintParserTypescript,
       parserOptions: {
-        project: ["./tsconfig.json"],
+        projectService: true,
         sourceType: "module",
-        tsconfigRootDir: __dirname,
       },
     },
     rules: {

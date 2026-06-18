@@ -1,12 +1,12 @@
 import { File, Paths } from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
-import { getItems } from "@/db/queries";
+import { getItems, getTransactionItems, getTransactions } from "@/db/queries";
 import { dateToFileName } from "@/utils";
 
 import type { Backup } from "./types";
 
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const exportToJson = async (): Promise<void> => {
   const date = new Date();
@@ -14,6 +14,8 @@ const exportToJson = async (): Promise<void> => {
   const file = new File(Paths.cache, fileName);
 
   const items = await getItems();
+  const transactionItems = await getTransactionItems();
+  const transactions = await getTransactions();
 
   const backup: Backup = {
     metadata: {
@@ -22,6 +24,8 @@ const exportToJson = async (): Promise<void> => {
     },
     payload: {
       items,
+      transactionItems,
+      transactions,
     },
   };
   file.write(JSON.stringify(backup));
