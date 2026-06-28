@@ -11,6 +11,7 @@ const Button = ({
   activeOpacity = 0.5,
   children,
   icon,
+  iconSize = 20,
   style,
   ...otherProps
 }: ButtonProps): React.JSX.Element => {
@@ -22,7 +23,7 @@ const Button = ({
       activeOpacity={activeOpacity}
       style={[styles.container, { borderColor: colors.border }, style]}
     >
-      {icon === undefined ? null : <Icon name={icon} size={20} />}
+      {icon === undefined ? null : <Icon name={icon} size={iconSize} />}
       {children === undefined ? null : <Text>{children}</Text>}
     </TouchableOpacity>
   );

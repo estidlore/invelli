@@ -6,9 +6,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 12,
   },
-  hr: {
-    borderBottomWidth: 1,
-    marginVertical: 8,
+  title: {
+    marginBottom: 16,
   },
 });
 

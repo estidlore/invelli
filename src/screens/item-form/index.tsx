@@ -10,7 +10,7 @@ import { commonStyles, useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
 import { logError } from "@/utils";
 
-import { itemFormSchema } from "./schema";
+import { schema } from "./schema";
 import { styles } from "./styles";
 import { translations } from "./translations";
 
@@ -39,10 +39,10 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const { getFieldProps, isSubmitting, setValues, submit } = useForm({
     initialValues: {
-      costPrice: "0",
+      costPrice: "",
       name: "",
-      quantity: "0",
-      sellPrice: "0",
+      quantity: "",
+      sellPrice: "",
       sku: "",
     },
     onSubmit: async (values) => {
@@ -51,7 +51,7 @@ const ItemFormScreen = (): React.JSX.Element => {
         name: values.name,
         quantity: parseInt(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
-        sku: values.sku.length == 0 ? null : values.sku,
+        sku: values.sku,
       };
 
       if (isEditMode && params.id) {
@@ -62,7 +62,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
       router.back();
     },
-    schema: itemFormSchema,
+    schema,
   });
 
   const handleSubmit = (): void => {
@@ -129,21 +129,21 @@ const ItemFormScreen = (): React.JSX.Element => {
           />
           <Input
             label={t.label.quantity}
-            placeholder={"5"}
+            placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
             {...getFieldProps("quantity")}
           />
           <Input
             label={t.label.costPrice}
-            placeholder={"10.00"}
+            placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
             {...getFieldProps("costPrice")}
           />
           <Input
             label={t.label.sellPrice}
-            placeholder={"10.00"}
+            placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
             {...getFieldProps("sellPrice")}

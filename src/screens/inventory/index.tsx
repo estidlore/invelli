@@ -7,7 +7,7 @@ import { FlatList, View } from "react-native";
 import { Button, Input, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { useScanStore } from "@/core/scanner";
-import { commonStyles } from "@/core/theme";
+import { commonStyles, useColors } from "@/core/theme";
 import { searchItems } from "@/db";
 import { useDebounce } from "@/hooks/useDebounce";
 import { logError } from "@/utils";
@@ -18,11 +18,13 @@ import { translations } from "./translations";
 
 const InventoryScreen = (): React.JSX.Element => {
   const router = useRouter();
-  const t = useTranslation(translations);
   const { scannedBarcode } = useScanStore();
   const [searchInput, setSearchInput] = useState("");
   const searchText = useDebounce(searchInput, 400);
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
+
+  const t = useTranslation(translations);
+  const colors = useColors();
 
   const handleClearSearch = (): void => {
     setSearchInput("");
@@ -72,10 +74,13 @@ const InventoryScreen = (): React.JSX.Element => {
         />
         <Button icon={"xmark"} onPress={handleClearSearch} />
       </View>
-      <Button icon={"plus"} onPress={handleAdd} style={styles.addItem}>
-        {t.addItem}
-      </Button>
-      <ScrollView style={styles.list}>{renderItems()}</ScrollView>
+      {renderItems()}
+      <Button
+        icon={"plus"}
+        iconSize={40}
+        onPress={handleAdd}
+        style={[commonStyles.floatingBtn, { backgroundColor: colors.primary }]}
+      />
     </>
   );
 };

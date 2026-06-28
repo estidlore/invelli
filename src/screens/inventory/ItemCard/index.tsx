@@ -4,6 +4,7 @@ import { View } from "react-native";
 
 import { Button, Card, Icon, Text } from "@/components";
 import { createTranslations, useTranslation } from "@/core/language";
+import { dateTimeString } from "@/utils";
 
 import { styles } from "./styles";
 import type { ItemCardProps } from "./types";
@@ -62,7 +63,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
             </View>
             <View style={gridItemStyle}>
               <Text>{t.updatedAt}</Text>
-              <Text>{updatedAt}</Text>
+              <Text>{dateTimeString(new Date(updatedAt))}</Text>
             </View>
             <Button icon={"pencil"} onPress={handleEdit} style={styles.item}>
               {t.edit}
