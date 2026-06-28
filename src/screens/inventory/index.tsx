@@ -47,10 +47,10 @@ const InventoryScreen = (): React.JSX.Element => {
   const renderItems = (): OneOrMany<React.JSX.Element> => {
     if (itemsError) {
       logError("renderItems.itemsError", itemsError);
-      return <Text style={styles.searchError}>{t.itemsSearchError}</Text>;
+      return <Text style={commonStyles.textCenter}>{t.itemsSearchError}</Text>;
     }
     if (items.length === 0) {
-      return <Text style={styles.searchError}>{t.itemsNotFound}</Text>;
+      return <Text style={commonStyles.textCenter}>{t.itemsNotFound}</Text>;
     }
     return (
       <FlatList

@@ -23,4 +23,7 @@ const NAMES = {
   xmark: { android: "clear", ios: "xmark" },
 } as const;
 
+type IconName = keyof typeof NAMES;
+
+export type { IconName };
 export { NAMES };
