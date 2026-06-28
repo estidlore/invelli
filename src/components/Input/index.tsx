@@ -50,4 +50,5 @@ const Input = ({
   );
 };
 
+export type * from "./types";
 export { Input };

@@ -22,4 +22,5 @@ const Card = ({ children, onPress, style, title }: CardProps): React.JSX.Element
   );
 };
 
+export type * from "./types";
 export { Card };

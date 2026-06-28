@@ -28,4 +28,5 @@ const Button = ({
   );
 };
 
+export type * from "./types";
 export { Button };

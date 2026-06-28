@@ -46,4 +46,5 @@ const Alert = ({ children, hide = false, style, type }: AlertProps): React.JSX.E
   );
 };
 
+export type * from "./types";
 export { Alert };

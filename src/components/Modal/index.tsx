@@ -27,4 +27,5 @@ const Modal = ({ children, onClose, title, visible }: ModalProps): React.JSX.Ele
   );
 };
 
+export type * from "./types";
 export { Modal };

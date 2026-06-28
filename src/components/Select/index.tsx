@@ -62,4 +62,5 @@ const Select = <T extends SelectOption>({
   );
 };
 
+export type * from "./types";
 export { Select };
