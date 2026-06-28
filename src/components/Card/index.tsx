@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 import { Text } from "@/components/Text";
 import { useColors } from "@/core/theme";
@@ -13,13 +13,24 @@ const Card = ({ children, onPress, style, title }: CardProps): React.JSX.Element
     <TouchableOpacity
       activeOpacity={onPress === undefined ? 1 : 0.5}
       onPress={onPress}
-      style={[styles.container, { borderColor: colors.border }, style]}
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.card,
+          borderColor: colors.border,
+        },
+        style,
+      ]}
     >
-      <Text type={"subtitle"}>{title}</Text>
-      <View style={[styles.hr, { borderBottomColor: colors.border }]} />
+      {title === undefined ? null : (
+        <Text style={styles.title} type={"subtitle"}>
+          {title}
+        </Text>
+      )}
       {children}
     </TouchableOpacity>
   );
 };
 
+export type * from "./types";
 export { Card };

@@ -15,9 +15,9 @@ const TabsLayout = (): React.JSX.Element => {
         headerShown: false,
         sceneStyle: {
           backgroundColor: colors.background,
-          paddingLeft: insets.left + 10,
-          paddingRight: insets.right + 10,
-          paddingTop: insets.top + 10,
+          paddingLeft: insets.left + 16,
+          paddingRight: insets.right + 16,
+          paddingTop: insets.top + 16,
         },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.text,
@@ -25,6 +25,7 @@ const TabsLayout = (): React.JSX.Element => {
         tabBarStyle: {
           backgroundColor: colors.card,
           borderColor: colors.border,
+          borderTopWidth: 1,
           paddingTop: 8,
         },
       }}

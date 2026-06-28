@@ -8,7 +8,7 @@ const translations = createTranslations({
     nonnegative: "Must be a non-negative number",
     number: "Must be a valid number",
     positive: "Must be a positive number",
-    snakeOrKebab: "Must contain only letters, numbers, dashes, or underscores",
+    snakeOrKebab: "Only letters, numbers or dashes",
   },
   SPA: {
     int: "Debe ser un número entero",
@@ -17,7 +17,7 @@ const translations = createTranslations({
     nonnegative: "Debe ser un número mayor o igual a cero",
     number: "Debe ser un número válido",
     positive: "Debe ser un número positivo",
-    snakeOrKebab: "Debe contener solo letras, números, guiones o guiones bajos",
+    snakeOrKebab: "Solo letras, números o guiones",
   },
 });
 

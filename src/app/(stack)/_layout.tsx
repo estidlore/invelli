@@ -16,10 +16,10 @@ const StackLayout = (): React.JSX.Element => {
       style={[
         styles.container,
         {
-          paddingBottom: insets.bottom + 8,
+          paddingBottom: insets.bottom + 16,
           paddingLeft: insets.left + 16,
           paddingRight: insets.right + 16,
-          paddingTop: insets.top + 8,
+          paddingTop: insets.top + 16,
         },
       ]}
     >

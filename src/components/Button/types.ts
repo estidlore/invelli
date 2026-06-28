@@ -5,6 +5,7 @@ import type { IconName } from "@/components/Icon";
 interface ButtonProps extends TouchableOpacityProps {
   children?: string;
   icon?: IconName;
+  iconSize?: number;
 }
 
 export type { ButtonProps };

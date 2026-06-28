@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const itemFormSchema = z.object({
+import { nullableText } from "@/utils";
+
+const schema = z.object({
   costPrice: z.preprocess(
     (val) => (val === "" || val === undefined ? 0 : Number(val)),
     z.number("number").positive("positive"),
@@ -18,5 +20,8 @@ export const itemFormSchema = z.object({
     .string()
     .trim()
     .max(30, "max")
-    .regex(/^[A-Za-z0-9\-_]+$/, "snakeOrKebab"),
+    .regex(/^[A-Za-z0-9\-_]*$/, "snakeOrKebab")
+    .transform(nullableText),
 });
+
+export { schema };

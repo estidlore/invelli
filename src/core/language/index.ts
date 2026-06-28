@@ -15,6 +15,7 @@ const languages: LanguageInfo[] = [
 
 const createTranslations: <T extends Translation>(t: Translations<T>) => Translations<T> = identity;
 
+export type * from "./types";
 export * from "./store";
 export * from "./useTranslation";
 export { createTranslations, languages };

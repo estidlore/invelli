@@ -1,3 +1,3 @@
-import { ItemFormScreen } from "@/screens/stack/item-form";
+import { ItemFormScreen } from "@/screens/item-form";
 
 export default ItemFormScreen;

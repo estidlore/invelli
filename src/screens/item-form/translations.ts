@@ -12,8 +12,9 @@ const translations = createTranslations({
       sku: "Barcode",
     },
     placeholder: {
-      name: "Soda Coke 1.5L",
-      sku: "1234567890",
+      name: "Ex. Soda Coke 1.5L",
+      number: "Ex. 10",
+      sku: "Ex. 1234567890",
     },
     save: "Save",
   },
@@ -28,8 +29,9 @@ const translations = createTranslations({
       sku: "Código",
     },
     placeholder: {
-      name: "Gaseosa CocaCola 1.5L",
-      sku: "1234567890",
+      name: "Ej. Gaseosa CocaCola 1.5L",
+      number: "Ej. 10",
+      sku: "Ej. 1234567890",
     },
     save: "Guardar",
   },
