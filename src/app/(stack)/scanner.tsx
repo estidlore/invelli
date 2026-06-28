@@ -1,3 +1,3 @@
-import { ScannerScreen } from "@/screens/stack/scanner";
+import { ScannerScreen } from "@/screens/scanner";
 
 export default ScannerScreen;
