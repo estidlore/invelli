@@ -6,7 +6,7 @@ import { Button, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { useScanStore } from "@/core/scanner";
-import { useColors } from "@/core/theme";
+import { commonStyles, useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
 import { logError } from "@/utils";
 
@@ -34,11 +34,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const handleDelete = (): void => {
     if (!params.id) return;
-    deleteItem(params.id)
-      .then(() => {
-        router.back();
-      })
-      .catch(logError);
+    deleteItem(params.id).then(handleBack).catch(logError);
   };
 
   const { getFieldProps, isSubmitting, setValues, submit } = useForm({
@@ -99,7 +95,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   if (isPending) {
     return (
-      <View style={styles.loadingWrapper}>
+      <View style={commonStyles.center}>
         <ActivityIndicator color={colors.primary} size={"large"} />
       </View>
     );
@@ -107,7 +103,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   return (
     <>
-      <View style={styles.header}>
+      <View style={commonStyles.header}>
         <Text type={"title"}>{isEditMode ? t.editItem : t.addItem}</Text>
         <Button icon={"xmark"} onPress={handleBack} />
       </View>
@@ -115,13 +111,13 @@ const ItemFormScreen = (): React.JSX.Element => {
       <ScrollView>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.keyboardAvoiding}
+          style={commonStyles.grow}
         >
           <View style={styles.skuRow}>
             <Button icon={"qrcode"} onPress={handleScan} />
             <Input
               placeholder={t.placeholder.sku}
-              style={styles.skuInput}
+              style={commonStyles.grow}
               {...getFieldProps("sku")}
             />
           </View>
@@ -159,7 +155,7 @@ const ItemFormScreen = (): React.JSX.Element => {
             disabled={isSubmitting}
             icon={"check"}
             onPress={handleSubmit}
-            style={[styles.save, { backgroundColor: colors.primary }]}
+            style={[commonStyles.grow, { backgroundColor: colors.primary }]}
           >
             {t.save}
           </Button>

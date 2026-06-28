@@ -1,9 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  card: {
-    marginVertical: 4,
-  },
   grid: {
     alignItems: "flex-start",
     display: "flex",

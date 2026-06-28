@@ -4,9 +4,6 @@ const styles = StyleSheet.create({
   addItem: {
     marginBottom: 16,
   },
-  list: {
-    flex: 1,
-  },
   searchBar: {
     display: "flex",
     flexDirection: "row",
@@ -15,9 +12,6 @@ const styles = StyleSheet.create({
   },
   searchError: {
     textAlign: "center",
-  },
-  searchInput: {
-    flexGrow: 1,
   },
 });
 

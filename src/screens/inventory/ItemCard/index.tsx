@@ -40,7 +40,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   };
 
   return (
-    <Card onPress={toggleExpanded} style={styles.card} title={name}>
+    <Card onPress={toggleExpanded} title={name}>
       <View style={styles.grid}>
         <View style={gridItemStyle}>
           <Icon name={"dollar"} />

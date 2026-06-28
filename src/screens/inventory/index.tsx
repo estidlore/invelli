@@ -2,11 +2,12 @@ import type { OneOrMany } from "drizzle-orm";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 import { Button, Input, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { useScanStore } from "@/core/scanner";
+import { commonStyles } from "@/core/theme";
 import { searchItems } from "@/db";
 import { useDebounce } from "@/hooks/useDebounce";
 import { logError } from "@/utils";
@@ -49,7 +50,14 @@ const InventoryScreen = (): React.JSX.Element => {
     if (items.length === 0) {
       return <Text style={styles.searchError}>{t.itemsNotFound}</Text>;
     }
-    return items.map((item) => <ItemCard item={item} key={item.id} />);
+    return (
+      <FlatList
+        contentContainerStyle={commonStyles.listContent}
+        data={items}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
+      />
+    );
   };
 
   return (
@@ -59,7 +67,7 @@ const InventoryScreen = (): React.JSX.Element => {
         <Input
           onChange={setSearchInput}
           placeholder={t.searchPlaceholder}
-          style={styles.searchInput}
+          style={commonStyles.grow}
           value={searchInput}
         />
         <Button icon={"xmark"} onPress={handleClearSearch} />
