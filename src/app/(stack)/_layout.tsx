@@ -1,12 +1,8 @@
 import { Stack } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+import { commonStyles } from "@/core/theme";
 
 const StackLayout = (): React.JSX.Element => {
   const insets = useSafeAreaInsets();
@@ -14,7 +10,7 @@ const StackLayout = (): React.JSX.Element => {
   return (
     <View
       style={[
-        styles.container,
+        commonStyles.grow,
         {
           paddingBottom: insets.bottom + 16,
           paddingLeft: insets.left + 16,

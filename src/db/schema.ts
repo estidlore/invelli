@@ -21,7 +21,7 @@ const transactions = sqliteTable("transactions", {
   notes: text("notes"),
   reason: text("reason")
     .$type<
-      "DAMAGE" | "FOUND" | "MISSING" | "PURCHASE" | "PURCHASE_RETURN" | "SALE" | "SALE_RETURN"
+      "DAMAGE" | "FOUND" | "MISSING" | "PURCHASE_RETURN" | "PURCHASE" | "SALE_RETURN" | "SALE"
     >()
     .notNull(),
   type: text("type").$type<"IN" | "OUT">().notNull(),

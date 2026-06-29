@@ -4,6 +4,8 @@
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const NAMES = {
+  arrowUp: { android: "arrow-upward", ios: "arrow.up" },
+  arrowDown: { android: "arrow-downward", ios: "arrow.down" },
   bell: { android: "notifications", ios: "bell.fill" },
   check: { android: "check", ios: "checkmark" },
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
@@ -11,10 +13,14 @@ const NAMES = {
   error: { android: "clear", ios: "xmark" },
   inventory: { android: "inventory", ios: "archivebox.fill" },
   key: { android: "key", ios: "key.fill" },
+  minusSquare: { android: "indeterminate-check-box", ios: "minus.square.fill" },
   number: { android: "numbers", ios: "number" },
   pencil: { android: "edit", ios: "pencil" },
   plus: { android: "add", ios: "plus" },
+  plusSquare: { android: "add-box", ios: "plus.square.fill" },
+  arrowUpLeft: { android: "north-west", ios: "arrow.up.left" },
   qrcode: { android: "qr-code", ios: "qrcode" },
+  arrowDownRight: { android: "south-east", ios: "arrow.down.right" },
   search: { android: "search", ios: "magnifyingglass" },
   settings: { android: "settings", ios: "gearshape.fill" },
   success: { android: "check", ios: "checkmark" },

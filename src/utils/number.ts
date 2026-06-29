@@ -1,5 +1,6 @@
 const formatter = new Intl.NumberFormat(undefined, {
   currency: "USD",
+  minimumFractionDigits: 0,
   style: "currency",
 });
 

@@ -68,7 +68,7 @@ const sanitizeTransactions = (rawTransactions: unknown[] = []): NewTransaction[]
     if (!TX_TYPES.includes(txType)) {
       continue;
     }
-    const txReason = get(transaction, "reason") as Transaction["reason"];
+    const txReason = get<Transaction["reason"]>(transaction, "reason");
 
     transactions.push({
       createdAt: get(transaction, "createdAt"),

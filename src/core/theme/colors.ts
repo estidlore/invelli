@@ -1,8 +1,9 @@
 type ThemeName = "dark" | "light";
-type ThemeColors =
+type ThemeColor =
   | "background"
   | "bgDisabled"
   | "bgError"
+  | "bgInfo"
   | "bgSuccess"
   | "bgWarning"
   | "border"
@@ -14,16 +15,18 @@ type ThemeColors =
   | "text2"
   | "textDisabled"
   | "textError"
+  | "textInfo"
   | "textSuccess"
   | "textWarning";
 
-type Theme = Record<ThemeColors, string>;
+type Theme = Record<ThemeColor, string>;
 
 const COLORS: Record<ThemeName, Theme> = {
   dark: {
     background: "#0b0c0e", // hsl(220, 10%, 5%)
     bgDisabled: "#2e3138", // hsl(220, 10%, 20%)
     bgError: "#2d0606", // hsl(0, 75%, 10%)
+    bgInfo: "#06062d", // hsl(240, 75%, 10%)
     bgSuccess: "#062d06", // hsl(120, 75%, 10%)
     bgWarning: "#2d2d06", // hsl(60, 75%, 10%)
     border: "#22252a", // hsl(220, 10%, 15%)
@@ -35,6 +38,7 @@ const COLORS: Record<ThemeName, Theme> = {
     text2: "#abb0ba", // hsl(220, 10%, 70%)
     textDisabled: "#737b8c", // hsl(220, 10%, 50%)
     textError: "#f2a6a6", // hsl(0, 75%, 80%)
+    textInfo: "#a6a6f2", // hsl(240, 75%, 80%)
     textSuccess: "#a6f2a6", // hsl(120, 75%, 80%)
     textWarning: "#f2f2a6", // hsl(60, 75%, 80%)
   },
@@ -42,6 +46,7 @@ const COLORS: Record<ThemeName, Theme> = {
     background: "#f1f2f4", // hsl(220, 10%, 95%)
     bgDisabled: "#c7cad1", // hsl(220, 10%, 80%)
     bgError: "#f9d2d2", // hsl(0, 75%, 90%)
+    bgInfo: "#d2d2f9", // hsl(240, 75%, 90%)
     bgSuccess: "#d2f9d2", // hsl(120, 75%, 90%)
     bgWarning: "#f9f9d2", // hsl(60, 75%, 90%)
     border: "#d5d7dd", // hsl(220, 10%, 85%)
@@ -53,10 +58,11 @@ const COLORS: Record<ThemeName, Theme> = {
     text2: "#454a54", // hsl(220, 10%, 30%)
     textDisabled: "#737b8c", // hsl(220, 10%, 50%)
     textError: "#590d0d", // hsl(0, 75%, 20%)
+    textInfo: "#0d0d59", // hsl(240, 75%, 20%)
     textSuccess: "#0d590d", // hsl(120, 75%, 20%)
     textWarning: "#59590d", // hsl(60, 75%, 20%)
   },
 };
 
-export type { Theme, ThemeColors, ThemeName };
+export type { Theme, ThemeColor, ThemeName };
 export { COLORS };
