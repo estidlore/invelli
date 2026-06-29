@@ -1,11 +1,12 @@
 import { randomUUID } from "expo-crypto";
 import * as DocumentPicker from "expo-document-picker";
 import { File } from "expo-file-system";
-import { any, get, has, isObj, vals } from "litus";
+import { any, get, has, isObj, none, vals } from "litus";
 
+import { DEFAULT_REASON_BY_TYPE, TX_REASONS, TX_TYPES } from "@/db/constants";
 import { insertBackup } from "@/db/queries";
 import type { InsertBackupData } from "@/db/queries";
-import type { NewItem, NewTransaction, NewTransactionItem } from "@/db/schema";
+import type { NewItem, NewTransaction, NewTransactionItem, Transaction } from "@/db/schema";
 
 import type { Backup, BackupPayload } from "./types";
 
@@ -32,17 +33,21 @@ const sanitizeItems = (rawItems: unknown[]): NewItem[] => {
 
   for (let i = 0; i < rawItems.length; i++) {
     const item = rawItems[i];
-    if (!isObj(item) || !has(item, "costPrice", "name", "sellPrice")) {
+    if (
+      !isObj(item) ||
+      !has(item, "name", "sellPrice") ||
+      none(["buyPrice", "costPrice"], (el) => has(item, el))
+    ) {
       continue;
     }
 
     items.push({
-      costPrice: Number(item.costPrice),
+      buyPrice: get(item, "buyPrice") ?? get(item, "costPrice"),
       createdAt: get(item, "createdAt"),
       id: get(item, "id") ?? randomUUID(),
-      name: String(item.name),
+      name: item.name as string,
       quantity: get(item, "quantity"),
-      sellPrice: Number(item.sellPrice),
+      sellPrice: item.sellPrice as number,
       sku: get(item, "sku"),
       updatedAt: get(item, "updatedAt"),
     });
@@ -53,20 +58,24 @@ const sanitizeItems = (rawItems: unknown[]): NewItem[] => {
 
 const sanitizeTransactions = (rawTransactions: unknown[] = []): NewTransaction[] => {
   const transactions: NewTransaction[] = [];
-  const transactionTypes: NewTransaction["type"][] = ["adjustment", "purchase", "sale"];
-
   for (let i = 0; i < rawTransactions.length; i++) {
     const transaction = rawTransactions[i];
     if (!isObj(transaction) || !has(transaction, "type")) {
       continue;
     }
 
-    const type = String(transaction.type) as NewTransaction["type"];
+    const txType = transaction.type as Transaction["type"];
+    if (!TX_TYPES.includes(txType)) {
+      continue;
+    }
+    const txReason = get(transaction, "reason") as Transaction["reason"];
+
     transactions.push({
       createdAt: get(transaction, "createdAt"),
       id: get(transaction, "id"),
       notes: get(transaction, "notes"),
-      type: transactionTypes.includes(type) ? type : "adjustment",
+      reason: TX_REASONS.includes(txReason) ? txReason : DEFAULT_REASON_BY_TYPE[txType],
+      type: txType,
       updatedAt: get(transaction, "updatedAt"),
     });
   }
@@ -79,18 +88,16 @@ const sanitizeTransactionItems = (rawTransactionItems: unknown[] = []): NewTrans
 
   for (let i = 0; i < rawTransactionItems.length; i++) {
     const transactionItem = rawTransactionItems[i];
-    if (
-      !isObj(transactionItem) ||
-      !has(transactionItem, "itemId", "quantityDelta", "transactionId")
-    ) {
+    if (!isObj(transactionItem) || !has(transactionItem, "itemId", "quantity", "transactionId")) {
       continue;
     }
 
     transactionItems.push({
-      costPrice: get(transactionItem, "costPrice"),
+      buyPrice: get(transactionItem, "buyPrice"),
+      createdAt: get(transactionItem, "createdAt"),
       id: get(transactionItem, "id"),
-      itemId: String(transactionItem.itemId),
-      quantityDelta: Number(transactionItem.quantityDelta),
+      itemId: transactionItem.itemId as string,
+      quantity: transactionItem.quantity as number,
       sellPrice: get(transactionItem, "sellPrice"),
       transactionId: String(transactionItem.transactionId),
       updatedAt: get(transactionItem, "updatedAt"),

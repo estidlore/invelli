@@ -39,7 +39,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const { getFieldProps, isSubmitting, setValues, submit } = useForm({
     initialValues: {
-      costPrice: "",
+      buyPrice: "",
       name: "",
       quantity: "",
       sellPrice: "",
@@ -47,7 +47,7 @@ const ItemFormScreen = (): React.JSX.Element => {
     },
     onSubmit: async (values) => {
       const data = {
-        costPrice: parseFloat(values.costPrice),
+        buyPrice: parseFloat(values.buyPrice),
         name: values.name,
         quantity: parseInt(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
@@ -76,7 +76,7 @@ const ItemFormScreen = (): React.JSX.Element => {
         const itemRecord = await findItem(params.id);
         if (itemRecord) {
           setValues({
-            costPrice: itemRecord.costPrice.toString(),
+            buyPrice: itemRecord.buyPrice.toString(),
             name: itemRecord.name,
             quantity: itemRecord.quantity.toString(),
             sellPrice: itemRecord.sellPrice.toString(),
@@ -135,11 +135,11 @@ const ItemFormScreen = (): React.JSX.Element => {
             {...getFieldProps("quantity")}
           />
           <Input
-            label={t.label.costPrice}
+            label={t.label.buyPrice}
             placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
-            {...getFieldProps("costPrice")}
+            {...getFieldProps("buyPrice")}
           />
           <Input
             label={t.label.sellPrice}

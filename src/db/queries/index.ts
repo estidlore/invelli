@@ -13,7 +13,7 @@ const insertBackup = async (data: InsertBackupData): Promise<void> => {
         .values(data.items)
         .onConflictDoUpdate({
           set: {
-            costPrice: sql`excluded.cost_price`,
+            buyPrice: sql`excluded.buy_price`,
             createdAt: sql`excluded.created_at`,
             name: sql`excluded.name`,
             quantity: sql`excluded.quantity`,
@@ -33,6 +33,7 @@ const insertBackup = async (data: InsertBackupData): Promise<void> => {
           set: {
             createdAt: sql`excluded.created_at`,
             notes: sql`excluded.notes`,
+            reason: sql`excluded.reason`,
             type: sql`excluded.type`,
             updatedAt: sql`excluded.updated_at`,
           },
@@ -46,9 +47,10 @@ const insertBackup = async (data: InsertBackupData): Promise<void> => {
         .values(data.transactionItems)
         .onConflictDoUpdate({
           set: {
-            costPrice: sql`excluded.cost_price`,
+            buyPrice: sql`excluded.buy_price`,
+            createdAt: sql`excluded.created_at`,
             itemId: sql`excluded.item_id`,
-            quantityDelta: sql`excluded.quantity_delta`,
+            quantity: sql`excluded.quantity`,
             sellPrice: sql`excluded.sell_price`,
             transactionId: sql`excluded.transaction_id`,
             updatedAt: sql`excluded.updated_at`,

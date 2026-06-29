@@ -26,7 +26,7 @@ const translations = createTranslations({
 
 const gridItemStyle = [styles.grid, styles.item];
 const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
-  const { costPrice, quantity, name, sellPrice, sku, updatedAt } = item;
+  const { buyPrice, quantity, name, sellPrice, sku, updatedAt } = item;
   const [expanded, toggleExpanded] = useReducer((val) => !val, false);
   const t = useTranslation(translations);
   const router = useRouter();
@@ -59,7 +59,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
             </View>
             <View style={gridItemStyle}>
               <Text>{t.cost}</Text>
-              <Text>{costPrice}</Text>
+              <Text>{buyPrice}</Text>
             </View>
             <View style={gridItemStyle}>
               <Text>{t.updatedAt}</Text>

@@ -1,9 +1,11 @@
+ALTER TABLE `items` RENAME COLUMN "cost_price" TO "buy_price";--> statement-breakpoint
 CREATE TABLE `transaction_items` (
-	`cost_price` integer NOT NULL,
+	`buy_price` integer,
+	`created_at` text NOT NULL,
 	`id` text PRIMARY KEY NOT NULL,
 	`item_id` text NOT NULL,
-	`quantity_delta` integer NOT NULL,
-	`sell_price` integer NOT NULL,
+	`quantity` integer NOT NULL,
+	`sell_price` integer,
 	`transaction_id` text NOT NULL,
 	`updated_at` text NOT NULL,
 	FOREIGN KEY (`item_id`) REFERENCES `items`(`id`) ON UPDATE no action ON DELETE restrict,
@@ -14,6 +16,7 @@ CREATE TABLE `transactions` (
 	`created_at` text NOT NULL,
 	`id` text PRIMARY KEY NOT NULL,
 	`notes` text,
+	`reason` text NOT NULL,
 	`type` text NOT NULL,
 	`updated_at` text NOT NULL
 );

@@ -1,14 +1,14 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f6f3244a-28ae-4e49-a1e5-23d1b96545ba",
+  "id": "5fc06dbe-1099-466b-8b92-4853424c6930",
   "prevId": "7ba8fe38-fd79-4fc7-ac07-0cada2e7b2f6",
   "tables": {
     "items": {
       "name": "items",
       "columns": {
-        "cost_price": {
-          "name": "cost_price",
+        "buy_price": {
+          "name": "buy_price",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -84,9 +84,16 @@
     "transaction_items": {
       "name": "transaction_items",
       "columns": {
-        "cost_price": {
-          "name": "cost_price",
+        "buy_price": {
+          "name": "buy_price",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -105,8 +112,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "quantity_delta": {
-          "name": "quantity_delta",
+        "quantity": {
+          "name": "quantity",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -116,7 +123,7 @@
           "name": "sell_price",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "transaction_id": {
@@ -191,6 +198,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "type": {
           "name": "type",
           "type": "text",
@@ -218,7 +232,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"items\".\"cost_price\"": "\"items\".\"buy_price\""
+    }
   },
   "internal": {
     "indexes": {}

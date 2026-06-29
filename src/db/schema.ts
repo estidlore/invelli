@@ -5,36 +5,42 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nowISO } from "@/utils";
 
 const items = sqliteTable("items", {
-  costPrice: integer("cost_price").notNull().default(0),
+  buyPrice: integer("buy_price").notNull(),
   createdAt: text("created_at").$defaultFn(nowISO).notNull(),
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   quantity: integer("quantity").notNull().default(0),
-  sellPrice: integer("sell_price").notNull().default(0),
+  sellPrice: integer("sell_price").notNull(),
   sku: text("sku").unique(),
-  updatedAt: text("updated_at").$defaultFn(nowISO).notNull(),
+  updatedAt: text("updated_at").$defaultFn(nowISO).$onUpdateFn(nowISO).notNull(),
 });
 
 const transactions = sqliteTable("transactions", {
   createdAt: text("created_at").$defaultFn(nowISO).notNull(),
   id: text("id").primaryKey(),
   notes: text("notes"),
-  type: text("type").$type<"adjustment" | "purchase" | "sale">().notNull(),
-  updatedAt: text("updated_at").$defaultFn(nowISO).notNull(),
+  reason: text("reason")
+    .$type<
+      "DAMAGE" | "FOUND" | "MISSING" | "PURCHASE" | "PURCHASE_RETURN" | "SALE" | "SALE_RETURN"
+    >()
+    .notNull(),
+  type: text("type").$type<"IN" | "OUT">().notNull(),
+  updatedAt: text("updated_at").$defaultFn(nowISO).$onUpdateFn(nowISO).notNull(),
 });
 
 const transactionItems = sqliteTable("transaction_items", {
-  costPrice: integer("cost_price").notNull(),
+  buyPrice: integer("buy_price"),
+  createdAt: text("created_at").$defaultFn(nowISO).notNull(),
   id: text("id").primaryKey(),
   itemId: text("item_id")
     .notNull()
     .references(() => items.id, { onDelete: "restrict" }),
-  quantityDelta: integer("quantity_delta").notNull(),
-  sellPrice: integer("sell_price").notNull(),
+  quantity: integer("quantity").notNull(),
+  sellPrice: integer("sell_price"),
   transactionId: text("transaction_id")
     .notNull()
     .references(() => transactions.id, { onDelete: "cascade" }),
-  updatedAt: text("updated_at").$defaultFn(nowISO).notNull(),
+  updatedAt: text("updated_at").$defaultFn(nowISO).$onUpdateFn(nowISO).notNull(),
 });
 
 const itemsRelations = relations(items, ({ many }) => ({

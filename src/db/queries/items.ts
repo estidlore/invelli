@@ -5,7 +5,6 @@ import type { SQLiteRunResult } from "expo-sqlite";
 import { db } from "@/db/config";
 import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
-import { nowISO } from "@/utils";
 
 import type { SelectQuery } from "./types";
 
@@ -51,10 +50,7 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
 };
 
 const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRunResult> => {
-  return await db
-    .update(items)
-    .set({ ...data, updatedAt: nowISO() })
-    .where(eq(items.id, id));
+  return await db.update(items).set(data).where(eq(items.id, id));
 };
 
 export { deleteItem, findItem, getItems, insertItem, searchItems, updateItem };

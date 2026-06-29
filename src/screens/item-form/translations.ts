@@ -5,7 +5,7 @@ const translations = createTranslations({
     addItem: "Add item",
     editItem: "Edit item",
     label: {
-      costPrice: "Cost",
+      buyPrice: "Cost",
       name: "Name",
       quantity: "Quantity",
       sellPrice: "Sell price",
@@ -22,7 +22,7 @@ const translations = createTranslations({
     addItem: "Agregar artículo",
     editItem: "Editar artículo",
     label: {
-      costPrice: "Costo",
+      buyPrice: "Costo",
       name: "Nombre",
       quantity: "Cantidad",
       sellPrice: "Precio de venta",
