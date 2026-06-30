@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { View } from "react-native";
 
 import { Card, Icon, Text } from "@/components";
@@ -12,15 +13,23 @@ import type { TransactionCardProps } from "./types";
 
 const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   const { createdAt, notes, reason: txReason, type: txType, transactionItems: txItems } = data;
+  const router = useRouter();
   const t = useTranslation(translations);
   const colors = useColors();
+
+  const handleClick = (): void => {
+    router.push({
+      params: { id: data.id },
+      pathname: "/transaction-detail",
+    });
+  };
 
   const sellPrice = txItems.reduce((acc, el) => acc + (el.sellPrice ?? 0) * el.quantity, 0);
   const buyPrice = txItems.reduce((acc, el) => acc + (el.buyPrice ?? 0) * el.quantity, 0);
   const price = sellPrice === 0 ? buyPrice : sellPrice;
 
   return (
-    <Card>
+    <Card onPress={handleClick}>
       <View style={commonStyles.column}>
         <View style={commonStyles.row}>
           <Icon
