@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface ScanState {
   scannedBarcode: string | null;
-  setScannedBarcode: (barcode: string) => void;
+  setScannedBarcode: (barcode: string | null) => void;
 }
 
 const useScanStore = create<ScanState>((set) => ({

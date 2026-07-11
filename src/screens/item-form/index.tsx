@@ -5,9 +5,9 @@ import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } f
 import { Button, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
-import { useScanStore } from "@/core/scanner";
 import { commonStyles, useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
+import { useScanStore } from "@/screens/scanner/store";
 import { logError } from "@/utils";
 
 import { schema } from "./schema";
@@ -19,7 +19,7 @@ const ItemFormScreen = (): React.JSX.Element => {
   const params = useLocalSearchParams<{ id?: string }>();
   const isEditMode = !!params.id;
   const [isPending, startTransition] = useTransition();
-  const { scannedBarcode } = useScanStore();
+  const scannedBarcode = useScanStore((state) => state.scannedBarcode);
 
   const colors = useColors();
   const t = useTranslation(translations);

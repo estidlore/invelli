@@ -6,10 +6,10 @@ import { FlatList, View } from "react-native";
 
 import { Button, Input, Text } from "@/components";
 import { useTranslation } from "@/core/language";
-import { useScanStore } from "@/core/scanner";
 import { commonStyles, useColors } from "@/core/theme";
 import { searchItems } from "@/db";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useScanStore } from "@/screens/scanner/store";
 import { logError } from "@/utils";
 
 import { ItemCard } from "./ItemCard";
@@ -18,7 +18,7 @@ import { translations } from "./translations";
 
 const InventoryScreen = (): React.JSX.Element => {
   const router = useRouter();
-  const { scannedBarcode } = useScanStore();
+  const scannedBarcode = useScanStore((state) => state.scannedBarcode);
   const [searchInput, setSearchInput] = useState("");
   const searchText = useDebounce(searchInput, 400);
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
