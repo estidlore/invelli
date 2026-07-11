@@ -8,7 +8,7 @@ import { Button, Input, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import { searchItems } from "@/db";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useDebounce } from "@/hooks";
 import { useScanStore } from "@/screens/scanner/store";
 import { logError } from "@/utils";
 
