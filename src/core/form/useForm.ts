@@ -15,11 +15,11 @@ const getErrorTranslation = (t: Translation, issue: z.core.$ZodIssue): string =>
 
 // eslint-disable-next-line max-lines-per-function
 const useForm = <T extends Record<string, unknown>>({
-  initialValues,
   onSubmit,
   schema,
-}: UseFormOptions<T>): FormState<T> => {
-  const [values, setValues] = useState<T>(initialValues);
+  setValues,
+  values,
+}: UseFormOptions<T>): FormState => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -81,7 +81,7 @@ const useForm = <T extends Record<string, unknown>>({
     value: get(values, field),
   });
 
-  return { getFieldProps, isSubmitting, setValues, submit };
+  return { getFieldProps, isSubmitting, submit };
 };
 
 export { useForm };

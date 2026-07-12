@@ -2,10 +2,11 @@ import type { ZodObject, ZodType } from "zod";
 
 type ZodSchema<T> = ZodObject<Record<keyof T, ZodType>>;
 
-interface UseFormOptions<T extends Record<string, unknown>> {
-  initialValues: T;
+interface UseFormOptions<T> {
   onSubmit: (values: T) => Promise<void>;
   schema: ZodSchema<T>;
+  setValues: (values: T) => void;
+  values: T;
 }
 
 interface FieldProps<V = string> {
@@ -18,11 +19,10 @@ interface FieldProps<V = string> {
   value: V;
 }
 
-interface FormState<T extends Record<string, unknown>> {
+interface FormState {
   getFieldProps: <V>(field: string) => FieldProps<V>;
   isSubmitting: boolean;
-  setValues: React.Dispatch<React.SetStateAction<T>>;
   submit: () => Promise<void>;
 }
 
-export type { FieldProps, FormState, UseFormOptions };
+export type { FieldProps, FormState, UseFormOptions, ZodSchema };

@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
 import { Button, ConfirmationButton, Input, Text } from "@/components";
@@ -21,6 +21,13 @@ const ItemFormScreen = (): React.JSX.Element => {
   const [isPending, startTransition] = useTransition();
   const scannedBarcode = useScanStore((state) => state.scannedBarcode);
 
+  const [values, setValues] = useState({
+    costPrice: "",
+    name: "",
+    quantity: "",
+    sellPrice: "",
+    sku: "",
+  });
   const colors = useColors();
   const t = useTranslation(translations);
 
@@ -37,14 +44,7 @@ const ItemFormScreen = (): React.JSX.Element => {
     deleteItem(params.id).then(handleBack).catch(logError);
   };
 
-  const { getFieldProps, isSubmitting, setValues, submit } = useForm({
-    initialValues: {
-      costPrice: "",
-      name: "",
-      quantity: "",
-      sellPrice: "",
-      sku: "",
-    },
+  const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
       const data = {
         costPrice: parseFloat(values.costPrice),
@@ -63,6 +63,8 @@ const ItemFormScreen = (): React.JSX.Element => {
       router.back();
     },
     schema,
+    setValues,
+    values,
   });
 
   const handleSubmit = (): void => {
