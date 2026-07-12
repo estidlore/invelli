@@ -1,9 +1,9 @@
-import { get, omit, template } from "litus";
+import { copy, get, keys, set, size, template } from "litus";
 import { useState } from "react";
 import type { z } from "zod";
 
-import { useTranslation } from "@/core/language";
 import type { Translation } from "@/core/language";
+import { useTranslation } from "@/core/language";
 
 import { translations } from "./translations";
 import type { FieldProps, FormState, UseFormOptions } from "./types";
@@ -21,41 +21,38 @@ const useForm = <T extends Record<string, unknown>>({
 }: UseFormOptions<T>): FormState<T> => {
   const [values, setValues] = useState<T>(initialValues);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
-  const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const t = useTranslation(translations);
 
-  const validateField = (field: keyof T, value: unknown): void => {
-    const fieldSchema = schema.shape[field];
-    if (!fieldSchema) return;
+  const validateForm = (data: T = values): Record<string, string> => {
+    const result = schema.safeParse(data);
+    const newErrors: Record<string, string> = {};
 
-    const result = fieldSchema.safeParse(value);
-    if (result.success) {
-      setErrors((prev) => omit(prev, [field]) as Partial<Record<keyof T, string>>);
-    } else {
-      const errMsg = getErrorTranslation(t, result.error.issues[0]);
-      setErrors((prev) => ({ ...prev, [field]: errMsg }));
+    if (!result.success) {
+      result.error.issues.forEach((err) => {
+        const path = err.path.join(".");
+        if (!newErrors[path]) {
+          newErrors[path] = getErrorTranslation(t, err);
+        }
+      });
     }
+
+    setErrors(newErrors);
+    return newErrors;
   };
 
   const submit = async (): Promise<void> => {
     setIsSubmitting(true);
-    const result = schema.safeParse(values);
+    const newErrors = validateForm();
 
-    if (!result.success) {
-      const newErrors: Partial<Record<keyof T, string>> = {};
-      const newTouched: Partial<Record<keyof T, boolean>> = {};
+    if (size(newErrors) > 0) {
+      const allTouched = keys(newErrors).reduce<Record<string, boolean>>((acc, path) => {
+        acc[path] = true;
+        return acc;
+      }, {});
 
-      result.error.issues.forEach((err): void => {
-        const path = err.path[0] as keyof T;
-        if (!newErrors[path]) {
-          newErrors[path] = getErrorTranslation(t, err);
-        }
-        newTouched[path] = true;
-      });
-
-      setErrors(newErrors);
-      setTouched(newTouched);
+      setTouched(allTouched);
       setIsSubmitting(false);
       return;
     }
@@ -67,22 +64,21 @@ const useForm = <T extends Record<string, unknown>>({
     }
   };
 
-  const getFieldProps = <K extends keyof T>(field: K): FieldProps<T, K> => ({
+  const getFieldProps = <V = string>(field: string): FieldProps<V> => ({
     meta: {
       error: errors[field],
       touched: !!touched[field],
     },
     onBlur: (): void => {
       setTouched((prev) => ({ ...prev, [field]: true }));
-      validateField(field, values[field]);
+      validateForm();
     },
     onChange: (value: string): void => {
-      setValues((prev) => ({ ...prev, [field]: value }));
-      if (touched[field]) {
-        validateField(field, value);
-      }
+      const newValues = set(copy(values), field, value);
+      setValues(newValues);
+      validateForm(newValues);
     },
-    value: values[field],
+    value: get(values, field),
   });
 
   return { getFieldProps, isSubmitting, setValues, submit };
