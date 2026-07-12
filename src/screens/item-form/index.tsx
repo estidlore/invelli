@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, Input, Text } from "@/components";
+import { Button, ConfirmationButton, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -159,7 +159,9 @@ const ItemFormScreen = (): React.JSX.Element => {
           >
             {t.save}
           </Button>
-          {isEditMode && <Button icon={"trash"} onPress={handleDelete} />}
+          {isEditMode && (
+            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
+          )}
         </View>
       </ScrollView>
     </>
