@@ -8,7 +8,7 @@ import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
 import { useScanStore } from "@/screens/scanner/store";
-import { logError } from "@/utils";
+import { NUM_FORMATS, logError } from "@/utils";
 
 import { schema } from "./schema";
 import { styles } from "./styles";
@@ -76,10 +76,10 @@ const ItemFormScreen = (): React.JSX.Element => {
         const itemRecord = await findItem(params.id);
         if (itemRecord) {
           setValues({
-            costPrice: itemRecord.costPrice.toString(),
+            costPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.costPrice),
             name: itemRecord.name,
-            quantity: itemRecord.quantity.toString(),
-            sellPrice: itemRecord.sellPrice.toString(),
+            quantity: NUM_FORMATS.FORM_QUANTITY.format(itemRecord.quantity),
+            sellPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.sellPrice),
             sku: itemRecord.sku ?? "",
           });
         }

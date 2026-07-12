@@ -38,7 +38,7 @@ const commonStyles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    gap: 8,
+    gap: 16,
     justifyContent: "space-between",
   },
   textCenter: {

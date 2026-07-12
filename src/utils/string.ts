@@ -1,5 +1,5 @@
-const nullableText = (str: string): string | null => {
-  return str.length === 0 ? null : str;
+const nullableText = (str: string | null): string | null => {
+  return typeof str === "string" && str.length > 0 ? str : null;
 };
 
 export { nullableText };

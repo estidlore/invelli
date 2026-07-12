@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 import { Button, Card, Icon, Text } from "@/components";
 import { createTranslations, useTranslation } from "@/core/language";
-import { dateTimeString } from "@/utils";
+import { NUM_FORMATS, dateTimeString } from "@/utils";
 
 import { styles } from "./styles";
 import type { ItemCardProps } from "./types";
@@ -43,10 +43,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   return (
     <Card onPress={toggleExpanded} title={name}>
       <View style={styles.grid}>
-        <View style={gridItemStyle}>
-          <Icon name={"dollar"} />
-          <Text>{sellPrice}</Text>
-        </View>
+        <Text style={styles.item}>{NUM_FORMATS.PRICE.format(sellPrice)}</Text>
         <View style={gridItemStyle}>
           <Icon name={"key"} />
           <Text>{sku}</Text>
@@ -55,11 +52,11 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
           <>
             <View style={gridItemStyle}>
               <Icon name={"number"} />
-              <Text>{quantity}</Text>
+              <Text>{NUM_FORMATS.QUANTITY.format(quantity)}</Text>
             </View>
             <View style={gridItemStyle}>
               <Text>{t.cost}</Text>
-              <Text>{costPrice}</Text>
+              <Text>{NUM_FORMATS.PRICE.format(costPrice)}</Text>
             </View>
             <View style={gridItemStyle}>
               <Text>{t.updatedAt}</Text>
