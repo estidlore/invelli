@@ -1,11 +1,8 @@
-interface ModalProps extends ModalBaseProps {
+interface ModalProps {
   children: React.ReactNode;
-  title: string;
-}
-
-interface ModalBaseProps {
   onClose?: () => void;
+  title: string;
   visible: boolean;
 }
 
-export type { ModalBaseProps, ModalProps };
+export type { ModalProps };

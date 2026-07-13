@@ -6,10 +6,11 @@ import { ActivityIndicator, Vibration, View } from "react-native";
 
 import { Button, Text } from "@/components";
 import { useTranslation } from "@/core/language";
-import { barcodeSettings, useScanStore } from "@/core/scanner";
 import { commonStyles, useColors } from "@/core/theme";
 import { logError } from "@/utils";
 
+import { barcodeSettings } from "./constants";
+import { useScanStore } from "./store";
 import { styles } from "./styles";
 import { translations } from "./translations";
 
@@ -17,7 +18,7 @@ const ScannerScreen = (): React.JSX.Element => {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
-  const { setScannedBarcode } = useScanStore();
+  const setScannedBarcode = useScanStore((state) => state.setScannedBarcode);
 
   const t = useTranslation(translations);
   const colors = useColors();
@@ -46,7 +47,9 @@ const ScannerScreen = (): React.JSX.Element => {
     return (
       <View style={commonStyles.center}>
         <Text style={styles.allowCameraText}>{t.cameraRequired}</Text>
-        <Button onPress={handleRequestPermission}>{t.allow}</Button>
+        <Button color={"primary"} onPress={handleRequestPermission} variant={"solid"}>
+          {t.allow}
+        </Button>
       </View>
     );
   }

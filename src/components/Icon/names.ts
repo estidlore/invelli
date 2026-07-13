@@ -5,10 +5,12 @@
  */
 const NAMES = {
   bell: { android: "notifications", ios: "bell.fill" },
+  cart: { android: "shopping-cart", ios: "cart.fill" },
   check: { android: "check", ios: "checkmark" },
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
   dollar: { android: "attach-money", ios: "dollarsign" },
   error: { android: "clear", ios: "xmark" },
+  info: { android: "info", ios: "info.circle.fill" },
   inventory: { android: "inventory", ios: "archivebox.fill" },
   key: { android: "key", ios: "key.fill" },
   number: { android: "numbers", ios: "number" },

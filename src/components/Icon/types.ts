@@ -1,6 +1,6 @@
 import type { StyleProp, TextStyle, ViewProps, ViewStyle } from "react-native";
 
-import { IconName } from "./names";
+import type { IconName } from "./names";
 
 interface IconProps extends ViewProps {
   color?: string;

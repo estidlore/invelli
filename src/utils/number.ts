@@ -1,10 +1,23 @@
-const formatter = new Intl.NumberFormat(undefined, {
-  currency: "USD",
-  style: "currency",
-});
-
-const formatCurrency = (value: number): string => {
-  return formatter.format(value);
+const NUM_FORMATS = {
+  FORM_PRICE: new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    useGrouping: false,
+  }),
+  FORM_QUANTITY: new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 3,
+    minimumFractionDigits: 0,
+    useGrouping: false,
+  }),
+  PRICE: new Intl.NumberFormat(undefined, {
+    currency: "USD",
+    minimumFractionDigits: 0,
+    style: "currency",
+  }),
+  QUANTITY: new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 3,
+    minimumFractionDigits: 0,
+  }),
 };
 
-export { formatCurrency };
+export { NUM_FORMATS };

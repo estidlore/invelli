@@ -2,6 +2,7 @@ import type { StyleProp, ViewStyle } from "react-native";
 
 interface SelectProps<T extends SelectOption> {
   label: string;
+  onBlur?: () => void;
   onChange?: (value: T extends object ? T["value"] : T, idx: number) => void;
   options: T[];
   style?: StyleProp<ViewStyle>;

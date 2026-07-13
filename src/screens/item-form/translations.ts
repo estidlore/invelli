@@ -3,6 +3,7 @@ import { createTranslations } from "@/core/language";
 const translations = createTranslations({
   ENG: {
     addItem: "Add item",
+    deleteItem: "Delete item",
     editItem: "Edit item",
     label: {
       costPrice: "Cost",
@@ -20,6 +21,7 @@ const translations = createTranslations({
   },
   SPA: {
     addItem: "Agregar artículo",
+    deleteItem: "Eliminar artículo",
     editItem: "Editar artículo",
     label: {
       costPrice: "Costo",

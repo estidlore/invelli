@@ -1,35 +1,18 @@
 import { useRouter } from "expo-router";
-import { useReducer } from "react";
 import { View } from "react-native";
 
 import { Button, Card, Icon, Text } from "@/components";
-import { createTranslations, useTranslation } from "@/core/language";
-import { dateTimeString } from "@/utils";
+import { useTranslation } from "@/core/language";
+import { commonStyles } from "@/core/theme";
+import { NUM_FORMATS } from "@/utils";
 
-import { styles } from "./styles";
+import { translations } from "./translations";
 import type { ItemCardProps } from "./types";
 
-const translations = createTranslations({
-  ENG: {
-    cost: "Cost",
-    edit: "Edit",
-    price: "Price",
-    updatedAt: "Updated:",
-  },
-  SPA: {
-    cost: "Costo",
-    edit: "Editar",
-    price: "Precio",
-    updatedAt: "Actualizado:",
-  },
-});
-
-const gridItemStyle = [styles.grid, styles.item];
 const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
-  const { costPrice, quantity, name, sellPrice, sku, updatedAt } = item;
-  const [expanded, toggleExpanded] = useReducer((val) => !val, false);
-  const t = useTranslation(translations);
+  const { costPrice, quantity, name, sellPrice, sku } = item;
   const router = useRouter();
+  const t = useTranslation(translations);
 
   const handleEdit = (): void => {
     router.push({
@@ -41,35 +24,34 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   };
 
   return (
-    <Card onPress={toggleExpanded} title={name}>
-      <View style={styles.grid}>
-        <View style={gridItemStyle}>
-          <Icon name={"dollar"} />
-          <Text>{sellPrice}</Text>
+    <Card style={commonStyles.column}>
+      <Text style={commonStyles.mb} type={"semibold"}>
+        {name}
+      </Text>
+      <View style={commonStyles.row}>
+        <Text style={commonStyles.grow} type={"semibold"}>
+          {NUM_FORMATS.PRICE.format(sellPrice)}
+        </Text>
+        <View style={[commonStyles.grow, commonStyles.row]}>
+          <Icon name={"inventory"} />
+          <Text>{`${NUM_FORMATS.QUANTITY.format(quantity)} ${t.units}`}</Text>
         </View>
-        <View style={gridItemStyle}>
-          <Icon name={"key"} />
-          <Text>{sku}</Text>
+      </View>
+      <View style={commonStyles.row}>
+        <Text style={commonStyles.grow}>
+          {`${t.cost}:  ${NUM_FORMATS.PRICE.format(costPrice)}`}
+        </Text>
+        <View style={[commonStyles.grow, commonStyles.row]}>
+          <Icon name={"qrcode"} />
+          <Text>{sku ?? "-"}</Text>
         </View>
-        {expanded && (
-          <>
-            <View style={gridItemStyle}>
-              <Icon name={"number"} />
-              <Text>{quantity}</Text>
-            </View>
-            <View style={gridItemStyle}>
-              <Text>{t.cost}</Text>
-              <Text>{costPrice}</Text>
-            </View>
-            <View style={gridItemStyle}>
-              <Text>{t.updatedAt}</Text>
-              <Text>{dateTimeString(new Date(updatedAt))}</Text>
-            </View>
-            <Button icon={"pencil"} onPress={handleEdit} style={styles.item}>
-              {t.edit}
-            </Button>
-          </>
-        )}
+      </View>
+      <View style={[commonStyles.rowBetween, commonStyles.mt]}>
+        <Button color={"primary"} icon={"cart"} variant={"solid"} />
+        <View style={commonStyles.row}>
+          <Button icon={"pencil"} onPress={handleEdit} />
+          <Button icon={"info"} />
+        </View>
       </View>
     </Card>
   );

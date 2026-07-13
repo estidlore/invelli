@@ -1,14 +1,14 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, Input, Text } from "@/components";
+import { Button, ConfirmationButton, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
-import { useScanStore } from "@/core/scanner";
 import { commonStyles, useColors } from "@/core/theme";
 import { deleteItem, findItem, insertItem, updateItem } from "@/db";
-import { logError } from "@/utils";
+import { useScanStore } from "@/screens/scanner/store";
+import { NUM_FORMATS, logError } from "@/utils";
 
 import { schema } from "./schema";
 import { styles } from "./styles";
@@ -19,8 +19,15 @@ const ItemFormScreen = (): React.JSX.Element => {
   const params = useLocalSearchParams<{ id?: string }>();
   const isEditMode = !!params.id;
   const [isPending, startTransition] = useTransition();
-  const { scannedBarcode } = useScanStore();
+  const scannedBarcode = useScanStore((state) => state.scannedBarcode);
 
+  const [values, setValues] = useState({
+    costPrice: "",
+    name: "",
+    quantity: "",
+    sellPrice: "",
+    sku: "",
+  });
   const colors = useColors();
   const t = useTranslation(translations);
 
@@ -37,14 +44,7 @@ const ItemFormScreen = (): React.JSX.Element => {
     deleteItem(params.id).then(handleBack).catch(logError);
   };
 
-  const { getFieldProps, isSubmitting, setValues, submit } = useForm({
-    initialValues: {
-      costPrice: "",
-      name: "",
-      quantity: "",
-      sellPrice: "",
-      sku: "",
-    },
+  const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
       const data = {
         costPrice: parseFloat(values.costPrice),
@@ -63,6 +63,8 @@ const ItemFormScreen = (): React.JSX.Element => {
       router.back();
     },
     schema,
+    setValues,
+    values,
   });
 
   const handleSubmit = (): void => {
@@ -76,10 +78,10 @@ const ItemFormScreen = (): React.JSX.Element => {
         const itemRecord = await findItem(params.id);
         if (itemRecord) {
           setValues({
-            costPrice: itemRecord.costPrice.toString(),
+            costPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.costPrice),
             name: itemRecord.name,
-            quantity: itemRecord.quantity.toString(),
-            sellPrice: itemRecord.sellPrice.toString(),
+            quantity: NUM_FORMATS.FORM_QUANTITY.format(itemRecord.quantity),
+            sellPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.sellPrice),
             sku: itemRecord.sku ?? "",
           });
         }
@@ -114,7 +116,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           style={commonStyles.grow}
         >
           <View style={styles.skuRow}>
-            <Button icon={"qrcode"} onPress={handleScan} />
+            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
               placeholder={t.placeholder.sku}
               style={commonStyles.grow}
@@ -159,7 +161,9 @@ const ItemFormScreen = (): React.JSX.Element => {
           >
             {t.save}
           </Button>
-          {isEditMode && <Button icon={"trash"} onPress={handleDelete} />}
+          {isEditMode && (
+            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
+          )}
         </View>
       </ScrollView>
     </>
