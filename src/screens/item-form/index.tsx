@@ -116,7 +116,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           style={commonStyles.grow}
         >
           <View style={styles.skuRow}>
-            <Button icon={"qrcode"} onPress={handleScan} />
+            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
               placeholder={t.placeholder.sku}
               style={commonStyles.grow}

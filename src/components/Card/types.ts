@@ -1,7 +1,5 @@
 import type { TouchableOpacityProps } from "react-native";
 
-interface CardProps extends Pick<TouchableOpacityProps, "children" | "onPress" | "style"> {
-  title?: string;
-}
+type CardProps = Pick<TouchableOpacityProps, "children" | "onPress" | "style">;
 
 export type { CardProps };

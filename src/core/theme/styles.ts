@@ -35,6 +35,12 @@ const commonStyles = StyleSheet.create({
     gap: 8,
     paddingBottom: 80,
   },
+  mb: {
+    marginBottom: 8,
+  },
+  mt: {
+    marginTop: 8,
+  },
   row: {
     alignItems: "center",
     display: "flex",

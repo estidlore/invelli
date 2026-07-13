@@ -6,9 +6,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 12,
   },
-  title: {
-    marginBottom: 16,
-  },
 });
 
 export { styles };
