@@ -15,8 +15,14 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   input: {
+    flex: 1,
     fontSize: 16,
     padding: 8,
+  },
+  inputRow: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
   },
   label: {
     marginBottom: 4,

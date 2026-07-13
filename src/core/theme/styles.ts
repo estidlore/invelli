@@ -21,12 +21,13 @@ const commonStyles = StyleSheet.create({
     width: 64,
   },
   grow: {
-    flexGrow: 1,
+    flex: 1,
   },
   header: {
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
+    gap: 16,
     justifyContent: "space-between",
     marginBottom: 16,
   },
@@ -35,6 +36,12 @@ const commonStyles = StyleSheet.create({
     paddingBottom: 80,
   },
   row: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 16,
+  },
+  rowBetween: {
     alignItems: "center",
     display: "flex",
     flexDirection: "row",

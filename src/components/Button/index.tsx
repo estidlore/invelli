@@ -2,29 +2,31 @@ import { TouchableOpacity } from "react-native";
 
 import { Icon } from "@/components/Icon";
 import { Text } from "@/components/Text";
-import { useColors } from "@/core/theme";
 
 import { styles } from "./styles";
 import type { ButtonProps } from "./types";
+import { useButtonColors } from "./useButtonColors";
 
 const Button = ({
   activeOpacity = 0.5,
   children,
+  color = "text",
   icon,
   iconSize = 20,
   style,
+  variant = "text",
   ...otherProps
 }: ButtonProps): React.JSX.Element => {
-  const colors = useColors();
+  const { color: textColor, ...containerStyle } = useButtonColors(variant, color);
 
   return (
     <TouchableOpacity
       {...otherProps}
       activeOpacity={activeOpacity}
-      style={[styles.container, { borderColor: colors.border }, style]}
+      style={[styles.container, containerStyle, style]}
     >
-      {icon === undefined ? null : <Icon name={icon} size={iconSize} />}
-      {children === undefined ? null : <Text>{children}</Text>}
+      {icon === undefined ? null : <Icon color={textColor} name={icon} size={iconSize} />}
+      {children === undefined ? null : <Text style={{ color: textColor }}>{children}</Text>}
     </TouchableOpacity>
   );
 };

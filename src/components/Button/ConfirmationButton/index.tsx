@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { Text } from "@/components/Text";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 
 import { translations } from "./translations";
 import type { ConfirmationButtonProps } from "./types";
@@ -19,7 +19,6 @@ const ConfirmationButton = ({
 }: ConfirmationButtonProps): React.JSX.Element => {
   const [show, setShow] = useState(false);
   const t = useTranslation(translations);
-  const colors = useColors();
 
   const handleCancel = (): void => {
     setShow(false);
@@ -46,8 +45,10 @@ const ConfirmationButton = ({
             {t.cancel}
           </Button>
           <Button
+            color={"bgError"}
             onPress={handleConfirm}
-            style={[commonStyles.grow, { backgroundColor: colors.bgError }]}
+            style={commonStyles.grow}
+            variant={"solid"}
           >
             {t.confirm}
           </Button>

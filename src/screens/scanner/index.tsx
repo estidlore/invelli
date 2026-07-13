@@ -47,7 +47,9 @@ const ScannerScreen = (): React.JSX.Element => {
     return (
       <View style={commonStyles.center}>
         <Text style={styles.allowCameraText}>{t.cameraRequired}</Text>
-        <Button onPress={handleRequestPermission}>{t.allow}</Button>
+        <Button color={"primary"} onPress={handleRequestPermission} variant={"solid"}>
+          {t.allow}
+        </Button>
       </View>
     );
   }

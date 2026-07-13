@@ -4,7 +4,6 @@ import { View } from "react-native";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { Text } from "@/components/Text";
-import { useColors } from "@/core/theme";
 
 import { styles } from "./styles";
 import type { Option, SelectOption, SelectProps } from "./types";
@@ -30,8 +29,6 @@ const Select = <T extends SelectOption>({
   const selection =
     value === undefined ? undefined : mappedOptions.find((el) => el.value === value);
 
-  const colors = useColors();
-
   const handleOpen = (): void => {
     setShowOptions(true);
   };
@@ -44,7 +41,7 @@ const Select = <T extends SelectOption>({
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
-      <Button icon={"chevronDown"} onPress={handleOpen}>
+      <Button icon={"chevronDown"} onPress={handleOpen} variant={"outline"}>
         {selection?.text ?? "-"}
       </Button>
       <Modal onClose={handleClose} title={label} visible={showOptions}>
@@ -58,11 +55,7 @@ const Select = <T extends SelectOption>({
           };
 
           return (
-            <Button
-              key={option.value}
-              onPress={handlePress}
-              style={[styles.option, { backgroundColor: selected ? colors.card : undefined }]}
-            >
+            <Button color={selected ? "primary" : "text"} key={option.value} onPress={handlePress}>
               {option.text}
             </Button>
           );

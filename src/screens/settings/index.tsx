@@ -55,10 +55,10 @@ const SettingsScreen = (): React.JSX.Element => {
         style={styles.button}
         value={languagePreference}
       />
-      <Button onPress={handleExport} style={styles.button}>
+      <Button onPress={handleExport} style={styles.button} variant={"outline"}>
         {t.exportData}
       </Button>
-      <Button onPress={handleImport} style={styles.button}>
+      <Button onPress={handleImport} style={styles.button} variant={"outline"}>
         {t.importData}
       </Button>
     </View>
