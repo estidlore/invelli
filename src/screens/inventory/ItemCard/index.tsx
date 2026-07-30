@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 
-import { Button, Card, Icon, Text } from "@/components";
+import { Card, Icon, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { NUM_FORMATS } from "@/utils";
@@ -10,7 +10,7 @@ import { translations } from "./translations";
 import type { ItemCardProps } from "./types";
 
 const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
-  const { costPrice, quantity, name, sellPrice, sku } = item;
+  const { buyPrice, code, name, quantity, sellPrice } = item;
   const router = useRouter();
   const t = useTranslation(translations);
 
@@ -24,7 +24,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   };
 
   return (
-    <Card style={commonStyles.column}>
+    <Card onPress={handleEdit} style={commonStyles.column}>
       <Text style={commonStyles.mb} type={"semibold"}>
         {name}
       </Text>
@@ -38,20 +38,8 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
         </View>
       </View>
       <View style={commonStyles.row}>
-        <Text style={commonStyles.grow}>
-          {`${t.cost}:  ${NUM_FORMATS.PRICE.format(costPrice)}`}
-        </Text>
-        <View style={[commonStyles.grow, commonStyles.row]}>
-          <Icon name={"qrcode"} />
-          <Text>{sku ?? "-"}</Text>
-        </View>
-      </View>
-      <View style={[commonStyles.rowBetween, commonStyles.mt]}>
-        <Button color={"primary"} icon={"cart"} variant={"solid"} />
-        <View style={commonStyles.row}>
-          <Button icon={"pencil"} onPress={handleEdit} />
-          <Button icon={"info"} />
-        </View>
+        <Icon name={"qrcode"} />
+        <Text>{code ?? "-"}</Text>
       </View>
     </Card>
   );

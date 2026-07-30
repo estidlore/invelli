@@ -6,7 +6,7 @@ import { Button, ConfirmationButton, Input, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
-import { deleteItem, findItem, insertItem, updateItem } from "@/db";
+import { deleteItem, getItem, insertItem, updateItem } from "@/db";
 import { useScanStore } from "@/screens/scanner/store";
 import { NUM_FORMATS, logError } from "@/utils";
 
@@ -22,11 +22,11 @@ const ItemFormScreen = (): React.JSX.Element => {
   const scannedBarcode = useScanStore((state) => state.scannedBarcode);
 
   const [values, setValues] = useState({
-    costPrice: "",
+    buyPrice: "",
+    code: "",
     name: "",
     quantity: "",
     sellPrice: "",
-    sku: "",
   });
   const colors = useColors();
   const t = useTranslation(translations);
@@ -47,11 +47,11 @@ const ItemFormScreen = (): React.JSX.Element => {
   const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
       const data = {
-        costPrice: parseFloat(values.costPrice),
+        buyPrice: parseFloat(values.buyPrice),
+        code: values.code,
         name: values.name,
-        quantity: parseInt(values.quantity),
+        quantity: parseFloat(values.quantity),
         sellPrice: parseFloat(values.sellPrice),
-        sku: values.sku,
       };
 
       if (isEditMode && params.id) {
@@ -75,14 +75,14 @@ const ItemFormScreen = (): React.JSX.Element => {
     if (isEditMode) {
       startTransition(async () => {
         if (!params.id) return;
-        const itemRecord = await findItem(params.id);
+        const itemRecord = await getItem(params.id);
         if (itemRecord) {
           setValues({
-            costPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.costPrice),
+            buyPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.buyPrice),
+            code: itemRecord.code ?? "",
             name: itemRecord.name,
             quantity: NUM_FORMATS.FORM_QUANTITY.format(itemRecord.quantity),
             sellPrice: NUM_FORMATS.FORM_PRICE.format(itemRecord.sellPrice),
-            sku: itemRecord.sku ?? "",
           });
         }
       });
@@ -91,7 +91,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   useEffect(() => {
     if (scannedBarcode) {
-      setValues((prev) => ({ ...prev, sku: scannedBarcode }));
+      setValues((prev) => ({ ...prev, code: scannedBarcode }));
     }
   }, [scannedBarcode, setValues]);
 
@@ -115,12 +115,12 @@ const ItemFormScreen = (): React.JSX.Element => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={commonStyles.grow}
         >
-          <View style={styles.skuRow}>
+          <View style={styles.codeRow}>
             <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
-              placeholder={t.placeholder.sku}
+              placeholder={t.placeholder.code}
               style={commonStyles.grow}
-              {...getFieldProps("sku")}
+              {...getFieldProps("code")}
             />
           </View>
           <Input
@@ -138,12 +138,12 @@ const ItemFormScreen = (): React.JSX.Element => {
             {...getFieldProps("quantity")}
           />
           <Input
-            label={t.label.costPrice}
+            label={t.label.buyPrice}
             min={0}
             placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
-            {...getFieldProps("costPrice")}
+            {...getFieldProps("buyPrice")}
           />
           <Input
             label={t.label.sellPrice}

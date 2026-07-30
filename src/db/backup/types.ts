@@ -1,9 +1,15 @@
+import type { NewItem, NewTransaction, NewTransactionItem } from "@/db/schema";
+
 interface BackupMetadata {
   exportedAt: string;
   version: number;
 }
 
-type BackupPayload = Record<"items" | "transactionItems" | "transactions", unknown[]>;
+interface BackupPayload {
+  items: NewItem[];
+  transactionItems: NewTransactionItem[];
+  transactions: NewTransaction[];
+}
 
 interface Backup {
   metadata: BackupMetadata;

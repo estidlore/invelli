@@ -1,19 +1,25 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f6f3244a-28ae-4e49-a1e5-23d1b96545ba",
+  "id": "e68a218a-7f88-40a3-b48e-d372a95e3e99",
   "prevId": "7ba8fe38-fd79-4fc7-ac07-0cada2e7b2f6",
   "tables": {
     "items": {
       "name": "items",
       "columns": {
-        "cost_price": {
-          "name": "cost_price",
+        "buy_price": {
+          "name": "buy_price",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
@@ -38,7 +44,7 @@
         },
         "quantity": {
           "name": "quantity",
-          "type": "integer",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -49,14 +55,6 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "sku": {
-          "name": "sku",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "updated_at": {
@@ -67,15 +65,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "items_sku_unique": {
-          "name": "items_sku_unique",
-          "columns": [
-            "sku"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -84,11 +74,11 @@
     "transaction_items": {
       "name": "transaction_items",
       "columns": {
-        "cost_price": {
-          "name": "cost_price",
+        "buy_price": {
+          "name": "buy_price",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "id": {
@@ -105,9 +95,9 @@
           "notNull": true,
           "autoincrement": false
         },
-        "quantity_delta": {
-          "name": "quantity_delta",
-          "type": "integer",
+        "quantity": {
+          "name": "quantity",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -116,18 +106,11 @@
           "name": "sell_price",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "transaction_id": {
           "name": "transaction_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -140,12 +123,8 @@
           "name": "transaction_items_item_id_items_id_fk",
           "tableFrom": "transaction_items",
           "tableTo": "items",
-          "columnsFrom": [
-            "item_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["item_id"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "no action"
         },
@@ -153,12 +132,8 @@
           "name": "transaction_items_transaction_id_transactions_id_fk",
           "tableFrom": "transaction_items",
           "tableTo": "transactions",
-          "columnsFrom": [
-            "transaction_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -191,6 +166,20 @@
           "notNull": false,
           "autoincrement": false
         },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "type": {
           "name": "type",
           "type": "text",
@@ -218,7 +207,10 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"items\".\"cost_price\"": "\"items\".\"buy_price\"",
+      "\"items\".\"sku\"": "\"items\".\"code\""
+    }
   },
   "internal": {
     "indexes": {}

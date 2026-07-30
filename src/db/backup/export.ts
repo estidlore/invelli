@@ -4,9 +4,8 @@ import * as Sharing from "expo-sharing";
 import { getItems, getTransactionItems, getTransactions } from "@/db/queries";
 import { dateToFileName } from "@/utils";
 
+import { DB_VERSION } from "./constants";
 import type { Backup } from "./types";
-
-const DB_VERSION = 2;
 
 const exportToJson = async (): Promise<void> => {
   const date = new Date();
@@ -28,7 +27,8 @@ const exportToJson = async (): Promise<void> => {
       transactions,
     },
   };
-  file.write(JSON.stringify(backup));
+  const backupStr = JSON.stringify(backup, (_, val) => (val === null ? undefined : val));
+  file.write(backupStr);
 
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(file.uri, { mimeType: "text/plain" });
