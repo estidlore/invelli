@@ -10,7 +10,7 @@ import { translations } from "./translations";
 import type { ItemCardProps } from "./types";
 
 const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
-  const { buyPrice, code, name, quantity, sellPrice } = item;
+  const { code, name, quantity, sellPrice } = item;
   const router = useRouter();
   const t = useTranslation(translations);
 

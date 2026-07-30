@@ -1,16 +1,14 @@
-import type { OneOrMany } from "drizzle-orm";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 
-import { Button, Input, Text } from "@/components";
+import { Button, Input, List } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { searchItems } from "@/db";
 import { useDebounce } from "@/hooks";
 import { useScanStore } from "@/screens/scanner/store";
-import { logError } from "@/utils";
 
 import { ItemCard } from "./ItemCard";
 import { translations } from "./translations";
@@ -38,24 +36,6 @@ const InventoryScreen = (): React.JSX.Element => {
     }
   }, [scannedBarcode]);
 
-  const renderItems = (): OneOrMany<React.JSX.Element> => {
-    if (itemsError) {
-      logError("renderItems.itemsError", itemsError);
-      return <Text style={commonStyles.textCenter}>{t.itemsSearchError}</Text>;
-    }
-    if (items.length === 0) {
-      return <Text style={commonStyles.textCenter}>{t.itemsNotFound}</Text>;
-    }
-    return (
-      <FlatList
-        contentContainerStyle={commonStyles.listContent}
-        data={items}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
-      />
-    );
-  };
-
   return (
     <>
       <View style={commonStyles.header}>
@@ -67,7 +47,14 @@ const InventoryScreen = (): React.JSX.Element => {
           value={searchInput}
         />
       </View>
-      {renderItems()}
+      <List
+        data={items}
+        emptyMsg={t.itemsNotFound}
+        error={itemsError}
+        errorMsg={t.itemsSearchError}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
+      />
       <Button
         color={"primary"}
         icon={"plus"}
