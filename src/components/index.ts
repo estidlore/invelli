@@ -5,5 +5,7 @@ export * from "./Card";
 export * from "./Icon";
 export * from "./Input";
 export * from "./Modal";
+export * from "./Scanner";
+export * from "./Scanner/AnimatedScanner";
 export * from "./Select";
 export * from "./Text";
