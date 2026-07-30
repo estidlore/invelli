@@ -10,6 +10,8 @@ const NAMES = {
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
   dollar: { android: "attach-money", ios: "dollarsign" },
   error: { android: "clear", ios: "xmark" },
+  flashOff: { android: "flash-off", ios: "bolt.slash.fill" },
+  flashOn: { android: "flash-on", ios: "bolt.fill" },
   info: { android: "info", ios: "info.circle.fill" },
   inventory: { android: "inventory", ios: "archivebox.fill" },
   key: { android: "key", ios: "key.fill" },

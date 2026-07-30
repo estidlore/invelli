@@ -1,72 +1,20 @@
-import type { BarcodeScanningResult } from "expo-camera";
-import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { ActivityIndicator, Vibration, View } from "react-native";
+import React from "react";
 
-import { Button, Text } from "@/components";
-import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
-import { logError } from "@/utils";
+import { Scanner } from "@/components";
 
-import { barcodeSettings } from "./constants";
 import { useScanStore } from "./store";
-import { styles } from "./styles";
-import { translations } from "./translations";
 
 const ScannerScreen = (): React.JSX.Element => {
   const router = useRouter();
-  const [permission, requestPermission] = useCameraPermissions();
-  const [scanned, setScanned] = useState(false);
   const setScannedBarcode = useScanStore((state) => state.setScannedBarcode);
 
-  const t = useTranslation(translations);
-  const colors = useColors();
-
-  const handleRequestPermission = (): void => {
-    requestPermission().catch(logError);
-  };
-
-  const handleScan = (scanResult: BarcodeScanningResult): void => {
-    if (scanned) return;
-    setScanned(true);
-    Vibration.vibrate(100);
-    setScannedBarcode(scanResult.data);
+  const handleScan = (code: string): void => {
+    setScannedBarcode(code);
     router.back();
   };
 
-  if (permission === null) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
-  }
-
-  if (!permission.granted) {
-    return (
-      <View style={commonStyles.center}>
-        <Text style={styles.allowCameraText}>{t.cameraRequired}</Text>
-        <Button color={"primary"} onPress={handleRequestPermission} variant={"solid"}>
-          {t.allow}
-        </Button>
-      </View>
-    );
-  }
-
-  return (
-    <View style={commonStyles.grow}>
-      {!scanned && (
-        <CameraView
-          autofocus={"on"}
-          barcodeScannerSettings={barcodeSettings}
-          enableTorch={false}
-          onBarcodeScanned={handleScan}
-          style={commonStyles.grow}
-        />
-      )}
-    </View>
-  );
+  return <Scanner onScan={handleScan} />;
 };
 
 export { ScannerScreen };
