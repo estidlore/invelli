@@ -6,16 +6,16 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 16,
   },
-  input: {
-    flex: 1,
-    marginVertical: 8,
-  },
-  skuRow: {
+  codeRow: {
     alignItems: "flex-start",
     display: "flex",
     flexDirection: "row",
     flexGrow: 1,
     gap: 8,
+  },
+  input: {
+    flex: 1,
+    marginVertical: 8,
   },
 });
 

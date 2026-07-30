@@ -70,9 +70,7 @@
       "indexes": {
         "items_sku_unique": {
           "name": "items_sku_unique",
-          "columns": [
-            "sku"
-          ],
+          "columns": ["sku"],
           "isUnique": true
         }
       },

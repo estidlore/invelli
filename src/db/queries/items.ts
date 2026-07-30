@@ -5,7 +5,7 @@ import type { SQLiteRunResult } from "expo-sqlite";
 import { db } from "@/db/config";
 import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
-import { nowISO } from "@/utils";
+import { sanitizeDbItem } from "@/db/utils";
 
 import type { SelectQuery } from "./types";
 
@@ -13,9 +13,11 @@ const deleteItem = async (id: string): Promise<SQLiteRunResult> => {
   return await db.delete(items).where(eq(items.id, id));
 };
 
-const findItem = async (id: string): Promise<Item | undefined> => {
+const getItem = async (id: string): Promise<Item | undefined> => {
+  if (!id?.trim()) return undefined;
+
   return await db.query.items.findFirst({
-    where: eq(items.id, id),
+    where: or(eq(items.id, id), eq(items.code, id)),
   });
 };
 
@@ -24,7 +26,7 @@ const getItems = async (): Promise<Item[]> => {
 };
 
 const insertItem = async (item: Omit<NewItem, "id">): Promise<SQLiteRunResult> => {
-  return await db.insert(items).values({ ...item, id: randomUUID() });
+  return await db.insert(items).values({ ...sanitizeDbItem(item), id: randomUUID() });
 };
 
 const searchItems = (searchText: string): SelectQuery<typeof items> => {
@@ -38,7 +40,7 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
 
   const words = trimmed.split(/\s+/).filter(Boolean);
   const wordMatchConditions = words.map((word) =>
-    or(like(items.name, `%${word}%`), like(items.sku, `%${word}%`)),
+    or(like(items.name, `%${word}%`), like(items.code, `%${word}%`)),
   );
   const textMatchCondition = and(...wordMatchConditions);
 
@@ -51,10 +53,7 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
 };
 
 const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRunResult> => {
-  return await db
-    .update(items)
-    .set({ ...data, updatedAt: nowISO() })
-    .where(eq(items.id, id));
+  return await db.update(items).set(sanitizeDbItem(data)).where(eq(items.id, id));
 };
 
-export { deleteItem, findItem, getItems, insertItem, searchItems, updateItem };
+export { deleteItem, getItem, getItems, insertItem, searchItems, updateItem };
