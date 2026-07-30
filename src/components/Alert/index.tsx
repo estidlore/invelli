@@ -29,16 +29,24 @@ const Alert = ({ children, hide = false, style, type }: AlertProps): React.JSX.E
   }));
 
   useEffect(() => {
-    height.value = withTiming(hide ? 0 : 30, { duration: 300 });
+    height.value = withTiming(hide ? 0 : 26, { duration: 300 });
   }, [height, hide]);
 
   const colors = useColors();
+  const color = colors[textColorByType[type]];
 
   return (
-    <Animated.View style={[style, { backgroundColor: colors[bgColorByType[type]] }, animatedStyle]}>
-      <View style={styles.container}>
-        <Icon color={colors[textColorByType[type]]} name={type} size={16} />
-        <Text style={[styles.text, { color: colors[textColorByType[type]] }]} type={"semibold"}>
+    <Animated.View
+      style={[
+        style,
+        styles.animated,
+        { backgroundColor: colors[bgColorByType[type]] },
+        animatedStyle,
+      ]}
+    >
+      <View style={[styles.container]}>
+        <Icon color={color} name={type} size={14} />
+        <Text style={{ color }} type={"small"}>
           {children}
         </Text>
       </View>

@@ -131,6 +131,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           />
           <Input
             label={t.label.quantity}
+            min={0}
             placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
@@ -138,6 +139,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           />
           <Input
             label={t.label.costPrice}
+            min={0}
             placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}
@@ -145,6 +147,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           />
           <Input
             label={t.label.sellPrice}
+            min={0}
             placeholder={t.placeholder.number}
             style={styles.input}
             type={"numeric"}

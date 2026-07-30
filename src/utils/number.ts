@@ -20,4 +20,15 @@ const NUM_FORMATS = {
   }),
 };
 
-export { NUM_FORMATS };
+const clamp = (n: number, min?: number, max?: number): number => {
+  let res = n;
+  if (max !== undefined) {
+    res = Math.min(res, max);
+  }
+  if (min !== undefined) {
+    res = Math.max(res, min);
+  }
+  return res;
+};
+
+export { NUM_FORMATS, clamp };
