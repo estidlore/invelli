@@ -8,7 +8,7 @@ const translations = createTranslations({
   },
   SPA: {
     itemsNotFound: "No se encontraron artículos\nRevisa la ortografía",
-    itemsSearchError: "Fallo al buscar artículos",
+    itemsSearchError: "Error al buscar artículos",
     searchPlaceholder: "Ej. Gaseosa CocaCola 1.5L",
   },
 });

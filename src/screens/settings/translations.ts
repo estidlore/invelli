@@ -12,6 +12,12 @@ const translations = createTranslations({
     importData: "Import data",
     language: "Language",
     settings: "Settings",
+    toast: {
+      dataExportError: "Failed to export data",
+      dataExported: "Data exported",
+      dataImportError: "Failed to import data",
+      dataImported: "Data imported",
+    },
   },
   SPA: {
     darkMode: {
@@ -24,6 +30,12 @@ const translations = createTranslations({
     importData: "Importar información",
     language: "Lenguaje",
     settings: "Configuraciones",
+    toast: {
+      dataExportError: "Error al exportar la información",
+      dataExported: "Información exportada",
+      dataImportError: "Error al importar la información",
+      dataImported: "Información importada",
+    },
   },
 });
 
