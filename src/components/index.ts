@@ -10,3 +10,4 @@ export * from "./Scanner";
 export * from "./Scanner/AnimatedScanner";
 export * from "./Select";
 export * from "./Text";
+export * from "./Toast";

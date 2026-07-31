@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, Text } from "@/components";
+import { Button, ConfirmationButton, Input, Text, useToastStore } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -30,6 +30,7 @@ const ItemFormScreen = (): React.JSX.Element => {
   });
   const colors = useColors();
   const t = useTranslation(translations);
+  const showToast = useToastStore((state) => state.showToast);
 
   const handleBack = (): void => {
     router.back();
@@ -41,7 +42,20 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const handleDelete = (): void => {
     if (!params.id) return;
-    deleteItem(params.id).then(handleBack).catch(logError);
+    deleteItem(params.id)
+      .then(() => {
+        handleBack();
+        showToast(t.toast.itemDeleted);
+      })
+      .catch((err) => {
+        const errMsg = err?.message ?? String(err);
+
+        if (errMsg.includes("FOREIGN KEY constraint failed")) {
+          showToast(t.toast.itemInActiveTransactions, "error");
+        } else {
+          showToast(t.toast.itemDeleteError, "error");
+        }
+      });
   };
 
   const { getFieldProps, isSubmitting, submit } = useForm({
@@ -68,7 +82,14 @@ const ItemFormScreen = (): React.JSX.Element => {
   });
 
   const handleSubmit = (): void => {
-    submit().catch(logError);
+    submit()
+      .then(() => {
+        showToast(isEditMode ? t.toast.itemUpdated : t.toast.itemAdded);
+      })
+      .catch((err) => {
+        showToast(isEditMode ? t.toast.itemUpdateError : t.toast.itemAddError, "error");
+        logError(err);
+      });
   };
 
   useEffect(() => {

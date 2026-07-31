@@ -33,4 +33,16 @@ const dateToFileName = (date: Date): string => {
 
 const nowISO = (): string => new Date().toISOString();
 
-export { dateString, dateTimeString, dateToFileName, nowISO };
+const endOfDay = (date: Date): Date => {
+  const res = new Date(date);
+  res.setHours(23, 59, 59, 999);
+  return res;
+};
+
+const startOfDay = (date: Date): Date => {
+  const res = new Date(date);
+  res.setHours(0, 0, 0, 0);
+  return res;
+};
+
+export { dateString, dateTimeString, dateToFileName, endOfDay, nowISO, startOfDay };

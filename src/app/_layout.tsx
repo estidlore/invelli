@@ -7,7 +7,7 @@ import { ActivityIndicator, View } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { Text } from "@/components";
+import { Text, Toast } from "@/components";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
 import { logError } from "@/utils";
@@ -52,6 +52,7 @@ const RootLayout = (): React.JSX.Element => {
             <Stack.Screen name={"(tabs)"} />
             <Stack.Screen name={"(stack)"} />
           </Stack>
+          <Toast />
         </View>
       </ThemeProvider>
     </SafeAreaProvider>

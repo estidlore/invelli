@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { Button, Select, Text } from "@/components";
+import { Button, Select, Text, useToastStore } from "@/components";
 import { languages, useLanguageStore, useTranslation } from "@/core/language";
 import type { ThemePreference } from "@/core/theme";
 import { useThemeStore } from "@/core/theme";
@@ -19,6 +19,7 @@ const themePreferences: ThemePreference[] = ["dark", "light", "system"];
 
 const SettingsScreen = (): React.JSX.Element => {
   const t = useTranslation(translations);
+  const showToast = useToastStore((state) => state.showToast);
 
   const { languagePreference, setLanguagePreference } = useLanguageStore();
   const { themePreference, setThemePreference } = useThemeStore();
@@ -29,11 +30,25 @@ const SettingsScreen = (): React.JSX.Element => {
   }));
 
   const handleExport = (): void => {
-    exportToJson().catch(logError);
+    exportToJson()
+      .then(() => {
+        showToast(t.toast.dataExported);
+      })
+      .catch((err) => {
+        logError(err);
+        showToast(t.toast.dataExportError, "error");
+      });
   };
 
   const handleImport = (): void => {
-    importFromJson().catch(logError);
+    importFromJson()
+      .then(() => {
+        showToast(t.toast.dataImported);
+      })
+      .catch((err) => {
+        logError(err);
+        showToast(t.toast.dataImportError, "error");
+      });
   };
 
   return (
