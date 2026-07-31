@@ -4,6 +4,7 @@ export * from "./Button/ConfirmationButton";
 export * from "./Card";
 export * from "./Icon";
 export * from "./Input";
+export * from "./List";
 export * from "./Modal";
 export * from "./Scanner";
 export * from "./Scanner/AnimatedScanner";
