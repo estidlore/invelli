@@ -3,6 +3,8 @@ import type { ZodObject, ZodType } from "zod";
 type ZodSchema<T> = ZodObject<Record<keyof T, ZodType>>;
 
 interface UseFormOptions<T> {
+  autoSaveMs?: number;
+  onAutoSave?: (values: T) => Promise<void>;
   onSubmit: (values: T) => Promise<void>;
   schema: ZodSchema<T>;
   setValues: (values: T) => void;
@@ -14,7 +16,7 @@ interface FieldProps<V = string> {
     error?: string;
     touched: boolean;
   };
-  onBlur: () => void;
+  onBlur: (overrideValue?: string) => void;
   onChange: (text: string) => void;
   value: V;
 }

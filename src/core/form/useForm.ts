@@ -1,9 +1,11 @@
 import { copy, get, keys, set, size, template } from "litus";
 import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import type { z } from "zod";
 
 import type { Translation } from "@/core/language";
 import { useTranslation } from "@/core/language";
+import { logError } from "@/utils";
 
 import { translations } from "./translations";
 import type { FieldProps, FormState, UseFormOptions } from "./types";
@@ -15,6 +17,8 @@ const getErrorTranslation = (t: Translation, issue: z.core.$ZodIssue): string =>
 
 // eslint-disable-next-line max-lines-per-function
 const useForm = <T extends Record<string, unknown>>({
+  autoSaveMs = 1000,
+  onAutoSave,
   onSubmit,
   schema,
   setValues,
@@ -24,6 +28,13 @@ const useForm = <T extends Record<string, unknown>>({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const t = useTranslation(translations);
+
+  const autoSave = (data: T): void => {
+    onAutoSave?.(data).catch((err) => {
+      logError(`Autosave failed: ${err}`);
+    });
+  };
+  const debouncedAutoSave = useDebouncedCallback(autoSave, autoSaveMs);
 
   const validateForm = (data: T = values): Record<string, string> => {
     const result = schema.safeParse(data);
@@ -44,6 +55,7 @@ const useForm = <T extends Record<string, unknown>>({
 
   const submit = async (): Promise<void> => {
     setIsSubmitting(true);
+    debouncedAutoSave.cancel();
     const newErrors = validateForm();
 
     if (size(newErrors) > 0) {
@@ -69,14 +81,29 @@ const useForm = <T extends Record<string, unknown>>({
       error: errors[field],
       touched: !!touched[field],
     },
-    onBlur: (): void => {
+    onBlur: (overrideValue?: string): void => {
       setTouched((prev) => ({ ...prev, [field]: true }));
-      validateForm();
+
+      let newValues = values;
+      if (overrideValue !== undefined) {
+        newValues = set(copy(values), field, overrideValue);
+      }
+
+      const newErrors = validateForm(newValues);
+      if (onAutoSave && size(newErrors) === 0) {
+        debouncedAutoSave.cancel();
+        autoSave(newValues);
+      }
     },
     onChange: (value: string): void => {
       const newValues = set(copy(values), field, value);
       setValues(newValues);
-      validateForm(newValues);
+      if (errors[field]) {
+        validateForm(newValues);
+      }
+      if (onAutoSave) {
+        debouncedAutoSave(newValues);
+      }
     },
     value: get(values, field),
   });

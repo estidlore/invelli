@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { BlurEvent } from "react-native";
 import { TextInput, View } from "react-native";
 
 import { Alert } from "@/components/Alert";
@@ -40,9 +39,16 @@ const Input = ({
     setIsFocused(true);
   };
 
-  const handleBlur = (ev: BlurEvent): void => {
+  const handleBlur = (): void => {
+    const num = handleControl(value, 0, min, max);
     setIsFocused(false);
-    onBlur?.(ev);
+
+    if (num !== value) {
+      onChange?.(num);
+      onBlur?.(num);
+    } else {
+      onBlur?.();
+    }
   };
 
   const handleClear = (): void => {
@@ -50,13 +56,7 @@ const Input = ({
   };
 
   const handleNumChange = (val: string): void => {
-    const num = Number(val);
-    const clamped = clamp(isNaN(num) ? 0 : num, min, max);
-    if (clamped === num) {
-      onChange?.(val);
-    } else {
-      onChange?.(NUM_FORMATS.FORM_QUANTITY.format(clamped));
-    }
+    onChange?.(val);
   };
 
   const handleSubtract = (): void => {
