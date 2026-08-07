@@ -22,7 +22,9 @@ const StackLayout = (): React.JSX.Element => {
       <Stack screenOptions={{ animation: "fade", headerShown: false }}>
         <Stack.Screen name={"item-form"} />
         <Stack.Screen name={"scanner"} />
+        <Stack.Screen name={"transactions/[id]"} />
         <Stack.Screen name={"transactions/[id]/edit"} />
+        <Stack.Screen name={"transactions/[id]/add-items"} />
       </Stack>
     </View>
   );

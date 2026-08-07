@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { randomUUID } from "expo-crypto";
 import type { SQLiteRunResult } from "expo-sqlite";
 
@@ -41,6 +41,13 @@ const getTransactionItems = <D extends boolean = false>(
   }) as FindManyQuery<TransactionItem, DetailedTransactionItem, D>;
 };
 
+const incrementTransactionItem = async (id: string): Promise<void> => {
+  await db
+    .update(transactionItems)
+    .set({ quantity: sql`${transactionItems.quantity} + 1` })
+    .where(eq(transactionItems.id, id));
+};
+
 const insertTransactionItem = async (item: Omit<NewTransactionItem, "id">): Promise<string> => {
   const id = randomUUID();
   await db.insert(transactionItems).values({ ...sanitizeDbTxItem(item), id });
@@ -61,6 +68,7 @@ export {
   deleteTransactionItem,
   getTransactionItem,
   getTransactionItems,
+  incrementTransactionItem,
   insertTransactionItem,
   updateTransactionItem,
 };

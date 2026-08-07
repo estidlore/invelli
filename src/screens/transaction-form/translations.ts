@@ -4,6 +4,12 @@ const translations = createTranslations({
   ENG: {
     adjustment: "Stock Adjustment",
     goBack: "Go back",
+    items: {
+      add: "Add",
+      insufficientStock: "Insufficient stock for one or more items",
+      loadError: "Failed to load items",
+      title: "Items",
+    },
     label: {
       notes: "Notes",
       reason: "Transaction type",
@@ -34,6 +40,12 @@ const translations = createTranslations({
   SPA: {
     adjustment: "Ajuste de inventario",
     goBack: "Ir atrás",
+    items: {
+      add: "Agregar",
+      insufficientStock: "Inventario insuficiente para uno o más artículos",
+      loadError: "Error al cargar los artículos",
+      title: "Artículos",
+    },
     label: {
       notes: "Notas",
       reason: "Tipo de transacción",

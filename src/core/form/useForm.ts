@@ -47,7 +47,7 @@ const useForm = <T extends Record<string, unknown>>({
       debouncedAutoSave.flush();
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [debouncedAutoSave, navigation]);
 
   const validateForm = (data: T): Record<string, string> => {
     const result = schema.safeParse(data);

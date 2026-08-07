@@ -19,7 +19,7 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   const handleClick = (): void => {
     router.push({
       params: { id: data.id },
-      pathname: "/transactions/[id]/edit",
+      pathname: "/transactions/[id]",
     });
   };
 
