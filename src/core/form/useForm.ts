@@ -1,5 +1,6 @@
+import { useNavigation } from "expo-router";
 import { copy, get, keys, set, size, template } from "litus";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { z } from "zod";
 
@@ -39,6 +40,14 @@ const useForm = <T extends Record<string, unknown>>({
     });
   };
   const debouncedAutoSave = useDebouncedCallback(autoSave, autoSaveMs);
+
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", () => {
+      debouncedAutoSave.flush();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const validateForm = (data: T): Record<string, string> => {
     const result = schema.safeParse(data);
