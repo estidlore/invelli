@@ -2,12 +2,12 @@ import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { useDebounce } from "use-debounce";
 
 import { Button, Input, List } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { searchItems } from "@/db";
-import { useDebounce } from "@/hooks";
 import { useScanStore } from "@/screens/scanner/store";
 
 import { ItemCard } from "./ItemCard";
@@ -17,7 +17,7 @@ const InventoryScreen = (): React.JSX.Element => {
   const router = useRouter();
   const scannedBarcode = useScanStore((state) => state.scannedBarcode);
   const [searchInput, setSearchInput] = useState("");
-  const searchText = useDebounce(searchInput, 400);
+  const [searchText] = useDebounce(searchInput, 400);
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
 
   const t = useTranslation(translations);
