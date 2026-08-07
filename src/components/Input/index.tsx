@@ -40,23 +40,20 @@ const Input = ({
   };
 
   const handleBlur = (): void => {
-    const num = handleControl(value, 0, min, max);
     setIsFocused(false);
-
-    if (num !== value) {
-      onChange?.(num);
-      onBlur?.(num);
-    } else {
-      onBlur?.();
+    if (type === "numeric") {
+      const num = handleControl(value, 0, min, max);
+      if (num !== value) {
+        onChange?.(num);
+        onBlur?.(num);
+        return;
+      }
     }
+    onBlur?.();
   };
 
   const handleClear = (): void => {
     onChange?.("");
-  };
-
-  const handleNumChange = (val: string): void => {
-    onChange?.(val);
   };
 
   const handleSubtract = (): void => {
@@ -91,7 +88,7 @@ const Input = ({
           keyboardType={type}
           maxLength={maxLength}
           onBlur={handleBlur}
-          onChangeText={type === "numeric" ? handleNumChange : onChange}
+          onChangeText={onChange}
           onFocus={handleFocus}
           placeholder={placeholder}
           placeholderTextColor={`${colors.text}cc`}

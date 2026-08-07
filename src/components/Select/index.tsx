@@ -6,16 +6,9 @@ import { Modal } from "@/components/Modal";
 import { Text } from "@/components/Text";
 
 import { styles } from "./styles";
-import type { Option, SelectOption, SelectProps } from "./types";
+import type { SelectProps } from "./types";
 
-const mapOption = <T extends number | string>(option: Option<T> | T): Option<T> => {
-  if (typeof option === "object") {
-    return option;
-  }
-  return { text: option.toString(), value: option };
-};
-
-const Select = <T extends SelectOption>({
+const Select = <T extends number | string>({
   label,
   onBlur,
   onChange,
@@ -25,9 +18,7 @@ const Select = <T extends SelectOption>({
 }: SelectProps<T>): React.JSX.Element => {
   const [showOptions, setShowOptions] = useState(false);
 
-  const mappedOptions = options.map(mapOption) as Option<T extends object ? T["value"] : T>[];
-  const selection =
-    value === undefined ? undefined : mappedOptions.find((el) => el.value === value);
+  const selection = value === undefined ? undefined : options.find((el) => el.value === value);
 
   const handleOpen = (): void => {
     setShowOptions(true);
@@ -45,13 +36,14 @@ const Select = <T extends SelectOption>({
         {selection?.text ?? "-"}
       </Button>
       <Modal onClose={handleClose} title={label} visible={showOptions}>
-        {mappedOptions.map((option, idx) => {
+        {options.map((option, idx) => {
           const selected = selection?.value === option.value;
           const handlePress = (): void => {
             if (!selected) {
               onChange?.(option.value, idx);
             }
-            handleClose();
+            setShowOptions(false);
+            onBlur?.(option.value);
           };
 
           return (

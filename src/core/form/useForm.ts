@@ -1,5 +1,6 @@
+import { useNavigation } from "expo-router";
 import { copy, get, keys, set, size, template } from "litus";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { z } from "zod";
 
@@ -30,13 +31,25 @@ const useForm = <T extends Record<string, unknown>>({
   const t = useTranslation(translations);
 
   const autoSave = (data: T): void => {
+    const newErrors = validateForm(data);
+    if (size(newErrors) > 0) {
+      return;
+    }
     onAutoSave?.(data).catch((err) => {
       logError(`Autosave failed: ${err}`);
     });
   };
   const debouncedAutoSave = useDebouncedCallback(autoSave, autoSaveMs);
 
-  const validateForm = (data: T = values): Record<string, string> => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", () => {
+      debouncedAutoSave.flush();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const validateForm = (data: T): Record<string, string> => {
     const result = schema.safeParse(data);
     const newErrors: Record<string, string> = {};
 
@@ -56,7 +69,7 @@ const useForm = <T extends Record<string, unknown>>({
   const submit = async (): Promise<void> => {
     setIsSubmitting(true);
     debouncedAutoSave.cancel();
-    const newErrors = validateForm();
+    const newErrors = validateForm(values);
 
     if (size(newErrors) > 0) {
       const allTouched = keys(newErrors).reduce<Record<string, boolean>>((acc, path) => {

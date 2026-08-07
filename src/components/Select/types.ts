@@ -1,19 +1,17 @@
 import type { StyleProp, ViewStyle } from "react-native";
 
-interface SelectProps<T extends SelectOption> {
+interface SelectProps<T extends number | string> {
   label: string;
-  onBlur?: () => void;
-  onChange?: (value: T extends object ? T["value"] : T, idx: number) => void;
-  options: T[];
+  onBlur?: (overrideValue?: T) => void;
+  onChange?: (value: T, idx: number) => void;
+  options: SelectOption<T>[];
   style?: StyleProp<ViewStyle>;
-  value?: T extends object ? T["value"] : T;
+  value?: T;
 }
 
-type SelectOption<T extends number | string = number | string> = Option<T> | T;
-
-interface Option<T extends number | string> {
+interface SelectOption<T extends number | string> {
   text: string;
   value: T;
 }
 
-export type { Option, SelectOption, SelectProps };
+export type { SelectOption, SelectProps };
