@@ -38,6 +38,8 @@ interface GetTransactionOptions<D extends boolean> {
 }
 
 interface GetTransactionsOptions<D extends boolean> {
+  endDate?: Date;
+  startDate?: Date;
   isDetailed?: D;
 }
 
