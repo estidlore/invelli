@@ -42,7 +42,8 @@ const Select = <T extends number | string>({
             if (!selected) {
               onChange?.(option.value, idx);
             }
-            handleClose();
+            setShowOptions(false);
+            onBlur?.(option.value);
           };
 
           return (
