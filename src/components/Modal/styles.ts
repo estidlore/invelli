@@ -7,6 +7,14 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
   },
+  header: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 16,
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
   modal: {
     alignItems: "center",
     display: "flex",

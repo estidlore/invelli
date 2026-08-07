@@ -127,8 +127,8 @@ const ItemFormScreen = (): React.JSX.Element => {
   return (
     <>
       <View style={commonStyles.header}>
+        <Button icon={"back"} onPress={handleBack} />
         <Text type={"title"}>{isEditMode ? t.editItem : t.addItem}</Text>
-        <Button icon={"xmark"} onPress={handleBack} />
       </View>
 
       <ScrollView>

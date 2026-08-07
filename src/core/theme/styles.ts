@@ -29,8 +29,25 @@ const commonStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: 16,
-    justifyContent: "space-between",
     marginBottom: 16,
+  },
+  itemsCenter: {
+    alignItems: "center",
+  },
+  itemsEnd: {
+    alignItems: "flex-end",
+  },
+  itemsStart: {
+    alignItems: "flex-start",
+  },
+  justifyEnd: {
+    justifyContent: "flex-end",
+  },
+  justifyEvenly: {
+    justifyContent: "space-evenly",
+  },
+  justifyStart: {
+    justifyContent: "flex-start",
   },
   listContent: {
     gap: 8,
@@ -39,8 +56,14 @@ const commonStyles = StyleSheet.create({
   mb: {
     marginBottom: 8,
   },
+  mb2: {
+    marginBottom: 16,
+  },
   mt: {
     marginTop: 8,
+  },
+  my: {
+    marginVertical: 8,
   },
   row: {
     alignItems: "center",
