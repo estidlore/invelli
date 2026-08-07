@@ -1,6 +1,8 @@
 import React from "react";
+import { View } from "react-native";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 
+import { Button } from "@/components/Button";
 import { Text } from "@/components/Text";
 import type { Theme } from "@/core/theme";
 import { useColors } from "@/core/theme";
@@ -27,30 +29,39 @@ const TEXT_COLOR_BY_TYPE: Record<ToastType, keyof Theme> = {
 
 const Toast = (): React.JSX.Element | null => {
   const toast = useToastStore((state) => state.toast);
+  const hideToast = useToastStore((state) => state.hideToast);
   const colors = useColors();
 
   if (!toast) return null;
+
+  const color = colors[TEXT_COLOR_BY_TYPE[toast.type]];
 
   return (
     <Animated.View
       entering={FadeInUp.duration(200)}
       exiting={FadeOutUp.duration(200)}
-      pointerEvents={"none"}
+      pointerEvents={"box-none"}
       style={styles.toast}
     >
-      <Text
+      <View
         style={[
-          styles.text,
+          styles.box,
           {
             backgroundColor: colors[BG_COLOR_BY_TYPE[toast.type]],
-            borderColor: colors[TEXT_COLOR_BY_TYPE[toast.type]],
-            color: colors[TEXT_COLOR_BY_TYPE[toast.type]],
+            borderColor: color,
           },
         ]}
-        type={"small"}
       >
-        {toast.message}
-      </Text>
+        <Text style={{ color }} type={"small"}>
+          {toast.message}
+        </Text>
+        <Button
+          color={TEXT_COLOR_BY_TYPE[toast.type]}
+          icon={"xmark"}
+          iconSize={18}
+          onPress={hideToast}
+        />
+      </View>
     </Animated.View>
   );
 };

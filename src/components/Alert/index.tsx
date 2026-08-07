@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useState } from "react";
+import type { LayoutChangeEvent } from "react-native";
 import { View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 
 import { Icon } from "@/components/Icon";
 import { Text } from "@/components/Text";
@@ -22,29 +23,28 @@ const textColorByType: Record<AlertType, keyof Theme> = {
   warning: "textWarning",
 };
 
-const Alert = ({ children, hide = false, style, type }: AlertProps): React.JSX.Element => {
-  const height = useSharedValue(0);
-  const animatedStyle = useAnimatedStyle(() => ({
-    height: height.value,
-  }));
-
-  useEffect(() => {
-    height.value = withTiming(hide ? 0 : 26, { duration: 300 });
-  }, [height, hide]);
-
+const Alert = ({ children, hide = false, style, type }: AlertProps): React.ReactNode => {
   const colors = useColors();
   const color = colors[textColorByType[type]];
 
+  const [contentHeight, setContentHeight] = useState(0);
+  const onLayout = (ev: LayoutChangeEvent): void => {
+    setContentHeight(ev.nativeEvent.layout.height);
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: withTiming(hide ? 0 : contentHeight, { duration: 300 }),
+      opacity: withTiming(hide ? 0 : 1, { duration: 300 }),
+    };
+  });
+
   return (
-    <Animated.View
-      style={[
-        style,
-        styles.animated,
-        { backgroundColor: colors[bgColorByType[type]] },
-        animatedStyle,
-      ]}
-    >
-      <View style={[styles.container]}>
+    <Animated.View style={[styles.animated, style, animatedStyle]}>
+      <View
+        onLayout={onLayout}
+        style={[styles.container, { backgroundColor: colors[bgColorByType[type]] }]}
+      >
         <Icon color={color} name={type} size={14} />
         <Text style={{ color }} type={"small"}>
           {children}

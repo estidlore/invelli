@@ -1,17 +1,19 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  text: {
+  box: {
+    alignItems: "center",
     borderRadius: 8,
     borderWidth: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    flexDirection: "row",
+    paddingLeft: 16,
+    paddingRight: 4,
   },
   toast: {
     alignItems: "center",
     bottom: 80,
-    display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
     left: 0,
     position: "absolute",
     right: 0,
