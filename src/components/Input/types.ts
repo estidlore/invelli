@@ -1,9 +1,6 @@
 import type { KeyboardType, TextInputProps, ViewStyle } from "react-native";
 
-interface InputProps extends Pick<
-  TextInputProps,
-  "maxLength" | "onBlur" | "placeholder" | "value"
-> {
+interface InputProps extends Pick<TextInputProps, "maxLength" | "placeholder" | "value"> {
   label?: string;
   max?: number;
   meta?: {
@@ -11,6 +8,7 @@ interface InputProps extends Pick<
     touched: boolean;
   };
   min?: number;
+  onBlur?: (overrideValue?: string) => void;
   onChange?: TextInputProps["onChangeText"];
   secure?: boolean;
   style?: ViewStyle;
