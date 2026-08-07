@@ -2,15 +2,19 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   animated: {
-    borderRadius: 4,
+    overflow: "hidden",
   },
   container: {
     alignItems: "center",
-    display: "flex",
+    borderRadius: 4,
     flexDirection: "row",
     gap: 8,
+    left: 0,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    position: "absolute",
+    top: 0,
+    width: "100%",
   },
 });
 
