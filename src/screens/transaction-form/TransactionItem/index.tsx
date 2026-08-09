@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { View } from "react-native";
 
-import { Card, ConfirmationButton, Icon, Input, Text, useToastStore } from "@/components";
+import { Card, ConfirmationButton, Icon, Input, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -31,7 +31,7 @@ const TransactionItem = ({ data, tx }: TransactionItemProps): React.JSX.Element 
 
   const colors = useColors();
   const t = useTranslation(translations);
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const { getFieldProps, isSubmitting } = useForm({
     onAutoSave: async (values) => {

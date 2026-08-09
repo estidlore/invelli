@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, Text, useToastStore } from "@/components";
+import { Button, ConfirmationButton, Input, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -30,7 +30,7 @@ const ItemFormScreen = (): React.JSX.Element => {
   });
   const colors = useColors();
   const t = useTranslation(translations);
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const handleBack = (): void => {
     router.back();

@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, View } from "react-native";
 
-import { Alert, Button, Input, List, Select, Text, useToastStore } from "@/components";
+import { Alert, Button, Input, List, Select, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -42,7 +42,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
   const txReasonOptions = TX_REASONS.map((el) => ({ text: t.map.reason[el], value: el }));
 
   const handleAdd = (): void => {

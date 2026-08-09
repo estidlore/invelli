@@ -2,7 +2,7 @@ import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
-import { Alert, Button, ConfirmationButton, List, Text, useToastStore } from "@/components";
+import { Alert, Button, ConfirmationButton, List, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import {
@@ -30,7 +30,7 @@ const TransactionScreen = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const handleBack = (): void => {
     router.back();

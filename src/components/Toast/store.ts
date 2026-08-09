@@ -1,15 +1,6 @@
 import { create } from "zustand";
 
-type ToastType = "error" | "info" | "neutral" | "success" | "warning";
-
-interface ToastState {
-  hideToast: () => void;
-  showToast: (message: string, type?: ToastType) => void;
-  toast: {
-    message: string;
-    type: ToastType;
-  } | null;
-}
+import type { ToastState, ToastType } from "./types";
 
 let toastTimeoutId: NodeJS.Timeout | number | null = null;
 
@@ -36,5 +27,4 @@ const useToastStore = create<ToastState>((set) => ({
   toast: null,
 }));
 
-export type { ToastType };
 export { useToastStore };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { AnimatedScanner, Button, Input, List, Text, useToastStore } from "@/components";
+import { AnimatedScanner, Button, Input, List, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
@@ -36,7 +36,7 @@ const TransactionAddItems = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   if (txItemsError) {
     return (

@@ -8,8 +8,8 @@ import type { Theme } from "@/core/theme";
 import { useColors } from "@/core/theme";
 
 import { useToastStore } from "./store";
-import type { ToastType } from "./store";
 import { styles } from "./styles";
+import type { ToastType } from "./types";
 
 const BG_COLOR_BY_TYPE: Record<ToastType, keyof Theme> = {
   error: "bgError",
@@ -61,5 +61,6 @@ const Toast = (): React.JSX.Element | null => {
   );
 };
 
-export * from "./store";
+export type * from "./types";
+export * from "./useToast";
 export { Toast };
