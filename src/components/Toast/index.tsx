@@ -8,8 +8,8 @@ import type { Theme } from "@/core/theme";
 import { useColors } from "@/core/theme";
 
 import { useToastStore } from "./store";
-import type { ToastType } from "./store";
 import { styles } from "./styles";
+import type { ToastType } from "./types";
 
 const BG_COLOR_BY_TYPE: Record<ToastType, keyof Theme> = {
   error: "bgError",
@@ -34,7 +34,7 @@ const Toast = (): React.JSX.Element | null => {
 
   if (!toast) return null;
 
-  const color = colors[TEXT_COLOR_BY_TYPE[toast.type]];
+  const color = TEXT_COLOR_BY_TYPE[toast.type];
 
   return (
     <Animated.View
@@ -48,23 +48,19 @@ const Toast = (): React.JSX.Element | null => {
           styles.box,
           {
             backgroundColor: colors[BG_COLOR_BY_TYPE[toast.type]],
-            borderColor: color,
+            borderColor: colors[color],
           },
         ]}
       >
-        <Text style={{ color }} type={"small"}>
+        <Text color={color} type={"small"}>
           {toast.message}
         </Text>
-        <Button
-          color={TEXT_COLOR_BY_TYPE[toast.type]}
-          icon={"xmark"}
-          iconSize={18}
-          onPress={hideToast}
-        />
+        <Button color={color} icon={"xmark"} iconSize={18} onPress={hideToast} />
       </View>
     </Animated.View>
   );
 };
 
-export * from "./store";
+export type * from "./types";
+export * from "./useToast";
 export { Toast };

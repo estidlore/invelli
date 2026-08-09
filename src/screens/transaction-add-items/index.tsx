@@ -1,12 +1,12 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { AnimatedScanner, Button, Input, List, Text, useToastStore } from "@/components";
+import { AnimatedScanner, Button, Input, List, QueryBoundary, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
 import {
   getItem,
@@ -35,24 +35,7 @@ const TransactionAddItems = (): React.JSX.Element => {
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
 
   const t = useTranslation(translations);
-  const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
-
-  if (txItemsError) {
-    return (
-      <View style={commonStyles.center}>
-        <Text style={{ color: colors.textError }}>{t.items.loadError}</Text>
-      </View>
-    );
-  }
-
-  if (!txItems) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
-  }
+  const showToast = useToast();
 
   const handleBack = (): void => {
     router.back();
@@ -104,26 +87,28 @@ const TransactionAddItems = (): React.JSX.Element => {
 
   return (
     <>
-      <View style={[commonStyles.row, commonStyles.mb2]}>
+      <View style={commonStyles.header}>
         <Button icon={"back"} onPress={handleBack} />
         <Text type={"title"}>{t.items.title}</Text>
       </View>
-      <AnimatedScanner onScan={handleScan} />
-      <Input
-        onChange={setSearchInput}
-        placeholder={t.placeholder.search}
-        style={commonStyles.my}
-        value={searchInput}
-      />
-      <View style={styles.searchPanel}>
-        <List
-          data={items}
-          emptyMsg={searchInput ? t.items.itemsNotFound : t.items.empty}
-          error={itemsError}
-          errorMsg={t.items.loadError}
-          renderItem={({ item }) => <ItemCard item={item} onPress={handleAddItem} />}
+      <QueryBoundary error={txItemsError} errorMsg={t.items.loadError} isPending={!txItems}>
+        <AnimatedScanner onScan={handleScan} />
+        <Input
+          onChange={setSearchInput}
+          placeholder={t.placeholder.search}
+          style={commonStyles.my}
+          value={searchInput}
         />
-      </View>
+        <View style={styles.searchPanel}>
+          <List
+            data={items}
+            emptyMsg={searchInput ? t.items.itemsNotFound : t.items.empty}
+            error={itemsError}
+            errorMsg={t.items.loadError}
+            renderItem={({ item }) => <ItemCard item={item} onPress={handleAddItem} />}
+          />
+        </View>
+      </QueryBoundary>
     </>
   );
 };

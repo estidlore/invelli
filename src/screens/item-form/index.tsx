@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, Text, useToastStore } from "@/components";
+import { Button, ConfirmationButton, Input, QueryBoundary, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import { deleteItem, getItem, insertItem, updateItem } from "@/db";
 import { useScanStore } from "@/screens/scanner/store";
 import { NUM_FORMATS, logError } from "@/utils";
@@ -28,9 +28,8 @@ const ItemFormScreen = (): React.JSX.Element => {
     quantity: "",
     sellPrice: "",
   });
-  const colors = useColors();
   const t = useTranslation(translations);
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const handleBack = (): void => {
     router.back();
@@ -116,14 +115,6 @@ const ItemFormScreen = (): React.JSX.Element => {
     }
   }, [scannedBarcode, setValues]);
 
-  if (isPending) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
-  }
-
   return (
     <>
       <View style={commonStyles.header}>
@@ -131,65 +122,69 @@ const ItemFormScreen = (): React.JSX.Element => {
         <Text type={"title"}>{isEditMode ? t.editItem : t.addItem}</Text>
       </View>
 
-      <ScrollView>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={commonStyles.grow}
-        >
-          <View style={styles.codeRow}>
-            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
-            <Input
-              placeholder={t.placeholder.code}
-              style={commonStyles.grow}
-              {...getFieldProps("code")}
-            />
-          </View>
-          <Input
-            label={t.label.name}
-            placeholder={t.placeholder.name}
-            style={styles.input}
-            {...getFieldProps("name")}
-          />
-          <Input
-            label={t.label.quantity}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("quantity")}
-          />
-          <Input
-            label={t.label.buyPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("buyPrice")}
-          />
-          <Input
-            label={t.label.sellPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("sellPrice")}
-          />
-        </KeyboardAvoidingView>
-
-        <View style={styles.actions}>
-          <Button
-            disabled={isSubmitting}
-            icon={"check"}
-            onPress={handleSubmit}
-            style={[commonStyles.grow, { backgroundColor: colors.primary }]}
+      <QueryBoundary isPending={isPending}>
+        <ScrollView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={commonStyles.grow}
           >
-            {t.save}
-          </Button>
-          {isEditMode && (
-            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
-          )}
-        </View>
-      </ScrollView>
+            <View style={styles.codeRow}>
+              <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
+              <Input
+                placeholder={t.placeholder.code}
+                style={commonStyles.grow}
+                {...getFieldProps("code")}
+              />
+            </View>
+            <Input
+              label={t.label.name}
+              placeholder={t.placeholder.name}
+              style={styles.input}
+              {...getFieldProps("name")}
+            />
+            <Input
+              label={t.label.quantity}
+              min={0}
+              placeholder={t.placeholder.number}
+              style={styles.input}
+              type={"numeric"}
+              {...getFieldProps("quantity")}
+            />
+            <Input
+              label={t.label.buyPrice}
+              min={0}
+              placeholder={t.placeholder.number}
+              style={styles.input}
+              type={"numeric"}
+              {...getFieldProps("buyPrice")}
+            />
+            <Input
+              label={t.label.sellPrice}
+              min={0}
+              placeholder={t.placeholder.number}
+              style={styles.input}
+              type={"numeric"}
+              {...getFieldProps("sellPrice")}
+            />
+          </KeyboardAvoidingView>
+
+          <View style={styles.actions}>
+            <Button
+              disabled={isSubmitting}
+              color={"primary"}
+              icon={"check"}
+              onPress={handleSubmit}
+              style={commonStyles.grow}
+              variant={"solid"}
+            >
+              {t.save}
+            </Button>
+            {isEditMode && (
+              <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
+            )}
+          </View>
+        </ScrollView>
+      </QueryBoundary>
     </>
   );
 };

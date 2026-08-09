@@ -1,12 +1,12 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 
-import { Alert, Button, Input, List, Select, Text, useToastStore } from "@/components";
+import { Alert, Button, Input, List, QueryBoundary, Select, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import type { Transaction } from "@/db";
 import {
   TX_REASONS,
@@ -41,8 +41,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
   };
 
   const t = useTranslation(translations);
-  const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
   const txReasonOptions = TX_REASONS.map((el) => ({ text: t.map.reason[el], value: el }));
 
   const handleAdd = (): void => {
@@ -94,23 +93,6 @@ const TransactionFormscreen = (): React.JSX.Element => {
     });
   };
 
-  if (!txId) {
-    return (
-      <View style={commonStyles.center}>
-        <Text>{t.transaction.notFound}</Text>
-        <Button onPress={handleBack}>{t.goBack}</Button>
-      </View>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
-  }
-
   const handleSubmit = (): void => {
     submit().catch((err) => {
       logError(err);
@@ -131,52 +113,58 @@ const TransactionFormscreen = (): React.JSX.Element => {
         <Text type={"title"}>{t.transaction.add}</Text>
       </View>
 
-      <View style={[commonStyles.column, commonStyles.grow]}>
-        <Select
-          {...reasonProps}
-          label={t.label.reason}
-          options={txReasonOptions}
-          style={styles.input}
-        />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <Input
-            {...getFieldProps("notes")}
-            label={t.label.notes}
-            maxLength={500}
+      <QueryBoundary
+        error={txId ? undefined : new Error("Missing transaction id")}
+        errorMsg={t.transaction.notFound}
+        isPending={isPending}
+      >
+        <View style={[commonStyles.column, commonStyles.grow]}>
+          <Select
+            {...reasonProps}
+            label={t.label.reason}
+            options={txReasonOptions}
             style={styles.input}
           />
-        </KeyboardAvoidingView>
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+            <Input
+              {...getFieldProps("notes")}
+              label={t.label.notes}
+              maxLength={500}
+              style={styles.input}
+            />
+          </KeyboardAvoidingView>
 
-        <View style={commonStyles.row}>
-          <Text style={commonStyles.grow} type={"subtitle"}>
-            {t.items.title}
-          </Text>
-          <Button color={"primary"} icon={"plus"} onPress={handleAdd} variant={"solid"}>
-            {t.items.add}
-          </Button>
+          <View style={commonStyles.row}>
+            <Text style={commonStyles.grow} type={"subtitle"}>
+              {t.items.title}
+            </Text>
+            <Button color={"primary"} icon={"plus"} onPress={handleAdd} variant={"solid"}>
+              {t.items.add}
+            </Button>
+          </View>
+
+          <Alert hide={hasStock} type={"warning"}>
+            {t.items.insufficientStock}
+          </Alert>
+
+          <List
+            data={txItems}
+            error={txItemsError}
+            errorMsg={t.items.loadError}
+            renderItem={({ item }) => <TransactionItem data={item} key={item.id} tx={tx} />}
+          />
         </View>
 
-        <Alert hide={hasStock} type={"warning"}>
-          {t.items.insufficientStock}
-        </Alert>
-
-        <List
-          data={txItems}
-          error={txItemsError}
-          errorMsg={t.items.loadError}
-          renderItem={({ item }) => <TransactionItem data={item} key={item.id} tx={tx} />}
+        <Button
+          color={"primary"}
+          disabled={isSubmitting}
+          icon={"check"}
+          iconSize={32}
+          onPress={handleSubmit}
+          style={commonStyles.floatingBtn}
+          variant={"solid"}
         />
-      </View>
-
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        icon={"check"}
-        iconSize={32}
-        onPress={handleSubmit}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      </QueryBoundary>
     </>
   );
 };

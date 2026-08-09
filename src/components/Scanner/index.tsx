@@ -2,12 +2,13 @@ import type { BarcodeScanningResult } from "expo-camera";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as Haptics from "expo-haptics";
 import React, { useReducer, useRef } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 
 import { Button } from "@/components/Button";
+import { Spinner } from "@/components/Spinner";
 import { Text } from "@/components/Text";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import { logError } from "@/utils";
 
 import { barcodeSettings } from "./constants";
@@ -21,14 +22,9 @@ const Scanner = ({ children, onScan, style }: ScannerProps): React.JSX.Element =
   const isScannedRef = useRef<boolean>(false);
 
   const t = useTranslation(translations);
-  const colors = useColors();
 
   if (permission === null) {
-    return (
-      <View style={[commonStyles.center, style]}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner style={style} />;
   }
 
   const handleRequestPermission = (): void => {

@@ -1,8 +1,16 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 
-import { Alert, Button, ConfirmationButton, List, Text, useToastStore } from "@/components";
+import {
+  Alert,
+  Button,
+  ConfirmationButton,
+  List,
+  QueryBoundary,
+  Text,
+  useToast,
+} from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import {
@@ -30,28 +38,11 @@ const TransactionScreen = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const colors = useColors();
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const handleBack = (): void => {
     router.back();
   };
-
-  if (txError) {
-    return (
-      <View style={commonStyles.center}>
-        <Text style={{ color: colors.textError }}>{t.transaction.loadError}</Text>
-        <Button onPress={handleBack}>{t.goBack}</Button>
-      </View>
-    );
-  }
-
-  if (!tx) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
-  }
 
   const { status } = tx;
 
@@ -107,91 +98,93 @@ const TransactionScreen = (): React.JSX.Element => {
 
   return (
     <>
-      <View style={[commonStyles.row, commonStyles.mb2]}>
+      <View style={commonStyles.header}>
         <Button icon={"back"} onPress={handleBack} />
         <Text type={"title"}>{t.transaction.title}</Text>
       </View>
 
-      <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
+      <QueryBoundary error={txError} errorMsg={t.transaction.loadError} isPending={!tx}>
+        <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
+          <View style={commonStyles.row}>
+            {status === "DRAFT" && (
+              <>
+                <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"}>
+                  {t.edit}
+                </Button>
+                <ConfirmationButton
+                  icon={"trash"}
+                  onConfirm={handleDelete}
+                  title={t.transaction.delete}
+                  variant={"outline"}
+                />
+              </>
+            )}
+            {status === "COMPLETE" && (
+              <>
+                <ConfirmationButton
+                  icon={"void"}
+                  onConfirm={handleVoid}
+                  title={t.transaction.void}
+                  variant={"outline"}
+                />
+                <Button icon={"copy"} variant={"outline"} />
+              </>
+            )}
+          </View>
+        </View>
+
         <View style={commonStyles.row}>
-          {status === "DRAFT" && (
-            <>
-              <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"}>
-                {t.edit}
-              </Button>
-              <ConfirmationButton
-                icon={"trash"}
-                onConfirm={handleDelete}
-                title={t.transaction.delete}
-                variant={"outline"}
-              />
-            </>
-          )}
-          {status === "COMPLETE" && (
-            <>
-              <ConfirmationButton
-                icon={"void"}
-                onConfirm={handleVoid}
-                title={t.transaction.void}
-                variant={"outline"}
-              />
-              <Button icon={"copy"} variant={"outline"} />
-            </>
-          )}
+          <Text type={"semibold"}>{"ID"}</Text>
+          <Text>{id}</Text>
         </View>
-      </View>
 
-      <View style={commonStyles.row}>
-        <Text type={"semibold"}>{"ID"}</Text>
-        <Text>{id}</Text>
-      </View>
-
-      <View style={[commonStyles.row, commonStyles.itemsStart, commonStyles.my]}>
-        <View style={commonStyles.column}>
-          <Text type={"semibold"}>{t.date}</Text>
-          <Text type={"semibold"}>{t.status}</Text>
-          <Text type={"semibold"}>{t.reason}</Text>
-          {tx.notes && <Text type={"semibold"}>{t.notes}</Text>}
+        <View style={[commonStyles.row, commonStyles.itemsStart, commonStyles.my]}>
+          <View style={commonStyles.column}>
+            <Text type={"semibold"}>{t.date}</Text>
+            <Text type={"semibold"}>{t.status}</Text>
+            <Text type={"semibold"}>{t.reason}</Text>
+            {tx.notes && <Text type={"semibold"}>{t.notes}</Text>}
+          </View>
+          <View style={commonStyles.column}>
+            <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
+            <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>
+            <Text>{t.map.reason[tx.reason]}</Text>
+            {tx.notes && <Text>{tx.notes}</Text>}
+          </View>
         </View>
-        <View style={commonStyles.column}>
-          <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
-          <Text style={{ color: colors[COLOR_BY_TX_STATUS[status]] }}>{t.map.status[status]}</Text>
-          <Text>{t.map.reason[tx.reason]}</Text>
-          {tx.notes && <Text>{tx.notes}</Text>}
+
+        <Alert hide={hasStock} type={"warning"}>
+          {t.items.insufficientStock}
+        </Alert>
+
+        <View style={[commonStyles.row, styles.total, { borderBottomColor: colors.textDisabled }]}>
+          <Text style={commonStyles.grow} type={"semibold"}>
+            {t.items.title}
+          </Text>
+          <Text type={"semibold"}>{`${t.total}:`}</Text>
+          <Text>{NUM_FORMATS.PRICE.format(sellTotal === 0 ? buyTotal : sellTotal)}</Text>
         </View>
-      </View>
 
-      <Alert hide={hasStock} type={"warning"}>
-        {t.items.insufficientStock}
-      </Alert>
-
-      <View style={[commonStyles.row, styles.total, { borderBottomColor: colors.textDisabled }]}>
-        <Text style={commonStyles.grow} type={"semibold"}>
-          {t.items.title}
-        </Text>
-        <Text type={"semibold"}>{`${t.total}:`}</Text>
-        <Text>{NUM_FORMATS.PRICE.format(sellTotal === 0 ? buyTotal : sellTotal)}</Text>
-      </View>
-
-      <List
-        data={txItems}
-        emptyMsg={t.items.empty}
-        error={txItemsError}
-        errorMsg={t.items.loadError}
-        keyExtractor={(el) => el.id}
-        renderItem={({ item }) => <TransactionItem data={item} tx={tx} />}
-      />
-      {status === "DRAFT" && txItems.length > 0 && hasStock && (
-        <ConfirmationButton
-          color={"primary"}
-          icon={"check"}
-          onConfirm={handleComplete}
-          title={t.transaction.complete}
-          variant={"solid"}
-        >
-          {t.transaction.complete}
-        </ConfirmationButton>
-      )}
+        <List
+          data={txItems}
+          emptyMsg={t.items.empty}
+          error={txItemsError}
+          errorMsg={t.items.loadError}
+          keyExtractor={(el) => el.id}
+          renderItem={({ item }) => <TransactionItem data={item} tx={tx} />}
+        />
+        {status === "DRAFT" && txItems.length > 0 && hasStock && (
+          <ConfirmationButton
+            color={"primary"}
+            icon={"check"}
+            onConfirm={handleComplete}
+            title={t.transaction.complete}
+            variant={"solid"}
+          >
+            {t.transaction.complete}
+          </ConfirmationButton>
+        )}
+      </QueryBoundary>
     </>
   );
 };

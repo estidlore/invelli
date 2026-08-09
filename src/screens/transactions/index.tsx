@@ -1,7 +1,7 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 
-import { Button, List, Text, useToastStore } from "@/components";
+import { Button, List, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { getTransactions, insertTransactionDraft } from "@/db";
@@ -13,7 +13,7 @@ import { translations } from "./translations";
 const TransactionsScreen = (): React.JSX.Element => {
   const router = useRouter();
   const t = useTranslation(translations);
-  const showToast = useToastStore((state) => state.showToast);
+  const showToast = useToast();
 
   const { data: transactions, error: transactionsError } = useLiveQuery(
     getTransactions({ isDetailed: true }),

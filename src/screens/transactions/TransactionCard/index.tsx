@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import { Card, Icon, Text } from "@/components";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import { COLOR_BY_TX_REASON, COLOR_BY_TX_STATUS, ICON_BY_TX_REASON } from "@/db";
 import { NUM_FORMATS, dateTimeString } from "@/utils";
 
@@ -14,7 +14,6 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   const { createdAt, notes, reason: txReason, status, transactionItems: txItems } = data;
   const router = useRouter();
   const t = useTranslation(translations);
-  const colors = useColors();
 
   const handleClick = (): void => {
     router.push({
@@ -30,18 +29,14 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   return (
     <Card onPress={handleClick} style={commonStyles.column}>
       <View style={commonStyles.row}>
-        <Icon
-          color={colors[COLOR_BY_TX_REASON[txReason]]}
-          name={ICON_BY_TX_REASON[txReason]}
-          size={20}
-        />
+        <Icon color={COLOR_BY_TX_REASON[txReason]} name={ICON_BY_TX_REASON[txReason]} size={20} />
         <Text style={commonStyles.grow}>{dateTimeString(new Date(createdAt))}</Text>
         {price === 0 ? null : <Text>{NUM_FORMATS.PRICE.format(price)}</Text>}
       </View>
       <View style={commonStyles.rowBetween}>
         <Text>{`${t.reasonMap[txReason]}  -  ${txItems.length} ${t.items}`}</Text>
         {status !== "COMPLETE" && (
-          <Text style={{ color: colors[COLOR_BY_TX_STATUS[status]] }}>{t.statusMap[status]}</Text>
+          <Text color={COLOR_BY_TX_STATUS[status]}>{t.statusMap[status]}</Text>
         )}
       </View>
 
