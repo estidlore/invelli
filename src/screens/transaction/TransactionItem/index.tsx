@@ -18,7 +18,7 @@ const TransactionItem = ({ data, tx }: TransactionItemProps): React.JSX.Element 
   return (
     <View style={[commonStyles.row, styles.container, { borderBottomColor: colors.textDisabled }]}>
       <View style={[commonStyles.column, commonStyles.grow]}>
-        <Text style={!hasStock && { color: colors.textWarning }}>{data.item.name}</Text>
+        <Text color={!hasStock ? "textWarning" : undefined}>{data.item.name}</Text>
         {item.code && <Text>{item.code}</Text>}
       </View>
       <View style={[commonStyles.column, commonStyles.itemsEnd]}>

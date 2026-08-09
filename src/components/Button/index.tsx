@@ -26,7 +26,7 @@ const Button = ({
       style={[styles.container, containerStyle, style]}
     >
       {icon === undefined ? null : <Icon color={textColor} name={icon} size={iconSize} />}
-      {children === undefined ? null : <Text style={{ color: textColor }}>{children}</Text>}
+      {children === undefined ? null : <Text color={textColor}>{children}</Text>}
     </TouchableOpacity>
   );
 };

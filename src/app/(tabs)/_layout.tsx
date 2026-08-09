@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Icon } from "@/components";
+import type { ThemeColor } from "@/core/theme";
 import { useColors } from "@/core/theme";
 
 const TabsLayout = (): React.JSX.Element => {
@@ -19,8 +20,8 @@ const TabsLayout = (): React.JSX.Element => {
           paddingRight: insets.right + 16,
           paddingTop: insets.top + 16,
         },
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.text,
+        tabBarActiveTintColor: "primary",
+        tabBarInactiveTintColor: "text",
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: colors.card,
@@ -33,19 +34,23 @@ const TabsLayout = (): React.JSX.Element => {
       <Tabs.Screen
         name={"inventory"}
         options={{
-          tabBarIcon: ({ color }) => <Icon color={color} name={"inventory"} size={24} />,
+          tabBarIcon: ({ color }) => (
+            <Icon color={color as ThemeColor} name={"inventory"} size={24} />
+          ),
         }}
       />
       <Tabs.Screen
         name={"transactions"}
         options={{
-          tabBarIcon: ({ color }) => <Icon color={color} name={"dollar"} size={24} />,
+          tabBarIcon: ({ color }) => <Icon color={color as ThemeColor} name={"dollar"} size={24} />,
         }}
       />
       <Tabs.Screen
         name={"settings"}
         options={{
-          tabBarIcon: ({ color }) => <Icon color={color} name={"settings"} size={24} />,
+          tabBarIcon: ({ color }) => (
+            <Icon color={color as ThemeColor} name={"settings"} size={24} />
+          ),
         }}
       />
     </Tabs>

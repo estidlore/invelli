@@ -41,7 +41,7 @@ const TransactionAddItems = (): React.JSX.Element => {
   if (txItemsError) {
     return (
       <View style={commonStyles.center}>
-        <Text style={{ color: colors.textError }}>{t.items.loadError}</Text>
+        <Text color={"textError"}>{t.items.loadError}</Text>
       </View>
     );
   }

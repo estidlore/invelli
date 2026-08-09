@@ -1,24 +1,22 @@
-import type { ThemeColor } from "@/core/theme";
-import { useColors } from "@/core/theme";
+import { type ThemeColor, useColors } from "@/core/theme";
 
 import type { ButtonVariant, ButtonVariantStyle } from "./types";
 
-const useButtonColors = (variant: ButtonVariant, colorName: ThemeColor): ButtonVariantStyle => {
+const useButtonColors = (variant: ButtonVariant, color: ThemeColor): ButtonVariantStyle => {
   const colors = useColors();
-  const color = colors[colorName];
 
   switch (variant) {
     case "outline":
       return {
-        borderColor: color,
+        borderColor: colors[color],
         borderWidth: 1,
         color,
       };
     case "solid":
       return {
-        backgroundColor: color,
+        backgroundColor: colors[color],
         borderWidth: 0,
-        color: colors.text,
+        color: "text",
       };
     case "text":
       return {

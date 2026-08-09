@@ -39,7 +39,7 @@ const TransactionScreen = (): React.JSX.Element => {
   if (txError) {
     return (
       <View style={commonStyles.center}>
-        <Text style={{ color: colors.textError }}>{t.transaction.loadError}</Text>
+        <Text color={"textError"}>{t.transaction.loadError}</Text>
         <Button onPress={handleBack}>{t.goBack}</Button>
       </View>
     );
@@ -155,7 +155,7 @@ const TransactionScreen = (): React.JSX.Element => {
         </View>
         <View style={commonStyles.column}>
           <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
-          <Text style={{ color: colors[COLOR_BY_TX_STATUS[status]] }}>{t.map.status[status]}</Text>
+          <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>
           <Text>{t.map.reason[tx.reason]}</Text>
           {tx.notes && <Text>{tx.notes}</Text>}
         </View>

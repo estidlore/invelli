@@ -25,7 +25,7 @@ const textColorByType: Record<AlertType, keyof Theme> = {
 
 const Alert = ({ children, hide = false, style, type }: AlertProps): React.ReactNode => {
   const colors = useColors();
-  const color = colors[textColorByType[type]];
+  const color = textColorByType[type];
 
   const [contentHeight, setContentHeight] = useState(0);
   const onLayout = (ev: LayoutChangeEvent): void => {
@@ -46,7 +46,7 @@ const Alert = ({ children, hide = false, style, type }: AlertProps): React.React
         style={[styles.container, { backgroundColor: colors[bgColorByType[type]] }]}
       >
         <Icon color={color} name={type} size={14} />
-        <Text style={{ color }} type={"small"}>
+        <Text color={color} type={"small"}>
           {children}
         </Text>
       </View>

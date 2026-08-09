@@ -34,7 +34,7 @@ const Toast = (): React.JSX.Element | null => {
 
   if (!toast) return null;
 
-  const color = colors[TEXT_COLOR_BY_TYPE[toast.type]];
+  const color = TEXT_COLOR_BY_TYPE[toast.type];
 
   return (
     <Animated.View
@@ -48,19 +48,14 @@ const Toast = (): React.JSX.Element | null => {
           styles.box,
           {
             backgroundColor: colors[BG_COLOR_BY_TYPE[toast.type]],
-            borderColor: color,
+            borderColor: colors[color],
           },
         ]}
       >
-        <Text style={{ color }} type={"small"}>
+        <Text color={color} type={"small"}>
           {toast.message}
         </Text>
-        <Button
-          color={TEXT_COLOR_BY_TYPE[toast.type]}
-          icon={"xmark"}
-          iconSize={18}
-          onPress={hideToast}
-        />
+        <Button color={color} icon={"xmark"} iconSize={18} onPress={hideToast} />
       </View>
     </Animated.View>
   );

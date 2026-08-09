@@ -8,9 +8,15 @@ import { useColors } from "@/core/theme";
 import { NAMES } from "./names";
 import type { IconProps } from "./types";
 
-const Icon = ({ color, name, size = 20, style, ...rest }: IconProps): React.JSX.Element => {
+const Icon = ({
+  color = "text",
+  name,
+  size = 20,
+  style,
+  ...rest
+}: IconProps): React.JSX.Element => {
   const colors = useColors();
-  const tint = color ?? colors.text;
+  const tint = colors[color];
 
   if (Platform.OS !== "ios") {
     return (

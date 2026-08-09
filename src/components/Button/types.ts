@@ -8,7 +8,7 @@ interface ButtonVariantStyle extends Pick<
   TextStyle,
   "backgroundColor" | "borderColor" | "borderWidth"
 > {
-  color?: string;
+  color?: ThemeColor;
 }
 
 interface ButtonProps extends TouchableOpacityProps {
