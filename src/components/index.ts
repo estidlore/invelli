@@ -6,6 +6,7 @@ export * from "./Icon";
 export * from "./Input";
 export * from "./List";
 export * from "./Modal";
+export * from "./QueryBoundary";
 export * from "./Scanner";
 export * from "./Scanner/AnimatedScanner";
 export * from "./Select";

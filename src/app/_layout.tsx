@@ -7,7 +7,7 @@ import { View } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { Spinner, Text, Toast } from "@/components";
+import { QueryBoundary, Toast } from "@/components";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
 import { logError } from "@/utils";
@@ -17,7 +17,7 @@ const RootLayout = (): React.JSX.Element => {
   const barsStyle = theme === "dark" ? "light" : "dark";
   setButtonStyleAsync(barsStyle).catch(logError);
 
-  const { success, error } = useMigrations(db, migrations);
+  const { error, success } = useMigrations(db, migrations);
   const colors = useColors();
   const appTheme = {
     ...DefaultTheme,
@@ -27,31 +27,21 @@ const RootLayout = (): React.JSX.Element => {
     },
   };
 
-  if (error) {
-    return (
-      <View style={commonStyles.center}>
-        <Text>{`Migration error: ${error.message}`}</Text>
-      </View>
-    );
-  }
-
-  if (!success) {
-    return <Spinner />;
-  }
-
   return (
-    <SafeAreaProvider>
-      <StatusBar style={barsStyle} />
-      <ThemeProvider value={appTheme}>
-        <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
-          <Stack screenOptions={{ animation: "fade", headerShown: false }}>
-            <Stack.Screen name={"(tabs)"} />
-            <Stack.Screen name={"(stack)"} />
-          </Stack>
-          <Toast />
-        </View>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <QueryBoundary error={error} errorMsg={"DB migration error"} isPending={!success}>
+      <SafeAreaProvider>
+        <StatusBar style={barsStyle} />
+        <ThemeProvider value={appTheme}>
+          <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
+            <Stack screenOptions={{ animation: "fade", headerShown: false }}>
+              <Stack.Screen name={"(tabs)"} />
+              <Stack.Screen name={"(stack)"} />
+            </Stack>
+            <Toast />
+          </View>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </QueryBoundary>
   );
 };
 
