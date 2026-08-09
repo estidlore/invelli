@@ -9,5 +9,6 @@ export * from "./Modal";
 export * from "./Scanner";
 export * from "./Scanner/AnimatedScanner";
 export * from "./Select";
+export * from "./Spinner";
 export * from "./Text";
 export * from "./Toast";

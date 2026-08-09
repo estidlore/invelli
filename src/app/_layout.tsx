@@ -3,11 +3,11 @@ import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { setButtonStyleAsync } from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { Text, Toast } from "@/components";
+import { Spinner, Text, Toast } from "@/components";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
 import { logError } from "@/utils";
@@ -36,11 +36,7 @@ const RootLayout = (): React.JSX.Element => {
   }
 
   if (!success) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner />;
   }
 
   return (

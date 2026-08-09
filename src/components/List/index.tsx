@@ -1,7 +1,8 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { FlatList, View } from "react-native";
 
+import { Spinner } from "@/components/Spinner";
 import { Text } from "@/components/Text";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import { logError } from "@/utils";
 
 import type { ListProps } from "./types";
@@ -15,8 +16,6 @@ const List = <T,>({
   style,
   ...rest
 }: ListProps<T>): React.JSX.Element => {
-  const colors = useColors();
-
   if (error) {
     logError("List error:", error);
 
@@ -28,11 +27,7 @@ const List = <T,>({
   }
 
   if (!data) {
-    return (
-      <View style={[commonStyles.center, style]}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner style={style} />;
   }
 
   if (data.length === 0) {

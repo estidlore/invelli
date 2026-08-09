@@ -1,12 +1,12 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 
-import { Alert, Button, Input, List, Select, Text, useToast } from "@/components";
+import { Alert, Button, Input, List, Select, Spinner, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import type { Transaction } from "@/db";
 import {
   TX_REASONS,
@@ -41,7 +41,6 @@ const TransactionFormscreen = (): React.JSX.Element => {
   };
 
   const t = useTranslation(translations);
-  const colors = useColors();
   const showToast = useToast();
   const txReasonOptions = TX_REASONS.map((el) => ({ text: t.map.reason[el], value: el }));
 
@@ -104,11 +103,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
   }
 
   if (isPending) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner />;
   }
 
   const handleSubmit = (): void => {

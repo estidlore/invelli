@@ -1,8 +1,8 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 
-import { Alert, Button, ConfirmationButton, List, Text, useToast } from "@/components";
+import { Alert, Button, ConfirmationButton, List, Spinner, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import {
@@ -46,11 +46,7 @@ const TransactionScreen = (): React.JSX.Element => {
   }
 
   if (!tx) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner />;
   }
 
   const { status } = tx;

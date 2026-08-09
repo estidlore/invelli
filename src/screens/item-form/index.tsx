@@ -1,8 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, Text, useToast } from "@/components";
+import { Button, ConfirmationButton, Input, Spinner, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
@@ -117,11 +117,7 @@ const ItemFormScreen = (): React.JSX.Element => {
   }, [scannedBarcode, setValues]);
 
   if (isPending) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner />;
   }
 
   return (

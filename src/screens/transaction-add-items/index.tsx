@@ -1,12 +1,12 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { AnimatedScanner, Button, Input, List, Text, useToast } from "@/components";
+import { AnimatedScanner, Button, Input, List, Spinner, Text, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
-import { commonStyles, useColors } from "@/core/theme";
+import { commonStyles } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
 import {
   getItem,
@@ -35,7 +35,6 @@ const TransactionAddItems = (): React.JSX.Element => {
   const { data: items, error: itemsError } = useLiveQuery(searchItems(searchText), [searchText]);
 
   const t = useTranslation(translations);
-  const colors = useColors();
   const showToast = useToast();
 
   if (txItemsError) {
@@ -47,11 +46,7 @@ const TransactionAddItems = (): React.JSX.Element => {
   }
 
   if (!txItems) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator color={colors.primary} size={"large"} />
-      </View>
-    );
+    return <Spinner />;
   }
 
   const handleBack = (): void => {
