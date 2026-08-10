@@ -8,6 +8,7 @@ import {
   ConfirmationButton,
   List,
   QueryBoundary,
+  Screen,
   Text,
   useToast,
 } from "@/components";
@@ -40,16 +41,12 @@ const TransactionScreen = (): React.JSX.Element => {
   const colors = useColors();
   const showToast = useToast();
 
-  const handleBack = (): void => {
-    router.back();
-  };
-
   const { status } = tx;
 
   const handleDelete = (): void => {
     deleteTransaction(id)
       .then(() => {
-        handleBack();
+        router.back();
         showToast(t.transaction.deleted);
       })
       .catch((err) => {
@@ -68,7 +65,7 @@ const TransactionScreen = (): React.JSX.Element => {
   const handleVoid = (): void => {
     voidTransaction(id)
       .then(() => {
-        handleBack();
+        router.back();
         showToast(t.transaction.voided);
       })
       .catch((err) => {
@@ -97,12 +94,7 @@ const TransactionScreen = (): React.JSX.Element => {
   );
 
   return (
-    <>
-      <View style={commonStyles.header}>
-        <Button icon={"back"} onPress={handleBack} />
-        <Text type={"title"}>{t.transaction.title}</Text>
-      </View>
-
+    <Screen goBack title={t.transaction.title}>
       <QueryBoundary error={txError} errorMsg={t.transaction.loadError} isPending={!tx}>
         <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
           <View style={commonStyles.row}>
@@ -185,7 +177,7 @@ const TransactionScreen = (): React.JSX.Element => {
           </ConfirmationButton>
         )}
       </QueryBoundary>
-    </>
+    </Screen>
   );
 };
 

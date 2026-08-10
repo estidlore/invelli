@@ -3,7 +3,17 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
 
-import { Alert, Button, Input, List, QueryBoundary, Select, Text, useToast } from "@/components";
+import {
+  Alert,
+  Button,
+  Input,
+  List,
+  QueryBoundary,
+  Screen,
+  Select,
+  Text,
+  useToast,
+} from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
@@ -107,12 +117,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
   );
 
   return (
-    <>
-      <View style={commonStyles.header}>
-        <Button icon={"back"} onPress={handleBack} />
-        <Text type={"title"}>{t.transaction.add}</Text>
-      </View>
-
+    <Screen goBack={handleBack} title={t.transaction.add}>
       <QueryBoundary
         error={txId ? undefined : new Error("Missing transaction id")}
         errorMsg={t.transaction.notFound}
@@ -165,7 +170,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
           variant={"solid"}
         />
       </QueryBoundary>
-    </>
+    </Screen>
   );
 };
 

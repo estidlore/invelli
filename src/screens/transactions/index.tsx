@@ -1,7 +1,7 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 
-import { Button, List, Text, useToast } from "@/components";
+import { Button, List, Screen, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { getTransactions, insertTransactionDraft } from "@/db";
@@ -35,10 +35,7 @@ const TransactionsScreen = (): React.JSX.Element => {
   };
 
   return (
-    <>
-      <Text style={commonStyles.mb2} type={"title"}>
-        {t.title}
-      </Text>
+    <Screen title={t.title}>
       <List
         data={transactions}
         emptyMsg={t.noTransactions}
@@ -55,7 +52,7 @@ const TransactionsScreen = (): React.JSX.Element => {
         style={commonStyles.floatingBtn}
         variant={"solid"}
       />
-    </>
+    </Screen>
   );
 };
 

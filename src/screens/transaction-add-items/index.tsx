@@ -1,10 +1,10 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { AnimatedScanner, Button, Input, List, QueryBoundary, Text, useToast } from "@/components";
+import { AnimatedScanner, Input, List, QueryBoundary, Screen, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
@@ -23,7 +23,6 @@ import { translations } from "./translations";
 
 const TransactionAddItems = (): React.JSX.Element => {
   const { id } = useLocalSearchParams<Pick<Transaction, "id">>();
-  const router = useRouter();
 
   const { data: txItems, error: txItemsError } = useLiveQuery(
     getTransactionItems({ isDetailed: true, transactionId: id }),
@@ -36,10 +35,6 @@ const TransactionAddItems = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const showToast = useToast();
-
-  const handleBack = (): void => {
-    router.back();
-  };
 
   const handleAddItem = (item: Item): void => {
     const txItem = txItems.find((el) => el.itemId === item.id);
@@ -86,11 +81,7 @@ const TransactionAddItems = (): React.JSX.Element => {
   };
 
   return (
-    <>
-      <View style={commonStyles.header}>
-        <Button icon={"back"} onPress={handleBack} />
-        <Text type={"title"}>{t.items.title}</Text>
-      </View>
+    <Screen goBack title={t.items.title}>
       <QueryBoundary error={txItemsError} errorMsg={t.items.loadError} isPending={!txItems}>
         <AnimatedScanner onScan={handleScan} />
         <Input
@@ -109,7 +100,7 @@ const TransactionAddItems = (): React.JSX.Element => {
           />
         </View>
       </QueryBoundary>
-    </>
+    </Screen>
   );
 };
 
