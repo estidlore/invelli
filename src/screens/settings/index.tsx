@@ -1,6 +1,4 @@
-import { View } from "react-native";
-
-import { Button, Select, Text, useToast } from "@/components";
+import { Button, Screen, Select, useToast } from "@/components";
 import { languages, useLanguageStore, useTranslation } from "@/core/language";
 import type { ThemePreference } from "@/core/theme";
 import { useThemeStore } from "@/core/theme";
@@ -52,10 +50,7 @@ const SettingsScreen = (): React.JSX.Element => {
   };
 
   return (
-    <View>
-      <Text style={styles.title} type={"title"}>
-        {t.settings}
-      </Text>
+    <Screen title={t.settings}>
       <Select
         label={t.darkMode.title}
         onChange={setThemePreference}
@@ -76,7 +71,7 @@ const SettingsScreen = (): React.JSX.Element => {
       <Button onPress={handleImport} style={styles.button} variant={"outline"}>
         {t.importData}
       </Button>
-    </View>
+    </Screen>
   );
 };
 

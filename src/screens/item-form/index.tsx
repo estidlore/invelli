@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, QueryBoundary, Text, useToast } from "@/components";
+import { Button, ConfirmationButton, Input, QueryFallback, Screen, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
@@ -31,32 +31,6 @@ const ItemFormScreen = (): React.JSX.Element => {
   const t = useTranslation(translations);
   const showToast = useToast();
 
-  const handleBack = (): void => {
-    router.back();
-  };
-
-  const handleScan = (): void => {
-    router.navigate({ pathname: "/scanner" });
-  };
-
-  const handleDelete = (): void => {
-    if (!params.id) return;
-    deleteItem(params.id)
-      .then(() => {
-        handleBack();
-        showToast(t.toast.itemDeleted);
-      })
-      .catch((err) => {
-        const errMsg = err?.message ?? String(err);
-
-        if (errMsg.includes("FOREIGN KEY constraint failed")) {
-          showToast(t.toast.itemInActiveTransactions, "error");
-        } else {
-          showToast(t.toast.itemDeleteError, "error");
-        }
-      });
-  };
-
   const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
       const data = {
@@ -79,17 +53,6 @@ const ItemFormScreen = (): React.JSX.Element => {
     setValues,
     values,
   });
-
-  const handleSubmit = (): void => {
-    submit()
-      .then(() => {
-        showToast(isEditMode ? t.toast.itemUpdated : t.toast.itemAdded);
-      })
-      .catch((err) => {
-        showToast(isEditMode ? t.toast.itemUpdateError : t.toast.itemAddError, "error");
-        logError(err);
-      });
-  };
 
   useEffect(() => {
     if (isEditMode) {
@@ -115,77 +78,111 @@ const ItemFormScreen = (): React.JSX.Element => {
     }
   }, [scannedBarcode, setValues]);
 
+  const handleScan = (): void => {
+    router.navigate({ pathname: "/scanner" });
+  };
+
+  if (isPending) {
+    return (
+      <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+        <QueryFallback isPending={isPending} />
+      </Screen>
+    );
+  }
+
+  const handleDelete = (): void => {
+    if (!params.id) return;
+    deleteItem(params.id)
+      .then(() => {
+        router.back();
+        showToast(t.toast.itemDeleted);
+      })
+      .catch((err) => {
+        const errMsg = err?.message ?? String(err);
+
+        if (errMsg.includes("FOREIGN KEY constraint failed")) {
+          showToast(t.toast.itemInActiveTransactions, "error");
+        } else {
+          showToast(t.toast.itemDeleteError, "error");
+        }
+      });
+  };
+
+  const handleSubmit = (): void => {
+    submit()
+      .then(() => {
+        showToast(isEditMode ? t.toast.itemUpdated : t.toast.itemAdded);
+      })
+      .catch((err) => {
+        showToast(isEditMode ? t.toast.itemUpdateError : t.toast.itemAddError, "error");
+        logError(err);
+      });
+  };
+
   return (
-    <>
-      <View style={commonStyles.header}>
-        <Button icon={"back"} onPress={handleBack} />
-        <Text type={"title"}>{isEditMode ? t.editItem : t.addItem}</Text>
-      </View>
-
-      <QueryBoundary isPending={isPending}>
-        <ScrollView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={commonStyles.grow}
-          >
-            <View style={styles.codeRow}>
-              <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
-              <Input
-                placeholder={t.placeholder.code}
-                style={commonStyles.grow}
-                {...getFieldProps("code")}
-              />
-            </View>
+    <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={commonStyles.grow}
+        >
+          <View style={styles.codeRow}>
+            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
-              label={t.label.name}
-              placeholder={t.placeholder.name}
-              style={styles.input}
-              {...getFieldProps("name")}
-            />
-            <Input
-              label={t.label.quantity}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("quantity")}
-            />
-            <Input
-              label={t.label.buyPrice}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("buyPrice")}
-            />
-            <Input
-              label={t.label.sellPrice}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("sellPrice")}
-            />
-          </KeyboardAvoidingView>
-
-          <View style={styles.actions}>
-            <Button
-              disabled={isSubmitting}
-              color={"primary"}
-              icon={"check"}
-              onPress={handleSubmit}
+              placeholder={t.placeholder.code}
               style={commonStyles.grow}
-              variant={"solid"}
-            >
-              {t.save}
-            </Button>
-            {isEditMode && (
-              <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
-            )}
+              {...getFieldProps("code")}
+            />
           </View>
-        </ScrollView>
-      </QueryBoundary>
-    </>
+          <Input
+            label={t.label.name}
+            placeholder={t.placeholder.name}
+            style={styles.input}
+            {...getFieldProps("name")}
+          />
+          <Input
+            label={t.label.quantity}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("quantity")}
+          />
+          <Input
+            label={t.label.buyPrice}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("buyPrice")}
+          />
+          <Input
+            label={t.label.sellPrice}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("sellPrice")}
+          />
+        </KeyboardAvoidingView>
+
+        <View style={styles.actions}>
+          <Button
+            color={"primary"}
+            disabled={isSubmitting}
+            icon={"check"}
+            onPress={handleSubmit}
+            style={commonStyles.grow}
+            variant={"solid"}
+          >
+            {t.save}
+          </Button>
+          {isEditMode && (
+            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
+          )}
+        </View>
+      </ScrollView>
+    </Screen>
   );
 };
 

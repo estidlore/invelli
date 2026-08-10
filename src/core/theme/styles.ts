@@ -3,13 +3,11 @@ import { StyleSheet } from "react-native";
 const commonStyles = StyleSheet.create({
   center: {
     alignItems: "center",
-    display: "flex",
     flexDirection: "column",
     flexGrow: 1,
     justifyContent: "center",
   },
   column: {
-    display: "flex",
     flexDirection: "column",
     gap: 8,
   },
@@ -26,7 +24,6 @@ const commonStyles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    display: "flex",
     flexDirection: "row",
     gap: 16,
     marginBottom: 16,
@@ -67,13 +64,11 @@ const commonStyles = StyleSheet.create({
   },
   row: {
     alignItems: "center",
-    display: "flex",
     flexDirection: "row",
     gap: 16,
   },
   rowBetween: {
     alignItems: "center",
-    display: "flex",
     flexDirection: "row",
     gap: 16,
     justifyContent: "space-between",

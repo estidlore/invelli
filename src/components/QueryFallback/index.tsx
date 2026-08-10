@@ -5,14 +5,9 @@ import { Text } from "@/components/Text";
 import { commonStyles } from "@/core/theme";
 import { logError } from "@/utils";
 
-import type { QueryBoundaryProps } from "./types";
+import type { QueryFallbackProps } from "./types";
 
-const QueryBoundary = ({
-  children,
-  error,
-  errorMsg,
-  isPending,
-}: QueryBoundaryProps): React.ReactNode => {
+const QueryFallback = ({ error, errorMsg, isPending }: QueryFallbackProps): React.ReactNode => {
   if (error) {
     logError(error.message);
 
@@ -29,7 +24,7 @@ const QueryBoundary = ({
     return <Spinner />;
   }
 
-  return children;
+  return null;
 };
 
-export { QueryBoundary };
+export { QueryFallback };
