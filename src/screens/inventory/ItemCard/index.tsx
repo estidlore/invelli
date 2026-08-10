@@ -19,7 +19,7 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
       params: {
         id: item.id,
       },
-      pathname: "/item-form",
+      pathname: "/items/[id]/edit",
     });
   };
 
