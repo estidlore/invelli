@@ -7,18 +7,18 @@ import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
 import { sanitizeDbItem } from "@/db/utils";
 
-import type { SelectQuery } from "./types";
+import type { FindFirstQuery, SelectQuery } from "./types";
 
 const deleteItem = async (id: string): Promise<SQLiteRunResult> => {
   return await db.delete(items).where(eq(items.id, id));
 };
 
-const getItem = async (id: string): Promise<Item | undefined> => {
-  if (!id?.trim()) return undefined;
+const getItem = (id: string): FindFirstQuery<Item> => {
+  return db.query.items.findFirst({ where: eq(items.id, id) }) as FindFirstQuery<Item>;
+};
 
-  return await db.query.items.findFirst({
-    where: or(eq(items.id, id), eq(items.code, id)),
-  });
+const getItemByCode = (code: string): FindFirstQuery<Item> => {
+  return db.query.items.findFirst({ where: eq(items.code, code) }) as FindFirstQuery<Item>;
 };
 
 const getItems = async (): Promise<Item[]> => {
@@ -56,4 +56,4 @@ const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRun
   return await db.update(items).set(sanitizeDbItem(data)).where(eq(items.id, id));
 };
 
-export { deleteItem, getItem, getItems, insertItem, searchItems, updateItem };
+export { deleteItem, getItem, getItemByCode, getItems, insertItem, searchItems, updateItem };
