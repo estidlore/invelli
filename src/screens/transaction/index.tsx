@@ -7,7 +7,7 @@ import {
   Button,
   ConfirmationButton,
   List,
-  QueryBoundary,
+  QueryFallback,
   Screen,
   Text,
   useToast,
@@ -40,6 +40,14 @@ const TransactionScreen = (): React.JSX.Element => {
   const t = useTranslation(translations);
   const colors = useColors();
   const showToast = useToast();
+
+  if (txError || !tx) {
+    return (
+      <Screen goBack title={t.transaction.title}>
+        <QueryFallback error={txError} errorMsg={t.transaction.loadError} isPending={!tx} />
+      </Screen>
+    );
+  }
 
   const { status } = tx;
 
@@ -95,88 +103,86 @@ const TransactionScreen = (): React.JSX.Element => {
 
   return (
     <Screen goBack title={t.transaction.title}>
-      <QueryBoundary error={txError} errorMsg={t.transaction.loadError} isPending={!tx}>
-        <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
-          <View style={commonStyles.row}>
-            {status === "DRAFT" && (
-              <>
-                <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"}>
-                  {t.edit}
-                </Button>
-                <ConfirmationButton
-                  icon={"trash"}
-                  onConfirm={handleDelete}
-                  title={t.transaction.delete}
-                  variant={"outline"}
-                />
-              </>
-            )}
-            {status === "COMPLETE" && (
-              <>
-                <ConfirmationButton
-                  icon={"void"}
-                  onConfirm={handleVoid}
-                  title={t.transaction.void}
-                  variant={"outline"}
-                />
-                <Button icon={"copy"} variant={"outline"} />
-              </>
-            )}
-          </View>
-        </View>
-
+      <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
         <View style={commonStyles.row}>
-          <Text type={"semibold"}>{"ID"}</Text>
-          <Text>{id}</Text>
+          {status === "DRAFT" && (
+            <>
+              <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"}>
+                {t.edit}
+              </Button>
+              <ConfirmationButton
+                icon={"trash"}
+                onConfirm={handleDelete}
+                title={t.transaction.delete}
+                variant={"outline"}
+              />
+            </>
+          )}
+          {status === "COMPLETE" && (
+            <>
+              <ConfirmationButton
+                icon={"void"}
+                onConfirm={handleVoid}
+                title={t.transaction.void}
+                variant={"outline"}
+              />
+              <Button icon={"copy"} variant={"outline"} />
+            </>
+          )}
         </View>
+      </View>
 
-        <View style={[commonStyles.row, commonStyles.itemsStart, commonStyles.my]}>
-          <View style={commonStyles.column}>
-            <Text type={"semibold"}>{t.date}</Text>
-            <Text type={"semibold"}>{t.status}</Text>
-            <Text type={"semibold"}>{t.reason}</Text>
-            {tx.notes && <Text type={"semibold"}>{t.notes}</Text>}
-          </View>
-          <View style={commonStyles.column}>
-            <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
-            <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>
-            <Text>{t.map.reason[tx.reason]}</Text>
-            {tx.notes && <Text>{tx.notes}</Text>}
-          </View>
+      <View style={commonStyles.row}>
+        <Text type={"semibold"}>{"ID"}</Text>
+        <Text>{id}</Text>
+      </View>
+
+      <View style={[commonStyles.row, commonStyles.itemsStart, commonStyles.my]}>
+        <View style={commonStyles.column}>
+          <Text type={"semibold"}>{t.date}</Text>
+          <Text type={"semibold"}>{t.status}</Text>
+          <Text type={"semibold"}>{t.reason}</Text>
+          {tx.notes && <Text type={"semibold"}>{t.notes}</Text>}
         </View>
-
-        <Alert hide={hasStock} type={"warning"}>
-          {t.items.insufficientStock}
-        </Alert>
-
-        <View style={[commonStyles.row, styles.total, { borderBottomColor: colors.textDisabled }]}>
-          <Text style={commonStyles.grow} type={"semibold"}>
-            {t.items.title}
-          </Text>
-          <Text type={"semibold"}>{`${t.total}:`}</Text>
-          <Text>{NUM_FORMATS.PRICE.format(sellTotal === 0 ? buyTotal : sellTotal)}</Text>
+        <View style={commonStyles.column}>
+          <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
+          <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>
+          <Text>{t.map.reason[tx.reason]}</Text>
+          {tx.notes && <Text>{tx.notes}</Text>}
         </View>
+      </View>
 
-        <List
-          data={txItems}
-          emptyMsg={t.items.empty}
-          error={txItemsError}
-          errorMsg={t.items.loadError}
-          keyExtractor={(el) => el.id}
-          renderItem={({ item }) => <TransactionItem data={item} tx={tx} />}
-        />
-        {status === "DRAFT" && txItems.length > 0 && hasStock && (
-          <ConfirmationButton
-            color={"primary"}
-            icon={"check"}
-            onConfirm={handleComplete}
-            title={t.transaction.complete}
-            variant={"solid"}
-          >
-            {t.transaction.complete}
-          </ConfirmationButton>
-        )}
-      </QueryBoundary>
+      <Alert hide={hasStock} type={"warning"}>
+        {t.items.insufficientStock}
+      </Alert>
+
+      <View style={[commonStyles.row, styles.total, { borderBottomColor: colors.textDisabled }]}>
+        <Text style={commonStyles.grow} type={"semibold"}>
+          {t.items.title}
+        </Text>
+        <Text type={"semibold"}>{`${t.total}:`}</Text>
+        <Text>{NUM_FORMATS.PRICE.format(sellTotal === 0 ? buyTotal : sellTotal)}</Text>
+      </View>
+
+      <List
+        data={txItems}
+        emptyMsg={t.items.empty}
+        error={txItemsError}
+        errorMsg={t.items.loadError}
+        keyExtractor={(el) => el.id}
+        renderItem={({ item }) => <TransactionItem data={item} tx={tx} />}
+      />
+      {status === "DRAFT" && txItems.length > 0 && hasStock && (
+        <ConfirmationButton
+          color={"primary"}
+          icon={"check"}
+          onConfirm={handleComplete}
+          title={t.transaction.complete}
+          variant={"solid"}
+        >
+          {t.transaction.complete}
+        </ConfirmationButton>
+      )}
     </Screen>
   );
 };

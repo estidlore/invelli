@@ -7,10 +7,20 @@ import { View } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { QueryBoundary, Toast } from "@/components";
+import { QueryFallback, Toast } from "@/components";
+import { createTranslations, useTranslation } from "@/core/language";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
 import { logError } from "@/utils";
+
+const translations = createTranslations({
+  ENG: {
+    dbMigrationError: "Database migration error",
+  },
+  SPA: {
+    dbMigrationError: "Error de migración de base de datos",
+  },
+});
 
 const RootLayout = (): React.JSX.Element => {
   const theme = useTheme();
@@ -18,6 +28,7 @@ const RootLayout = (): React.JSX.Element => {
   setButtonStyleAsync(barsStyle).catch(logError);
 
   const { error, success } = useMigrations(db, migrations);
+  const t = useTranslation(translations);
   const colors = useColors();
   const appTheme = {
     ...DefaultTheme,
@@ -27,21 +38,23 @@ const RootLayout = (): React.JSX.Element => {
     },
   };
 
+  if (error || !success) {
+    return <QueryFallback error={error} errorMsg={t.dbMigrationError} isPending={!success} />;
+  }
+
   return (
-    <QueryBoundary error={error} errorMsg={"DB migration error"} isPending={!success}>
-      <SafeAreaProvider>
-        <StatusBar style={barsStyle} />
-        <ThemeProvider value={appTheme}>
-          <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
-            <Stack screenOptions={{ animation: "fade", headerShown: false }}>
-              <Stack.Screen name={"(tabs)"} />
-              <Stack.Screen name={"(stack)"} />
-            </Stack>
-            <Toast />
-          </View>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </QueryBoundary>
+    <SafeAreaProvider>
+      <StatusBar style={barsStyle} />
+      <ThemeProvider value={appTheme}>
+        <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
+          <Stack screenOptions={{ animation: "fade", headerShown: false }}>
+            <Stack.Screen name={"(tabs)"} />
+            <Stack.Screen name={"(stack)"} />
+          </Stack>
+          <Toast />
+        </View>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 };
 

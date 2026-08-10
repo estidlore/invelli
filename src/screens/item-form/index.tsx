@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, QueryBoundary, Screen, useToast } from "@/components";
+import { Button, ConfirmationButton, Input, QueryFallback, Screen, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
@@ -82,6 +82,14 @@ const ItemFormScreen = (): React.JSX.Element => {
     router.navigate({ pathname: "/scanner" });
   };
 
+  if (isPending) {
+    return (
+      <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+        <QueryFallback isPending={isPending} />
+      </Screen>
+    );
+  }
+
   const handleDelete = (): void => {
     if (!params.id) return;
     deleteItem(params.id)
@@ -113,69 +121,67 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   return (
     <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
-      <QueryBoundary isPending={isPending}>
-        <ScrollView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={commonStyles.grow}
-          >
-            <View style={styles.codeRow}>
-              <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
-              <Input
-                placeholder={t.placeholder.code}
-                style={commonStyles.grow}
-                {...getFieldProps("code")}
-              />
-            </View>
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={commonStyles.grow}
+        >
+          <View style={styles.codeRow}>
+            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
-              label={t.label.name}
-              placeholder={t.placeholder.name}
-              style={styles.input}
-              {...getFieldProps("name")}
-            />
-            <Input
-              label={t.label.quantity}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("quantity")}
-            />
-            <Input
-              label={t.label.buyPrice}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("buyPrice")}
-            />
-            <Input
-              label={t.label.sellPrice}
-              min={0}
-              placeholder={t.placeholder.number}
-              style={styles.input}
-              type={"numeric"}
-              {...getFieldProps("sellPrice")}
-            />
-          </KeyboardAvoidingView>
-
-          <View style={styles.actions}>
-            <Button
-              color={"primary"}
-              disabled={isSubmitting}
-              icon={"check"}
-              onPress={handleSubmit}
+              placeholder={t.placeholder.code}
               style={commonStyles.grow}
-              variant={"solid"}
-            >
-              {t.save}
-            </Button>
-            {isEditMode && (
-              <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
-            )}
+              {...getFieldProps("code")}
+            />
           </View>
-        </ScrollView>
-      </QueryBoundary>
+          <Input
+            label={t.label.name}
+            placeholder={t.placeholder.name}
+            style={styles.input}
+            {...getFieldProps("name")}
+          />
+          <Input
+            label={t.label.quantity}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("quantity")}
+          />
+          <Input
+            label={t.label.buyPrice}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("buyPrice")}
+          />
+          <Input
+            label={t.label.sellPrice}
+            min={0}
+            placeholder={t.placeholder.number}
+            style={styles.input}
+            type={"numeric"}
+            {...getFieldProps("sellPrice")}
+          />
+        </KeyboardAvoidingView>
+
+        <View style={styles.actions}>
+          <Button
+            color={"primary"}
+            disabled={isSubmitting}
+            icon={"check"}
+            onPress={handleSubmit}
+            style={commonStyles.grow}
+            variant={"solid"}
+          >
+            {t.save}
+          </Button>
+          {isEditMode && (
+            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
+          )}
+        </View>
+      </ScrollView>
     </Screen>
   );
 };

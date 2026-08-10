@@ -8,7 +8,7 @@ import {
   Button,
   Input,
   List,
-  QueryBoundary,
+  QueryFallback,
   Screen,
   Select,
   Text,
@@ -54,13 +54,6 @@ const TransactionFormscreen = (): React.JSX.Element => {
   const showToast = useToast();
   const txReasonOptions = TX_REASONS.map((el) => ({ text: t.map.reason[el], value: el }));
 
-  const handleAdd = (): void => {
-    router.push({
-      params: { id: txId },
-      pathname: "/transactions/[id]/add-items",
-    });
-  };
-
   const { getFieldProps, isSubmitting, submit } = useForm({
     onAutoSave: async (values) => {
       await updateTransaction(txId, {
@@ -103,6 +96,21 @@ const TransactionFormscreen = (): React.JSX.Element => {
     });
   };
 
+  if (isPending) {
+    return (
+      <Screen goBack={handleBack} title={t.transaction.add}>
+        <QueryFallback isPending={isPending} />
+      </Screen>
+    );
+  }
+
+  const handleAdd = (): void => {
+    router.push({
+      params: { id: txId },
+      pathname: "/transactions/[id]/add-items",
+    });
+  };
+
   const handleSubmit = (): void => {
     submit().catch((err) => {
       logError(err);
@@ -118,58 +126,52 @@ const TransactionFormscreen = (): React.JSX.Element => {
 
   return (
     <Screen goBack={handleBack} title={t.transaction.add}>
-      <QueryBoundary
-        error={txId ? undefined : new Error("Missing transaction id")}
-        errorMsg={t.transaction.notFound}
-        isPending={isPending}
-      >
-        <View style={[commonStyles.column, commonStyles.grow]}>
-          <Select
-            {...reasonProps}
-            label={t.label.reason}
-            options={txReasonOptions}
+      <View style={[commonStyles.column, commonStyles.grow]}>
+        <Select
+          {...reasonProps}
+          label={t.label.reason}
+          options={txReasonOptions}
+          style={styles.input}
+        />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <Input
+            {...getFieldProps("notes")}
+            label={t.label.notes}
+            maxLength={500}
             style={styles.input}
           />
-          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <Input
-              {...getFieldProps("notes")}
-              label={t.label.notes}
-              maxLength={500}
-              style={styles.input}
-            />
-          </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
 
-          <View style={commonStyles.row}>
-            <Text style={commonStyles.grow} type={"subtitle"}>
-              {t.items.title}
-            </Text>
-            <Button color={"primary"} icon={"plus"} onPress={handleAdd} variant={"solid"}>
-              {t.items.add}
-            </Button>
-          </View>
-
-          <Alert hide={hasStock} type={"warning"}>
-            {t.items.insufficientStock}
-          </Alert>
-
-          <List
-            data={txItems}
-            error={txItemsError}
-            errorMsg={t.items.loadError}
-            renderItem={({ item }) => <TransactionItem data={item} key={item.id} tx={tx} />}
-          />
+        <View style={commonStyles.row}>
+          <Text style={commonStyles.grow} type={"subtitle"}>
+            {t.items.title}
+          </Text>
+          <Button color={"primary"} icon={"plus"} onPress={handleAdd} variant={"solid"}>
+            {t.items.add}
+          </Button>
         </View>
 
-        <Button
-          color={"primary"}
-          disabled={isSubmitting}
-          icon={"check"}
-          iconSize={32}
-          onPress={handleSubmit}
-          style={commonStyles.floatingBtn}
-          variant={"solid"}
+        <Alert hide={hasStock} type={"warning"}>
+          {t.items.insufficientStock}
+        </Alert>
+
+        <List
+          data={txItems}
+          error={txItemsError}
+          errorMsg={t.items.loadError}
+          renderItem={({ item }) => <TransactionItem data={item} key={item.id} tx={tx} />}
         />
-      </QueryBoundary>
+      </View>
+
+      <Button
+        color={"primary"}
+        disabled={isSubmitting}
+        icon={"check"}
+        iconSize={32}
+        onPress={handleSubmit}
+        style={commonStyles.floatingBtn}
+        variant={"solid"}
+      />
     </Screen>
   );
 };

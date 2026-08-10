@@ -4,7 +4,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { AnimatedScanner, Input, List, QueryBoundary, Screen, useToast } from "@/components";
+import { AnimatedScanner, Input, List, QueryFallback, Screen, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
@@ -35,6 +35,14 @@ const TransactionAddItems = (): React.JSX.Element => {
 
   const t = useTranslation(translations);
   const showToast = useToast();
+
+  if (txItemsError || !txItems) {
+    return (
+      <Screen goBack title={t.items.title}>
+        <QueryFallback error={txItemsError} errorMsg={t.items.loadError} isPending={!txItems} />
+      </Screen>
+    );
+  }
 
   const handleAddItem = (item: Item): void => {
     const txItem = txItems.find((el) => el.itemId === item.id);
@@ -82,24 +90,22 @@ const TransactionAddItems = (): React.JSX.Element => {
 
   return (
     <Screen goBack title={t.items.title}>
-      <QueryBoundary error={txItemsError} errorMsg={t.items.loadError} isPending={!txItems}>
-        <AnimatedScanner onScan={handleScan} />
-        <Input
-          onChange={setSearchInput}
-          placeholder={t.placeholder.search}
-          style={commonStyles.my}
-          value={searchInput}
+      <AnimatedScanner onScan={handleScan} />
+      <Input
+        onChange={setSearchInput}
+        placeholder={t.placeholder.search}
+        style={commonStyles.my}
+        value={searchInput}
+      />
+      <View style={styles.searchPanel}>
+        <List
+          data={items}
+          emptyMsg={searchInput ? t.items.itemsNotFound : t.items.empty}
+          error={itemsError}
+          errorMsg={t.items.loadError}
+          renderItem={({ item }) => <ItemCard item={item} onPress={handleAddItem} />}
         />
-        <View style={styles.searchPanel}>
-          <List
-            data={items}
-            emptyMsg={searchInput ? t.items.itemsNotFound : t.items.empty}
-            error={itemsError}
-            errorMsg={t.items.loadError}
-            renderItem={({ item }) => <ItemCard item={item} onPress={handleAddItem} />}
-          />
-        </View>
-      </QueryBoundary>
+      </View>
     </Screen>
   );
 };
