@@ -14,17 +14,15 @@ const ItemCard = ({ item }: ItemCardProps): React.JSX.Element => {
   const router = useRouter();
   const t = useTranslation(translations);
 
-  const handleEdit = (): void => {
+  const handlePress = (): void => {
     router.push({
-      params: {
-        id: item.id,
-      },
-      pathname: "/items/[id]/edit",
+      params: { id: item.id },
+      pathname: "/items/[id]",
     });
   };
 
   return (
-    <Card onPress={handleEdit} style={commonStyles.column}>
+    <Card onPress={handlePress} style={commonStyles.column}>
       <Text style={commonStyles.mb} type={"semibold"}>
         {name}
       </Text>

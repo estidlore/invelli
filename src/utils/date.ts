@@ -1,3 +1,8 @@
+interface TimeDiff {
+  value: number;
+  unit: "days" | "hours" | "mins" | "secs";
+}
+
 const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
   hour: "2-digit",
@@ -31,6 +36,31 @@ const dateToFileName = (date: Date): string => {
   return `${map.year}-${map.month}-${map.day}_${map.hour}-${map.minute}-${map.second}`;
 };
 
+const getTimeDiff = (d1: Date, d2: Date): TimeDiff => {
+  const secsDiff = Math.round((d1.getTime() - d2.getTime()) / 1000);
+  if (secsDiff >= 3600) {
+    if (secsDiff >= 86400) {
+      return {
+        unit: "days",
+        value: Math.round(secsDiff / 86400),
+      };
+    }
+    return {
+      unit: "hours",
+      value: Math.round(secsDiff / 3600),
+    };
+  } else if (secsDiff >= 60) {
+    return {
+      unit: "mins",
+      value: Math.round(secsDiff / 60),
+    };
+  }
+  return {
+    unit: "secs",
+    value: secsDiff,
+  };
+};
+
 const nowISO = (): string => new Date().toISOString();
 
 const endOfDay = (date: Date): Date => {
@@ -45,4 +75,4 @@ const startOfDay = (date: Date): Date => {
   return res;
 };
 
-export { dateString, dateTimeString, dateToFileName, endOfDay, nowISO, startOfDay };
+export { dateString, dateTimeString, dateToFileName, getTimeDiff, endOfDay, nowISO, startOfDay };
