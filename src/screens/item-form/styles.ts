@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexGrow: 1,
     gap: 8,
+    marginTop: 4,
   },
   input: {
     flex: 1,

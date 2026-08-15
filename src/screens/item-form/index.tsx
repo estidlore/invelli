@@ -126,6 +126,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={commonStyles.grow}
         >
+          <Text type={"small"}>{t.label.code}</Text>
           <View style={styles.codeRow}>
             <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
