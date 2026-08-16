@@ -7,7 +7,7 @@ import { commonStyles } from "@/core/theme";
 
 import type { ScreenProps } from "./types";
 
-const Screen = ({ children, goBack = false, title }: ScreenProps): React.JSX.Element => {
+const Screen = ({ actions, children, goBack = false, title }: ScreenProps): React.JSX.Element => {
   const router = useRouter();
 
   const handleBack = (): void => {
@@ -20,7 +20,12 @@ const Screen = ({ children, goBack = false, title }: ScreenProps): React.JSX.Ele
         {goBack && (
           <Button icon={"back"} onPress={typeof goBack === "function" ? goBack : handleBack} />
         )}
-        {title && <Text type={"title"}>{title}</Text>}
+        {title && (
+          <Text style={commonStyles.grow} type={"title"}>
+            {title}
+          </Text>
+        )}
+        {actions}
       </View>
       {children}
     </>

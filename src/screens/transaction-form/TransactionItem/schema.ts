@@ -6,7 +6,10 @@ const baseSchema = z.object({
     .number("number")
     .positive("positive")
     .transform((val) => round(val, 2)),
-  quantity: z.coerce.number("number").int("int").positive("positive"),
+  quantity: z.coerce
+    .number("number")
+    .positive("positive")
+    .transform((val) => round(val, 3)),
 });
 
 const fullSchema = baseSchema.extend({

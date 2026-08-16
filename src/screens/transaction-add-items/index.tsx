@@ -9,7 +9,7 @@ import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import type { Item, Transaction } from "@/db";
 import {
-  getItem,
+  getItemByCode,
   getTransactionItems,
   incrementTransactionItem,
   insertTransactionItem,
@@ -74,7 +74,7 @@ const TransactionAddItems = (): React.JSX.Element => {
   };
 
   const handleScan = (code: string): void => {
-    getItem(code)
+    getItemByCode(code)
       .then((item) => {
         if (!item) {
           showToast(t.items.codeNotFound);

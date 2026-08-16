@@ -23,7 +23,7 @@ const InventoryScreen = (): React.JSX.Element => {
   const t = useTranslation(translations);
 
   const handleAdd = (): void => {
-    router.push("/item-form");
+    router.push("/items/new");
   };
 
   const handleScan = (): void => {

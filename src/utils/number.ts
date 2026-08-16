@@ -9,6 +9,11 @@ const NUM_FORMATS = {
     minimumFractionDigits: 0,
     useGrouping: false,
   }),
+  PERCENT: new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    style: "percent",
+  }),
   PRICE: new Intl.NumberFormat(undefined, {
     currency: "USD",
     minimumFractionDigits: 0,

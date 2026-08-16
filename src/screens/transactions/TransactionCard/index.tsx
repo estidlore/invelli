@@ -29,12 +29,16 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   return (
     <Card onPress={handleClick} style={commonStyles.column}>
       <View style={commonStyles.row}>
-        <Icon color={COLOR_BY_TX_REASON[txReason]} name={ICON_BY_TX_REASON[txReason]} size={20} />
-        <Text style={commonStyles.grow}>{dateTimeString(new Date(createdAt))}</Text>
+        <Icon color={COLOR_BY_TX_REASON[txReason]} name={ICON_BY_TX_REASON[txReason]} />
+        <Text style={commonStyles.grow}>
+          {`${t.reasonMap[txReason]}  -  ${txItems.length} ${t.items}`}
+        </Text>
         {price === 0 ? null : <Text>{NUM_FORMATS.PRICE.format(price)}</Text>}
       </View>
-      <View style={commonStyles.rowBetween}>
-        <Text>{`${t.reasonMap[txReason]}  -  ${txItems.length} ${t.items}`}</Text>
+      <View style={commonStyles.row}>
+        <Text style={commonStyles.grow} type={"small"}>
+          {dateTimeString(new Date(createdAt))}
+        </Text>
         {status !== "COMPLETE" && (
           <Text color={COLOR_BY_TX_STATUS[status]}>{t.statusMap[status]}</Text>
         )}

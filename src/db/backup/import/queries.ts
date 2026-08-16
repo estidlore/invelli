@@ -33,6 +33,7 @@ const insertBackup = async (data: BackupPayload): Promise<void> => {
             createdAt: sql`excluded.created_at`,
             notes: sql`excluded.notes`,
             reason: sql`excluded.reason`,
+            status: sql`excluded.status`,
             type: sql`excluded.type`,
             updatedAt: sql`excluded.updated_at`,
           },

@@ -14,8 +14,8 @@ type SelectQuery<T extends Table> = SQLiteSelectBase<
 
 type FindFirstQuery<
   Base,
-  Detailed extends Base,
-  IsDetailed extends boolean,
+  Detailed extends Base = Base,
+  IsDetailed extends boolean = false,
 > = SQLiteSyncRelationalQuery<IsDetailed extends true ? Detailed : Base>;
 
 type FindManyQuery<

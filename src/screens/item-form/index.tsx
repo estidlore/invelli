@@ -2,11 +2,11 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, ConfirmationButton, Input, QueryFallback, Screen, useToast } from "@/components";
+import { Button, Input, QueryFallback, Screen, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
-import { deleteItem, getItem, insertItem, updateItem } from "@/db";
+import { getItem, insertItem, updateItem } from "@/db";
 import { useScanStore } from "@/screens/scanner/store";
 import { NUM_FORMATS, logError } from "@/utils";
 
@@ -90,24 +90,6 @@ const ItemFormScreen = (): React.JSX.Element => {
     );
   }
 
-  const handleDelete = (): void => {
-    if (!params.id) return;
-    deleteItem(params.id)
-      .then(() => {
-        router.back();
-        showToast(t.toast.itemDeleted);
-      })
-      .catch((err) => {
-        const errMsg = err?.message ?? String(err);
-
-        if (errMsg.includes("FOREIGN KEY constraint failed")) {
-          showToast(t.toast.itemInActiveTransactions, "error");
-        } else {
-          showToast(t.toast.itemDeleteError, "error");
-        }
-      });
-  };
-
   const handleSubmit = (): void => {
     submit()
       .then(() => {
@@ -126,6 +108,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={commonStyles.grow}
         >
+          <Text type={"small"}>{t.label.code}</Text>
           <View style={styles.codeRow}>
             <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
             <Input
@@ -165,23 +148,16 @@ const ItemFormScreen = (): React.JSX.Element => {
             {...getFieldProps("sellPrice")}
           />
         </KeyboardAvoidingView>
-
-        <View style={styles.actions}>
-          <Button
-            color={"primary"}
-            disabled={isSubmitting}
-            icon={"check"}
-            onPress={handleSubmit}
-            style={commonStyles.grow}
-            variant={"solid"}
-          >
-            {t.save}
-          </Button>
-          {isEditMode && (
-            <ConfirmationButton icon={"trash"} onConfirm={handleDelete} title={t.deleteItem} />
-          )}
-        </View>
       </ScrollView>
+      <Button
+        color={"primary"}
+        disabled={isSubmitting}
+        icon={"check"}
+        iconSize={32}
+        onPress={handleSubmit}
+        style={commonStyles.floatingBtn}
+        variant={"solid"}
+      />
     </Screen>
   );
 };
