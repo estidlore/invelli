@@ -37,7 +37,7 @@ const Select = <T extends number | string>({
       </Button>
       <Modal onClose={handleClose} title={label} visible={showOptions}>
         {options.map((option, idx) => {
-          const selected = selection?.value === option.value;
+          const selected = option.value === value;
           const handlePress = (): void => {
             if (!selected) {
               onChange?.(option.value, idx);
@@ -47,7 +47,12 @@ const Select = <T extends number | string>({
           };
 
           return (
-            <Button color={selected ? "primary" : "text"} key={option.value} onPress={handlePress}>
+            <Button
+              color={selected ? "primary" : "text"}
+              disabled={selected}
+              key={option.value}
+              onPress={handlePress}
+            >
               {option.text}
             </Button>
           );

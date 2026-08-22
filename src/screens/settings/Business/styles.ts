@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  column: {
-    flexDirection: "column",
-    gap: 8,
+  title: {
+    marginVertical: 8,
   },
 });
 

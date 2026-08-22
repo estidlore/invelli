@@ -10,6 +10,7 @@ export * from "./QueryFallback";
 export * from "./Scanner";
 export * from "./Scanner/AnimatedScanner";
 export * from "./Screen";
+export * from "./SegmentedControl";
 export * from "./Select";
 export * from "./Spinner";
 export * from "./Text";
