@@ -1,10 +1,10 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useMemo, useReducer } from "react";
 import { View } from "react-native";
 
 import {
   Alert,
-  Button,
   ConfirmationButton,
   List,
   QueryFallback,
@@ -14,16 +14,11 @@ import {
 } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
-import {
-  COLOR_BY_TX_STATUS,
-  completeTransaction,
-  deleteTransaction,
-  getTransaction,
-  getTransactionItems,
-  voidTransaction,
-} from "@/db";
+import { COLOR_BY_TX_STATUS, completeTransaction, getTransaction, getTransactionItems } from "@/db";
+import { useBusinessStore } from "@/screens/settings/Business/store";
 import { NUM_FORMATS, dateTimeString, hasEnoughStock, logError } from "@/utils";
 
+import { TransactionActions } from "./TransactionActions";
 import { TransactionItem } from "./TransactionItem";
 import { styles } from "./styles";
 import { translations } from "./translations";
@@ -37,9 +32,31 @@ const TransactionScreen = (): React.JSX.Element => {
   );
   const router = useRouter();
 
+  const [showReceipt, toggleReceipt] = useReducer((val) => !val, false);
+  const businessInfo = useBusinessStore((state) => state.info);
   const t = useTranslation(translations);
   const colors = useColors();
   const showToast = useToast();
+
+  const { hasStock, total } = useMemo(() => {
+    if (!tx || !txItems) {
+      return { hasStock: true, total: 0 };
+    }
+
+    let total = 0;
+    if (tx.reason === "SALE" || tx.reason === "SALE_RETURN") {
+      for (const item of txItems) {
+        total += (item.sellPrice ?? 0) * item.quantity;
+      }
+    } else {
+      for (const item of txItems) {
+        total += (item.buyPrice ?? 0) * item.quantity;
+      }
+    }
+
+    const itemsStock = txItems.map((el) => ({ quantity: el.quantity, stock: el.item.quantity }));
+    return { hasStock: hasEnoughStock(tx, itemsStock), total };
+  }, [tx, txItems]);
 
   if (txError || !tx) {
     return (
@@ -50,37 +67,6 @@ const TransactionScreen = (): React.JSX.Element => {
   }
 
   const { status } = tx;
-
-  const handleDelete = (): void => {
-    deleteTransaction(id)
-      .then(() => {
-        router.back();
-        showToast(t.transaction.deleted);
-      })
-      .catch((err) => {
-        showToast(t.transaction.deleteError, "error");
-        logError(err);
-      });
-  };
-
-  const handleEdit = (): void => {
-    router.push({
-      params: { id },
-      pathname: "/transactions/[id]/edit",
-    });
-  };
-
-  const handleVoid = (): void => {
-    voidTransaction(id)
-      .then(() => {
-        router.back();
-        showToast(t.transaction.voided);
-      })
-      .catch((err) => {
-        showToast(t.transaction.voidError, "error");
-        logError(err);
-      });
-  };
 
   const handleComplete = (): void => {
     completeTransaction(id)
@@ -94,77 +80,61 @@ const TransactionScreen = (): React.JSX.Element => {
       });
   };
 
-  const sellTotal = txItems.reduce((acc, el) => acc + (el.sellPrice ?? 0) * el.quantity, 0);
-  const buyTotal = txItems.reduce((acc, el) => acc + (el.buyPrice ?? 0) * el.quantity, 0);
-  const hasStock = hasEnoughStock(
-    tx,
-    txItems.map((el) => ({ quantity: el.quantity, stock: el.item.quantity })),
-  );
-
   return (
-    <Screen goBack title={t.transaction.title}>
-      <View style={[commonStyles.rowBetween, commonStyles.mb2]}>
-        <View style={commonStyles.row}>
-          {status === "DRAFT" && (
-            <>
-              <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"}>
-                {t.edit}
-              </Button>
-              <ConfirmationButton
-                icon={"trash"}
-                onConfirm={handleDelete}
-                title={t.transaction.delete}
-                variant={"outline"}
-              />
-            </>
-          )}
-          {status === "COMPLETE" && (
-            <>
-              <ConfirmationButton
-                icon={"void"}
-                onConfirm={handleVoid}
-                title={t.transaction.void}
-                variant={"outline"}
-              />
-              <Button icon={"copy"} variant={"outline"} />
-            </>
-          )}
+    <Screen
+      actions={
+        <TransactionActions
+          showReceipt={showReceipt}
+          toggleReceipt={toggleReceipt}
+          tx={tx}
+          txItems={txItems}
+        />
+      }
+      goBack
+      title={showReceipt ? t.receipt.title : t.transaction.title}
+    >
+      {showReceipt && (
+        <View style={styles.businessInfo}>
+          {businessInfo.name && <Text type={"subtitle"}>{businessInfo.name}</Text>}
+          {businessInfo.taxId && <Text>{businessInfo.taxId}</Text>}
+          {businessInfo.address && <Text>{businessInfo.address}</Text>}
+          {businessInfo.phone && <Text>{businessInfo.phone}</Text>}
         </View>
-      </View>
+      )}
 
-      <View style={commonStyles.row}>
-        <Text type={"semibold"}>{"ID"}</Text>
-        <Text>{id}</Text>
-      </View>
-
-      <View style={[commonStyles.row, commonStyles.itemsStart, commonStyles.my]}>
+      <View style={styles.txInfo}>
         <View style={commonStyles.column}>
-          <Text type={"semibold"}>{t.date}</Text>
-          <Text type={"semibold"}>{t.status}</Text>
           <Text type={"semibold"}>{t.reason}</Text>
+          {!showReceipt && <Text type={"semibold"}>{t.status}</Text>}
           {tx.notes && <Text type={"semibold"}>{t.notes}</Text>}
         </View>
-        <View style={commonStyles.column}>
-          <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
-          <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>
-          <Text>{t.map.reason[tx.reason]}</Text>
+        <View style={styles.txInfoValues}>
+          <View style={commonStyles.rowBetween}>
+            <Text>{t.map.reason[tx.reason]}</Text>
+            <Text>{dateTimeString(new Date(tx.createdAt))}</Text>
+          </View>
+          {!showReceipt && <Text color={COLOR_BY_TX_STATUS[status]}>{t.map.status[status]}</Text>}
           {tx.notes && <Text>{tx.notes}</Text>}
         </View>
       </View>
 
-      <Alert hide={hasStock} type={"warning"}>
+      <Alert hide={hasStock || showReceipt} type={"warning"}>
         {t.items.insufficientStock}
       </Alert>
 
-      <View style={[commonStyles.row, styles.total, { borderBottomColor: colors.textDisabled }]}>
+      <View style={[styles.total, { borderBottomColor: colors.textDisabled }]}>
         <Text style={commonStyles.grow} type={"semibold"}>
           {t.items.title}
         </Text>
         <Text type={"semibold"}>{`${t.total}:`}</Text>
-        <Text>{NUM_FORMATS.PRICE.format(sellTotal === 0 ? buyTotal : sellTotal)}</Text>
+        <Text>{NUM_FORMATS.PRICE.format(total)}</Text>
       </View>
 
       <List
+        ListFooterComponent={
+          showReceipt ? <Text style={styles.footer}>{t.receipt.thanks}</Text> : null
+        }
+        contentContainerStyle={{ pointerEvents: showReceipt ? "none" : "auto" }}
         data={txItems}
         emptyMsg={t.items.empty}
         error={txItemsError}
@@ -172,7 +142,7 @@ const TransactionScreen = (): React.JSX.Element => {
         keyExtractor={(el) => el.id}
         renderItem={({ item }) => <TransactionItem data={item} tx={tx} />}
       />
-      {status === "DRAFT" && txItems.length > 0 && hasStock && (
+      {status === "DRAFT" && txItems.length > 0 && hasStock && !showReceipt && (
         <ConfirmationButton
           color={"primary"}
           icon={"check"}

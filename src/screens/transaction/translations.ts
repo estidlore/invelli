@@ -4,7 +4,6 @@ const translations = createTranslations({
   ENG: {
     date: "Date",
     draft: "Draft",
-    edit: "Edit",
     goBack: "Go back",
     items: {
       empty: "No items yet",
@@ -30,26 +29,23 @@ const translations = createTranslations({
     },
     notes: "Notes",
     reason: "Type",
+    receipt: {
+      thanks: "Thanks for your visit!",
+      title: "Receipt",
+    },
     status: "Status",
     total: "Total",
     transaction: {
       complete: "Complete transaction",
       completeError: "Failed to complete transaction",
       completed: "Transaction completed",
-      delete: "Delete transaction",
-      deleteError: "Failed to delete transaction",
-      deleted: "Transaction deleted",
       loadError: "Failed to load transaction",
       title: "Transaction",
-      void: "Void transaction",
-      voidError: "Failed to void transaction",
-      voided: "Transaction voided",
     },
   },
   SPA: {
     date: "Fecha",
     draft: "Borrador",
-    edit: "Editar",
     goBack: "Ir atrás",
     items: {
       empty: "Sin artículos aún",
@@ -75,20 +71,18 @@ const translations = createTranslations({
     },
     notes: "Notas",
     reason: "Tipo",
+    receipt: {
+      thanks: "¡Gracias por tu visita!",
+      title: "Recibo",
+    },
     status: "Estado",
     total: "Total",
     transaction: {
       complete: "Completar transacción",
       completeError: "Error al completar la transacción",
       completed: "Transacción completada",
-      delete: "Eliminar transacción",
-      deleteError: "Error al eliminar la transacción",
-      deleted: "Transacción eliminada",
       loadError: "Error al cargar la transacción",
       title: "Transacción",
-      void: "Anular transacción",
-      voidError: "Error al anular la transacción",
-      voided: "Transacción anulada",
     },
   },
 });
