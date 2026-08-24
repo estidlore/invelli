@@ -44,7 +44,7 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
         )}
       </View>
 
-      {notes && <Text>{`${t.notes}:  ${notes}`}</Text>}
+      {notes && <Text type={"small"}>{`${t.notes}:  ${notes}`}</Text>}
     </Card>
   );
 };

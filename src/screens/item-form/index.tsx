@@ -103,7 +103,7 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   return (
     <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={"handled"}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={commonStyles.grow}

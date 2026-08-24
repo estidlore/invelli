@@ -12,7 +12,7 @@ interface LanguageState {
 const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
-      languagePreference: "ENG",
+      languagePreference: "SPA",
       setLanguagePreference: (preference: LanguageId): void => {
         set({ languagePreference: preference });
       },

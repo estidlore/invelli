@@ -23,7 +23,7 @@ const TransactionItem = ({
   const t = useTranslation(translations);
 
   const handlePress = (): void => {
-    router.dismissTo({
+    router.navigate({
       params: { id: tx.id },
       pathname: "/transactions/[id]",
     });
