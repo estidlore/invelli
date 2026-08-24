@@ -12,6 +12,7 @@ import { QueryFallback, Toast } from "@/components";
 import { createTranslations, useTranslation } from "@/core/language";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
+import { OnboardingGuard } from "@/screens/onboarding/Guard";
 import { logError } from "@/utils";
 
 const translations = createTranslations({
@@ -58,6 +59,7 @@ const RootLayout = (): React.JSX.Element => {
       <ThemeProvider value={appTheme}>
         <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
           <QueryClientProvider client={queryClient}>
+            <OnboardingGuard />
             <Stack screenOptions={{ animation: "fade", headerShown: false }}>
               <Stack.Screen name={"(tabs)"} />
               <Stack.Screen name={"(stack)"} />

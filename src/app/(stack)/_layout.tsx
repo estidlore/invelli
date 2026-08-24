@@ -23,6 +23,7 @@ const StackLayout = (): React.JSX.Element => {
         <Stack.Screen name={"items/[id]"} />
         <Stack.Screen name={"items/[id]/edit"} />
         <Stack.Screen name={"items/new"} />
+        <Stack.Screen name={"onboarding"} />
         <Stack.Screen name={"scanner"} />
         <Stack.Screen name={"transactions/[id]"} />
         <Stack.Screen name={"transactions/[id]/edit"} />

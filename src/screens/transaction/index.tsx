@@ -95,7 +95,7 @@ const TransactionScreen = (): React.JSX.Element => {
     >
       {showReceipt && (
         <View style={styles.businessInfo}>
-          {businessInfo.name && <Text type={"subtitle"}>{businessInfo.name}</Text>}
+          <Text type={"subtitle"}>{businessInfo.name}</Text>
           {businessInfo.taxId && <Text>{businessInfo.taxId}</Text>}
           {businessInfo.address && <Text>{businessInfo.address}</Text>}
           {businessInfo.phone && <Text>{businessInfo.phone}</Text>}
