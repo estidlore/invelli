@@ -16,7 +16,7 @@ const TransactionItem = ({ data, tx }: TransactionItemProps): React.JSX.Element 
   const colors = useColors();
 
   const handlePress = (): void => {
-    router.dismissTo({
+    router.navigate({
       params: { id: data.itemId },
       pathname: "/(stack)/items/[id]",
     });
