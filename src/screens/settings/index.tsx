@@ -14,7 +14,7 @@ const SettingsScreen = (): React.JSX.Element => {
 
   return (
     <Screen title={t.title}>
-      <ScrollView contentContainerStyle={styles.column}>
+      <ScrollView contentContainerStyle={styles.column} keyboardShouldPersistTaps={"handled"}>
         <BusinessSettings />
         <PreferencesSettings />
         <DataSettings />
