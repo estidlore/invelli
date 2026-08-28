@@ -33,18 +33,10 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
-      const data = {
-        buyPrice: parseFloat(values.buyPrice),
-        code: values.code,
-        name: values.name,
-        quantity: parseFloat(values.quantity),
-        sellPrice: parseFloat(values.sellPrice),
-      };
-
       if (isEditMode && params.id) {
-        await updateItem(params.id, data);
+        await updateItem(params.id, values);
       } else {
-        await insertItem(data);
+        await insertItem(values);
       }
 
       router.back();
