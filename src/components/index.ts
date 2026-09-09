@@ -1,4 +1,5 @@
 export * from "./Alert";
+export * from "./AppProviders";
 export * from "./Button";
 export * from "./Button/Confirmation";
 export * from "./Button/Floating";
