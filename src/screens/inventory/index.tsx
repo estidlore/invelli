@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { Button, Input, List } from "@/components";
+import { Button, FloatingButton, Input, List } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { searchItems } from "@/db";
@@ -55,14 +55,7 @@ const InventoryScreen = (): React.JSX.Element => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
       />
-      <Button
-        color={"primary"}
-        icon={"plus"}
-        iconSize={40}
-        onPress={handleAdd}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton icon={"plus"} iconSize={40} onPress={handleAdd} />
     </>
   );
 };

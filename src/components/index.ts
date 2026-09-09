@@ -1,6 +1,7 @@
 export * from "./Alert";
 export * from "./Button";
 export * from "./Button/Confirmation";
+export * from "./Button/Floating";
 export * from "./Card";
 export * from "./Icon";
 export * from "./Input";

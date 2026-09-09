@@ -6,6 +6,7 @@ import { KeyboardAvoidingView, Platform, View } from "react-native";
 import {
   Alert,
   Button,
+  FloatingButton,
   Input,
   List,
   QueryFallback,
@@ -163,15 +164,7 @@ const TransactionFormscreen = (): React.JSX.Element => {
         />
       </View>
 
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        icon={"check"}
-        iconSize={32}
-        onPress={handleSubmit}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton disabled={isSubmitting} icon={"check"} onPress={handleSubmit} />
     </Screen>
   );
 };

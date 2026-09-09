@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
-import { Button, Input, QueryFallback, Screen, Text, useToast } from "@/components";
+import { Button, FloatingButton, Input, QueryFallback, Screen, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
@@ -141,15 +141,7 @@ const ItemFormScreen = (): React.JSX.Element => {
           />
         </KeyboardAvoidingView>
       </ScrollView>
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        icon={"check"}
-        iconSize={32}
-        onPress={handleSubmit}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton disabled={isSubmitting} icon={"check"} onPress={handleSubmit} />
     </Screen>
   );
 };
