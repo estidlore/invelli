@@ -1,5 +1,6 @@
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useColors } from "@/core/theme";
@@ -28,7 +29,9 @@ const AppProviders = ({ children }: AppProvidersProps): React.JSX.Element => {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={appTheme}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <KeyboardProvider>{children}</KeyboardProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

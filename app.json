@@ -23,7 +23,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.estidlore.Invelli"
+      "package": "com.estidlore.Invelli",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "output": "static",

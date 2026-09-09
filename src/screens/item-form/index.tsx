@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import { Button, FloatingButton, Input, QueryFallback, Screen, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
@@ -95,52 +96,47 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   return (
     <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
-      <ScrollView keyboardShouldPersistTaps={"handled"}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={commonStyles.grow}
-        >
-          <Text type={"small"}>{t.label.code}</Text>
-          <View style={styles.codeRow}>
-            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
-            <Input
-              placeholder={t.placeholder.code}
-              style={commonStyles.grow}
-              {...getFieldProps("code")}
-            />
-          </View>
+      <KeyboardAwareScrollView bottomOffset={16} keyboardShouldPersistTaps={"handled"}>
+        <Text type={"small"}>{t.label.code}</Text>
+        <View style={styles.codeRow}>
+          <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
           <Input
-            label={t.label.name}
-            placeholder={t.placeholder.name}
-            style={styles.input}
-            {...getFieldProps("name")}
+            placeholder={t.placeholder.code}
+            style={commonStyles.grow}
+            {...getFieldProps("code")}
           />
-          <Input
-            label={t.label.quantity}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("quantity")}
-          />
-          <Input
-            label={t.label.buyPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("buyPrice")}
-          />
-          <Input
-            label={t.label.sellPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("sellPrice")}
-          />
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </View>
+        <Input
+          label={t.label.name}
+          placeholder={t.placeholder.name}
+          style={styles.input}
+          {...getFieldProps("name")}
+        />
+        <Input
+          label={t.label.quantity}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("quantity")}
+        />
+        <Input
+          label={t.label.buyPrice}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("buyPrice")}
+        />
+        <Input
+          label={t.label.sellPrice}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("sellPrice")}
+        />
+      </KeyboardAwareScrollView>
       <FloatingButton disabled={isSubmitting} icon={"check"} onPress={handleSubmit} />
     </Screen>
   );
