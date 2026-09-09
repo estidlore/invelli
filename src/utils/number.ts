@@ -1,25 +1,26 @@
 const NUM_FORMATS = {
-  FORM_PRICE: new Intl.NumberFormat(undefined, {
+  FORM_PRICE: new Intl.NumberFormat("en-us", {
     maximumFractionDigits: 2,
     minimumFractionDigits: 0,
     useGrouping: false,
   }),
-  FORM_QUANTITY: new Intl.NumberFormat(undefined, {
+  FORM_QUANTITY: new Intl.NumberFormat("en-us", {
     maximumFractionDigits: 3,
     minimumFractionDigits: 0,
     useGrouping: false,
   }),
-  PERCENT: new Intl.NumberFormat(undefined, {
+  PERCENT: new Intl.NumberFormat("en-us", {
     maximumFractionDigits: 2,
     minimumFractionDigits: 0,
     style: "percent",
   }),
-  PRICE: new Intl.NumberFormat(undefined, {
+  PRICE: new Intl.NumberFormat("en-us", {
     currency: "USD",
+    currencyDisplay: "narrowSymbol",
     minimumFractionDigits: 0,
     style: "currency",
   }),
-  QUANTITY: new Intl.NumberFormat(undefined, {
+  QUANTITY: new Intl.NumberFormat("en-us", {
     maximumFractionDigits: 3,
     minimumFractionDigits: 0,
   }),
