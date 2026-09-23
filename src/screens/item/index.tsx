@@ -17,7 +17,7 @@ import {
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { deleteItem, getItem } from "@/db";
-import { NUM_FORMATS, dateString, getTimeDiff } from "@/utils";
+import { NUM_FORMATS, dateString, getTimeDiff, logError } from "@/utils";
 
 import { TransactionItem } from "./TransactionItem";
 import {
@@ -68,6 +68,7 @@ const ItemScreen = (): React.JSX.Element => {
         router.back();
       })
       .catch((err) => {
+        logError(err);
         const errMsg = err?.message ?? String(err);
 
         if (errMsg.includes("FOREIGN KEY constraint failed")) {

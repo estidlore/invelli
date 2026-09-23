@@ -2,9 +2,16 @@ import { createTranslations } from "@/core/language";
 
 const translations = createTranslations({
   ENG: {
-    addItem: "Add item",
-    deleteItem: "Delete item",
-    editItem: "Edit item",
+    item: {
+      add: "Add item",
+      addError: "Failed to add item",
+      added: "Item added",
+      codeInUse: "Code already assigned to another item",
+      delete: "Delete item",
+      edit: "Edit item",
+      updateError: "Failed to update item",
+      updated: "Item updated",
+    },
     label: {
       buyPrice: "Cost",
       code: "Code",
@@ -17,17 +24,18 @@ const translations = createTranslations({
       name: "Ex. Soda Coke 1.5L",
       number: "Ex. 10",
     },
-    toast: {
-      itemAddError: "Failed to add item",
-      itemAdded: "Item added",
-      itemUpdateError: "Failed to update item",
-      itemUpdated: "Item updated",
-    },
   },
   SPA: {
-    addItem: "Agregar artículo",
-    deleteItem: "Eliminar artículo",
-    editItem: "Editar artículo",
+    item: {
+      add: "Agregar artículo",
+      addError: "Error al agregar el artículo",
+      added: "Artículo agregado",
+      codeInUse: "Código ya asignado a otro producto",
+      delete: "Eliminar artículo",
+      edit: "Editar artículo",
+      updateError: "Error al actualizar el artículo",
+      updated: "Artículo actualizado",
+    },
     label: {
       buyPrice: "Costo",
       code: "Código",
@@ -39,12 +47,6 @@ const translations = createTranslations({
       code: "Ej. 1234567890",
       name: "Ej. Gaseosa CocaCola 1.5L",
       number: "Ej. 10",
-    },
-    toast: {
-      itemAddError: "Error al agregar el artículo",
-      itemAdded: "Artículo agregado",
-      itemUpdateError: "Error al actualizar el artículo",
-      itemUpdated: "Artículo actualizado",
     },
   },
 });

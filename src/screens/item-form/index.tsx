@@ -36,8 +36,10 @@ const ItemFormScreen = (): React.JSX.Element => {
     onSubmit: async (values) => {
       if (isEditMode && params.id) {
         await updateItem(params.id, values);
+        showToast(t.item.updated);
       } else {
         await insertItem(values);
+        showToast(t.item.added);
       }
 
       router.back();
@@ -77,25 +79,27 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   if (isPending) {
     return (
-      <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+      <Screen goBack title={isEditMode ? t.item.edit : t.item.add}>
         <QueryFallback isPending={isPending} />
       </Screen>
     );
   }
 
   const handleSubmit = (): void => {
-    submit()
-      .then(() => {
-        showToast(isEditMode ? t.toast.itemUpdated : t.toast.itemAdded);
-      })
-      .catch((err) => {
-        showToast(isEditMode ? t.toast.itemUpdateError : t.toast.itemAddError, "error");
-        logError(err);
-      });
+    submit().catch((err) => {
+      logError(err);
+      const errMsg = err?.message ?? String(err);
+
+      if (errMsg.includes("UNIQUE constraint failed: items.code")) {
+        showToast(t.item.codeInUse, "error");
+      } else {
+        showToast(isEditMode ? t.item.updateError : t.item.addError, "error");
+      }
+    });
   };
 
   return (
-    <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+    <Screen goBack title={isEditMode ? t.item.edit : t.item.add}>
       <KeyboardAwareScrollView bottomOffset={16} keyboardShouldPersistTaps={"handled"}>
         <Text type={"small"}>{t.label.code}</Text>
         <View style={styles.codeRow}>
