@@ -42,16 +42,16 @@ const InventoryScreen = (): React.JSX.Element => {
         <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
         <Input
           onChange={setSearchInput}
-          placeholder={t.searchPlaceholder}
+          placeholder={t.items.searchPlaceholder}
           style={commonStyles.grow}
           value={searchInput}
         />
       </View>
       <List
         data={items}
-        emptyMsg={t.itemsNotFound}
+        emptyMsg={searchInput === "" ? t.items.empty : t.items.notFound}
         error={itemsError}
-        errorMsg={t.itemsSearchError}
+        errorMsg={t.items.searchError}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
       />
