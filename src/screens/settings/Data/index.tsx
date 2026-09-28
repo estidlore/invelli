@@ -23,8 +23,8 @@ const DataSettings = (): React.JSX.Element => {
 
   const handleImport = (): void => {
     importFromJson()
-      .then(() => {
-        showToast(t.imported);
+      .then((done) => {
+        showToast(done ? t.imported : t.importCancelled);
       })
       .catch((err) => {
         logError(err);
