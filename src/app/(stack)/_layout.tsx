@@ -1,35 +1,38 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-import { commonStyles } from "@/core/theme";
 
 const StackLayout = (): React.JSX.Element => {
   const insets = useSafeAreaInsets();
 
+  const noPaddingStyle = {
+    paddingBottom: insets.bottom,
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+    paddingTop: insets.top,
+  };
+
   return (
-    <View
-      style={[
-        commonStyles.grow,
-        {
+    <Stack
+      screenOptions={{
+        animation: "fade",
+        contentStyle: {
           paddingBottom: insets.bottom + 16,
           paddingLeft: insets.left + 16,
           paddingRight: insets.right + 16,
-          paddingTop: insets.top + 16,
+          paddingTop: insets.top + 8,
         },
-      ]}
+        headerShown: false,
+      }}
     >
-      <Stack screenOptions={{ animation: "fade", headerShown: false }}>
-        <Stack.Screen name={"items/[id]"} />
-        <Stack.Screen name={"items/[id]/edit"} />
-        <Stack.Screen name={"items/new"} />
-        <Stack.Screen name={"onboarding"} />
-        <Stack.Screen name={"scanner"} />
-        <Stack.Screen name={"transactions/[id]"} />
-        <Stack.Screen name={"transactions/[id]/edit"} />
-        <Stack.Screen name={"transactions/[id]/add-items"} />
-      </Stack>
-    </View>
+      <Stack.Screen name={"items/[id]"} />
+      <Stack.Screen name={"items/[id]/edit"} />
+      <Stack.Screen name={"items/new"} />
+      <Stack.Screen name={"onboarding"} />
+      <Stack.Screen name={"scanner"} options={{ contentStyle: noPaddingStyle }} />
+      <Stack.Screen name={"transactions/[id]"} />
+      <Stack.Screen name={"transactions/[id]/edit"} />
+      <Stack.Screen name={"transactions/[id]/add-items"} />
+    </Stack>
   );
 };
 
