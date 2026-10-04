@@ -5,7 +5,7 @@ import { Button, ConfirmationButton, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
 import { deleteTransaction, voidTransaction } from "@/db";
 import { useBusinessStore } from "@/screens/settings/Business";
-import { logError } from "@/utils";
+import { isSaleRelated, logError } from "@/utils";
 
 import { generateTextReceipt } from "./generateReceipt";
 import { translations } from "./translations";
@@ -85,7 +85,7 @@ const TransactionActions = ({
       {tx.status === "DRAFT" && (
         <Button color={"primary"} icon={"pencil"} onPress={handleEdit} variant={"solid"} />
       )}
-      {(tx.reason === "SALE" || tx.reason === "SALE_RETURN") && (
+      {isSaleRelated(tx.reason) && (
         <Button icon={"receipt"} onPress={toggleReceipt} variant={"outline"} />
       )}
       {tx.status === "DRAFT" && (

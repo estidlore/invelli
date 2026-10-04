@@ -15,7 +15,7 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   const router = useRouter();
   const t = useTranslation(translations);
 
-  const handleClick = (): void => {
+  const handlePress = (): void => {
     router.push({
       params: { id: data.id },
       pathname: "/transactions/[id]",
@@ -27,7 +27,7 @@ const TransactionCard = ({ data }: TransactionCardProps): React.JSX.Element => {
   const price = sellPrice === 0 ? buyPrice : sellPrice;
 
   return (
-    <Card onPress={handleClick} style={commonStyles.column}>
+    <Card onPress={handlePress} style={commonStyles.column}>
       <View style={commonStyles.row}>
         <Icon color={COLOR_BY_TX_REASON[txReason]} name={ICON_BY_TX_REASON[txReason]} />
         <Text style={commonStyles.grow}>
