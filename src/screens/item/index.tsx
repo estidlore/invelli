@@ -103,7 +103,7 @@ const ItemScreen = (): React.JSX.Element => {
 
       <View style={styles.row}>
         <Text style={commonStyles.grow} type={"small"}>
-          {`${t.createdAt}:  ${createdAgo.unit === "days" ? dateString(new Date(data.createdAt)) : template(t.ago[createdAgo.unit], createdAgo)}`}
+          {`${t.createdAt}:  ${createdAgo.unit === "day" ? dateString(new Date(data.createdAt)) : template(t.ago[createdAgo.unit], createdAgo)}`}
         </Text>
 
         <Text style={commonStyles.grow} type={"small"}>

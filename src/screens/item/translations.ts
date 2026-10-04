@@ -3,10 +3,10 @@ import { createTranslations } from "@/core/language";
 const translations = createTranslations({
   ENG: {
     ago: {
-      days: "{{value}}d ago",
-      hours: "{{value}}h ago",
-      mins: "{{value}}m ago",
-      secs: "Just now",
+      day: "{{value}}d ago",
+      hour: "{{value}}h ago",
+      min: "{{value}}m ago",
+      sec: "Just now",
     },
     buyPrice: "Buy Price",
     code: "Code",
@@ -40,10 +40,10 @@ const translations = createTranslations({
   },
   SPA: {
     ago: {
-      days: "Hace {{value}}d",
-      hours: "Hace {{value}}h",
-      mins: "Hace {{value}}m",
-      secs: "Justo ahora",
+      day: "Hace {{value}}d",
+      hour: "Hace {{value}}h",
+      min: "Hace {{value}}m",
+      sec: "Justo ahora",
     },
     buyPrice: "Costo",
     code: "Código",
