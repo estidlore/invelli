@@ -1,8 +1,9 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView } from "react-native";
 
-import { Card, Screen, SegmentedControl } from "@/components";
+import { Button, Card, Screen, SegmentedControl } from "@/components";
 import { useTranslation } from "@/core/language";
 import { TX_REASONS } from "@/db";
 import type { DateUnit } from "@/utils";
@@ -25,6 +26,14 @@ const FinancialsScreen = (): React.JSX.Element => {
   });
 
   const t = useTranslation(translations);
+
+  const router = useRouter();
+
+  const handleSeeItemsPerformance = (): void => {
+    router.push({
+      pathname: "/(stack)/items/performance",
+    });
+  };
 
   const netRevenue = txSummary.SALE.sellTotal - txSummary.SALE_RETURN.sellTotal;
   const netCOGS = txSummary.SALE.buyTotal - txSummary.SALE_RETURN.buyTotal;
@@ -63,6 +72,10 @@ const FinancialsScreen = (): React.JSX.Element => {
             />
           ))}
         </Card>
+
+        <Button onPress={handleSeeItemsPerformance} variant={"outline"}>
+          {t.seeItemsPerformance}
+        </Button>
       </ScrollView>
     </Screen>
   );
