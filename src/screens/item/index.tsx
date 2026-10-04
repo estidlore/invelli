@@ -7,6 +7,7 @@ import { View } from "react-native";
 
 import {
   Button,
+  Card,
   ConfirmationButton,
   List,
   QueryFallback,
@@ -110,7 +111,7 @@ const ItemScreen = (): React.JSX.Element => {
         </Text>
       </View>
 
-      <View style={styles.row}>
+      <Card style={styles.row}>
         <View style={commonStyles.column}>
           <Text type={"semibold"}>{t.code}</Text>
           <Text type={"semibold"}>{t.stock}</Text>
@@ -120,7 +121,7 @@ const ItemScreen = (): React.JSX.Element => {
         <View style={commonStyles.column}>
           <Text>{data.code}</Text>
           <Text>
-            {`${NUM_FORMATS.PRICE.format(data.quantity * data.buyPrice)} ( ${data.quantity} ${t.units} )`}
+            {`${NUM_FORMATS.PRICE.format(data.quantity * data.buyPrice)}  (${data.quantity} ${t.units})`}
           </Text>
           <Text>
             {`${NUM_FORMATS.PRICE.format(data.buyPrice)} / ${NUM_FORMATS.PRICE.format(data.sellPrice)}`}
@@ -129,7 +130,7 @@ const ItemScreen = (): React.JSX.Element => {
             {`${NUM_FORMATS.PERCENT.format(margin)} / ${NUM_FORMATS.PERCENT.format(markup)}`}
           </Text>
         </View>
-      </View>
+      </Card>
 
       {last30DaysSales && last30DaysLosses && (
         <>
@@ -137,7 +138,7 @@ const ItemScreen = (): React.JSX.Element => {
             {t.last30Days}
           </Text>
 
-          <View style={styles.row}>
+          <Card style={styles.row}>
             <View style={commonStyles.column}>
               <Text type={"semibold"}>{t.sales}</Text>
               <Text type={"semibold"}>{t.losses}</Text>
@@ -145,16 +146,16 @@ const ItemScreen = (): React.JSX.Element => {
             </View>
             <View style={commonStyles.column}>
               <Text>
-                {`${NUM_FORMATS.PRICE.format(last30DaysSales.sales)} ( ${last30DaysSales.quantity} ${t.units} )`}
+                {`${NUM_FORMATS.PRICE.format(last30DaysSales.sales)}  (${last30DaysSales.quantity} ${t.units})`}
               </Text>
               <Text>
-                {`${NUM_FORMATS.PRICE.format(last30DaysLosses.losses)} ( ${last30DaysLosses.quantity} ${t.units} )`}
+                {`${NUM_FORMATS.PRICE.format(last30DaysLosses.losses)}  (${last30DaysLosses.quantity} ${t.units})`}
               </Text>
               <Text>
                 {NUM_FORMATS.PRICE.format(last30DaysSales.profit - last30DaysLosses.losses)}
               </Text>
             </View>
-          </View>
+          </Card>
         </>
       )}
 
