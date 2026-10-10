@@ -4,6 +4,9 @@ const styles = StyleSheet.create({
   btn: {
     flexGrow: 1,
   },
+  disabled: {
+    opacity: 0.5,
+  },
   label: {
     marginBottom: 4,
   },

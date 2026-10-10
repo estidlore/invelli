@@ -13,6 +13,7 @@ interface SegmentedControlOption<T extends number | string> {
 
 interface SegmentedControlProps<T extends number | string> extends ViewProps {
   activeOptions?: ButtonOptions;
+  disabled?: boolean;
   inactiveOptions?: ButtonOptions;
   label?: string;
   onChange: (value: T) => void;

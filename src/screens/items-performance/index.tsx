@@ -34,6 +34,7 @@ const ItemsPerformanceScreen = (): React.JSX.Element => {
   return (
     <Screen goBack title={t.title}>
       <SegmentedControl
+        disabled={isStaticMetric[sortBy]}
         onChange={setDateRange}
         options={dateRangeOptions.map((el) => ({
           text: t.dateRange[el],

@@ -10,6 +10,7 @@ import type { SegmentedControlProps } from "./types";
 const SegmentedControl = <T extends number | string>({
   activeOptions = { color: "primary" },
   inactiveOptions = {},
+  disabled,
   label,
   onChange,
   options,
@@ -21,7 +22,15 @@ const SegmentedControl = <T extends number | string>({
   return (
     <View {...restProps}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={[styles.row, { backgroundColor: colors.card, borderColor: colors.border }]}>
+      <View
+        accessibilityState={{ disabled }}
+        pointerEvents={disabled ? "none" : "auto"}
+        style={[
+          styles.row,
+          { backgroundColor: colors.card, borderColor: colors.border },
+          disabled && styles.disabled,
+        ]}
+      >
         {options.map((option) => {
           const selected = option.value === value;
           const btnOptions = selected ? activeOptions : inactiveOptions;
