@@ -12,6 +12,7 @@ const sortByOptions: Metric[] = [
   "shrinkage",
   "sellPrice",
   "buyPrice",
+  "stock",
 ];
 
 const isStaticMetric: Record<Metric, boolean> = {
@@ -21,6 +22,7 @@ const isStaticMetric: Record<Metric, boolean> = {
   revenue: false,
   sellPrice: true,
   shrinkage: false,
+  stock: true,
   unitsSold: false,
 };
 

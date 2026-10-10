@@ -1,6 +1,6 @@
 import type { Item } from "@/db";
 
-type ItemMetric = "buyPrice" | "margin" | "sellPrice";
+type ItemMetric = "buyPrice" | "margin" | "sellPrice" | "stock";
 
 type ItemTxMetric = "profit" | "revenue" | "shrinkage" | "unitsSold";
 

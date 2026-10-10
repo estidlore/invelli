@@ -26,6 +26,8 @@ const NUM_FORMATS = {
   }),
 };
 
+type NumFormat = keyof typeof NUM_FORMATS;
+
 const clamp = (n: number, min?: number, max?: number): number => {
   let res = n;
   if (max !== undefined) {
@@ -37,4 +39,5 @@ const clamp = (n: number, min?: number, max?: number): number => {
   return res;
 };
 
+export type { NumFormat };
 export { NUM_FORMATS, clamp };

@@ -1,11 +1,24 @@
 import { and, eq, gte, lte, sql } from "drizzle-orm";
 
-import { db, transactionItems, transactions } from "@/db";
+import { db, items, transactionItems, transactions } from "@/db";
 import type { DateUnit } from "@/utils";
 import { DATETIME_UNIT } from "@/utils";
 
 import { txSummaryFallback } from "./constants";
-import type { TransactionsSummary } from "./types";
+import type { ItemsSummary, TransactionsSummary } from "./types";
+
+const getItemsSummary = async (): Promise<ItemsSummary> => {
+  const results = await db
+    .select({
+      buyTotal: sql`SUM(${items.buyPrice} * ${items.quantity})`.mapWith(Number),
+      quantityTotal: sql`SUM(${items.quantity})`.mapWith(Number),
+      sellTotal: sql`SUM(${items.sellPrice} * ${items.quantity})`.mapWith(Number),
+      uniqueItems: sql`COUNT()`.mapWith(Number),
+    })
+    .from(items);
+
+  return results[0];
+};
 
 const getTransactionsSummaryByReason = async (
   dateRange: DateUnit,
@@ -52,4 +65,4 @@ const getTransactionsSummaryByReason = async (
   return Object.assign(txSummaryFallback, summary);
 };
 
-export { getTransactionsSummaryByReason };
+export { getItemsSummary, getTransactionsSummaryByReason };

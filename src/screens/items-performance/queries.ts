@@ -68,6 +68,7 @@ const getTopItemsByMetric = async ({
     buyPrice: items.buyPrice,
     margin: sql`1.0 * (${items.sellPrice} - ${items.buyPrice}) / ${items.sellPrice}`,
     sellPrice: items.sellPrice,
+    stock: sql`(${items.buyPrice} * ${items.quantity})`,
   }[metric];
   const orderByExpr = sortDirection === "asc" ? asc(sortExpr) : desc(sortExpr);
 

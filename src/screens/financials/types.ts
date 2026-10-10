@@ -5,4 +5,11 @@ type TransactionsSummary = Record<
   Record<"buyTotal" | "quantity" | "sellTotal", number>
 >;
 
-export type { TransactionsSummary };
+interface ItemsSummary {
+  buyTotal: number;
+  quantityTotal: number;
+  sellTotal: number;
+  uniqueItems: number;
+}
+
+export type { ItemsSummary, TransactionsSummary };

@@ -3,21 +3,27 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView } from "react-native";
 
-import { Button, Card, Screen, SegmentedControl } from "@/components";
+import { Button, Card, Screen, SegmentedControl, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { TX_REASONS } from "@/db";
 import type { DateUnit } from "@/utils";
 import { isSaleRelated } from "@/utils";
 
 import { KPI } from "./KPI";
-import { dateRangeOptions, txSummaryFallback } from "./constants";
-import { getTransactionsSummaryByReason } from "./queries";
+import { dateRangeOptions, itemsSummaryFallback, txSummaryFallback } from "./constants";
+import { getItemsSummary, getTransactionsSummaryByReason } from "./queries";
 import { styles } from "./styles";
 import { translations } from "./translations";
 
 const FinancialsScreen = (): React.JSX.Element => {
   const [dateRange, setDateRange] = useState<DateUnit>("month");
 
+  const { data: itemsSummary = itemsSummaryFallback } = useQuery({
+    placeholderData: keepPreviousData,
+    queryFn: async () => getItemsSummary(),
+    queryKey: ["itemsSummary"],
+    staleTime: 60 * 1000, // 1 min
+  });
   const { data: txSummary = txSummaryFallback } = useQuery({
     placeholderData: keepPreviousData,
     queryFn: async () => getTransactionsSummaryByReason(dateRange),
@@ -46,6 +52,28 @@ const FinancialsScreen = (): React.JSX.Element => {
   return (
     <Screen title={t.title}>
       <ScrollView contentContainerStyle={styles.scroll}>
+        <Text type={"subtitle"}>{t.inventory.title}</Text>
+        <Card style={styles.card}>
+          <KPI label={t.inventory.buyTotal} value={itemsSummary.buyTotal} />
+          <KPI label={t.inventory.sellTotal} value={itemsSummary.sellTotal} />
+          <KPI
+            format={"QUANTITY"}
+            label={t.inventory.quantityTotal}
+            value={itemsSummary.quantityTotal}
+          />
+          <KPI
+            format={"QUANTITY"}
+            label={t.inventory.uniqueItems}
+            value={itemsSummary.uniqueItems}
+          />
+        </Card>
+
+        <Button onPress={handleSeeItemsPerformance} variant={"outline"}>
+          {t.seeItemsPerformance}
+        </Button>
+
+        <Text type={"subtitle"}>{t.transactions}</Text>
+
         <SegmentedControl
           onChange={setDateRange}
           options={dateRangeOptions.map((el) => ({
@@ -72,10 +100,6 @@ const FinancialsScreen = (): React.JSX.Element => {
             />
           ))}
         </Card>
-
-        <Button onPress={handleSeeItemsPerformance} variant={"outline"}>
-          {t.seeItemsPerformance}
-        </Button>
       </ScrollView>
     </Screen>
   );
