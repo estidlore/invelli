@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   scroll: {
     flexDirection: "column",
     gap: 16,
+    paddingBottom: 16,
   },
 });
 

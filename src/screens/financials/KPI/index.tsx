@@ -1,16 +1,16 @@
 import { View } from "react-native";
 
 import { Text } from "@/components";
+import { commonStyles } from "@/core/theme";
 import { NUM_FORMATS } from "@/utils";
 
-import { styles } from "./styles";
 import type { KpiProps } from "./types";
 
-const KPI = ({ label, value }: KpiProps): React.JSX.Element => {
+const KPI = ({ format = "PRICE", label, value }: KpiProps): React.JSX.Element => {
   return (
-    <View style={styles.kpi}>
+    <View style={commonStyles.rowBetween}>
       <Text>{label}</Text>
-      <Text>{NUM_FORMATS.PRICE.format(value)}</Text>
+      <Text>{NUM_FORMATS[format].format(value)}</Text>
     </View>
   );
 };
