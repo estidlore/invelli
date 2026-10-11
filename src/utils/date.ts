@@ -1,7 +1,20 @@
+type TimeUnit = "hour" | "min" | "sec";
+type DateUnit = "day" | "month" | "week";
+type DateTimeUnit = DateUnit | TimeUnit;
+
 interface TimeDiff {
+  unit: TimeUnit | "day";
   value: number;
-  unit: "days" | "hours" | "mins" | "secs";
 }
+
+const DATETIME_UNIT: Record<DateTimeUnit, number> = {
+  day: 86400000,
+  hour: 3600000,
+  min: 60000,
+  month: 2592000000,
+  sec: 1000,
+  week: 604800000,
+};
 
 const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
@@ -37,28 +50,19 @@ const dateToFileName = (date: Date): string => {
 };
 
 const getTimeDiff = (d1: Date, d2: Date): TimeDiff => {
-  const secsDiff = Math.round((d1.getTime() - d2.getTime()) / 1000);
-  if (secsDiff >= 3600) {
-    if (secsDiff >= 86400) {
+  const diff = d1.getTime() - d2.getTime();
+  const units = ["day", "hour", "min", "sec"] as const;
+
+  for (const unit of units) {
+    if (diff >= DATETIME_UNIT[unit]) {
       return {
-        unit: "days",
-        value: Math.round(secsDiff / 86400),
+        unit,
+        value: Math.round(diff / DATETIME_UNIT[unit]),
       };
     }
-    return {
-      unit: "hours",
-      value: Math.round(secsDiff / 3600),
-    };
-  } else if (secsDiff >= 60) {
-    return {
-      unit: "mins",
-      value: Math.round(secsDiff / 60),
-    };
   }
-  return {
-    unit: "secs",
-    value: secsDiff,
-  };
+
+  throw Error("Unexpected time difference");
 };
 
 const nowISO = (): string => new Date().toISOString();
@@ -75,4 +79,14 @@ const startOfDay = (date: Date): Date => {
   return res;
 };
 
-export { dateString, dateTimeString, dateToFileName, getTimeDiff, endOfDay, nowISO, startOfDay };
+export type { DateTimeUnit, DateUnit, TimeDiff, TimeUnit };
+export {
+  DATETIME_UNIT,
+  dateString,
+  dateTimeString,
+  dateToFileName,
+  getTimeDiff,
+  endOfDay,
+  nowISO,
+  startOfDay,
+};
