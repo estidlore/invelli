@@ -11,6 +11,7 @@ const NAMES = {
   back: { android: "arrow-back-ios-new", ios: "chevron.left" },
   bell: { android: "notifications", ios: "bell.fill" },
   cart: { android: "shopping-cart", ios: "cart.fill" },
+  chart: { android: "trending-up", ios: "chart.line.uptrend.xyaxis" },
   check: { android: "check", ios: "checkmark" },
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
   circleHalf: { android: "contrast", ios: "circle.lefthalf.filled" },

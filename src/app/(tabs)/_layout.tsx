@@ -46,6 +46,12 @@ const TabsLayout = (): React.JSX.Element => {
         }}
       />
       <Tabs.Screen
+        name={"financials"}
+        options={{
+          tabBarIcon: ({ color }) => <Icon color={color as ThemeColor} name={"chart"} size={24} />,
+        }}
+      />
+      <Tabs.Screen
         name={"settings"}
         options={{
           tabBarIcon: ({ color }) => (
