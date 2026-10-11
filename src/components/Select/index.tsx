@@ -10,7 +10,6 @@ import type { SelectProps } from "./types";
 
 const Select = <T extends number | string>({
   label,
-  onBlur,
   onChange,
   options,
   style,
@@ -26,7 +25,6 @@ const Select = <T extends number | string>({
 
   const handleClose = (): void => {
     setShowOptions(false);
-    onBlur?.();
   };
 
   return (
@@ -43,7 +41,6 @@ const Select = <T extends number | string>({
               onChange?.(option.value, idx);
             }
             setShowOptions(false);
-            onBlur?.(option.value);
           };
 
           return (
