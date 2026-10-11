@@ -5,7 +5,7 @@ import { Card, Icon, Text } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { COLOR_BY_TX_REASON, ICON_BY_TX_REASON } from "@/db";
-import { NUM_FORMATS, dateTimeString } from "@/utils";
+import { NUM_FORMATS, dateTimeString, isSaleRelated } from "@/utils";
 
 import { translations } from "./translations";
 import type { TransactionItemProps } from "./types";
@@ -16,8 +16,7 @@ const TransactionItem = ({
   sellPrice,
   transaction: tx,
 }: TransactionItemProps): React.JSX.Element => {
-  const price =
-    tx.reason === "SALE" || tx.reason === "SALE_RETURN" ? (sellPrice ?? 0) : (buyPrice ?? 0);
+  const price = isSaleRelated(tx.reason) ? (sellPrice ?? 0) : (buyPrice ?? 0);
 
   const router = useRouter();
   const t = useTranslation(translations);
