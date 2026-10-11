@@ -11,14 +11,6 @@ const commonStyles = StyleSheet.create({
     flexDirection: "column",
     gap: 8,
   },
-  floatingBtn: {
-    borderRadius: "50%",
-    bottom: 16,
-    height: 64,
-    position: "absolute",
-    right: 16,
-    width: 64,
-  },
   grow: {
     flex: 1,
   },

@@ -1,15 +1,15 @@
 import { useNavigation } from "expo-router";
-import { copy, get, keys, set, size, template } from "litus";
+import { copy, get, keys, set, template } from "litus";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import type { z } from "zod";
+import type { ZodType, z } from "zod";
 
 import type { Translation } from "@/core/language";
 import { useTranslation } from "@/core/language";
 import { logError } from "@/utils";
 
 import { translations } from "./translations";
-import type { FieldProps, FormState, UseFormOptions } from "./types";
+import type { FieldProps, FormState, UseFormOptions, ZodParseRes } from "./types";
 
 const getErrorTranslation = (t: Translation, issue: z.core.$ZodIssue): string => {
   const text = get(t, issue.message, issue.message);
@@ -17,25 +17,25 @@ const getErrorTranslation = (t: Translation, issue: z.core.$ZodIssue): string =>
 };
 
 // eslint-disable-next-line max-lines-per-function
-const useForm = <T extends Record<string, unknown>>({
+const useForm = <S extends ZodType<object, object>>({
   autoSaveMs = 1000,
   onAutoSave,
   onSubmit,
   schema,
   setValues,
   values,
-}: UseFormOptions<T>): FormState => {
+}: UseFormOptions<S>): FormState => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const t = useTranslation(translations);
 
-  const autoSave = (data: T): void => {
-    const newErrors = validateForm(data);
-    if (size(newErrors) > 0) {
+  const autoSave = (parseRes: ZodParseRes<S>): void => {
+    validateForm(parseRes);
+    if (!parseRes.success) {
       return;
     }
-    onAutoSave?.(data).catch((err) => {
+    onAutoSave?.(parseRes.data).catch((err) => {
       logError(`Autosave failed: ${err}`);
     });
   };
@@ -49,12 +49,11 @@ const useForm = <T extends Record<string, unknown>>({
     return unsubscribe;
   }, [debouncedAutoSave, navigation]);
 
-  const validateForm = (data: T): Record<string, string> => {
-    const result = schema.safeParse(data);
+  const validateForm = (parseRes: ZodParseRes<S>): Record<string, string> => {
     const newErrors: Record<string, string> = {};
 
-    if (!result.success) {
-      result.error.issues.forEach((err) => {
+    if (!parseRes.success) {
+      parseRes.error.issues.forEach((err) => {
         const path = err.path.join(".");
         if (!newErrors[path]) {
           newErrors[path] = getErrorTranslation(t, err);
@@ -69,9 +68,10 @@ const useForm = <T extends Record<string, unknown>>({
   const submit = async (): Promise<void> => {
     setIsSubmitting(true);
     debouncedAutoSave.cancel();
-    const newErrors = validateForm(values);
+    const parseRes = schema.safeParse(values);
+    const newErrors = validateForm(parseRes);
 
-    if (size(newErrors) > 0) {
+    if (!parseRes.success) {
       const allTouched = keys(newErrors).reduce<Record<string, boolean>>((acc, path) => {
         acc[path] = true;
         return acc;
@@ -83,7 +83,7 @@ const useForm = <T extends Record<string, unknown>>({
     }
 
     try {
-      await onSubmit(values);
+      await onSubmit(parseRes.data);
     } finally {
       setIsSubmitting(false);
     }
@@ -102,20 +102,23 @@ const useForm = <T extends Record<string, unknown>>({
         newValues = set(copy(values), field, overrideValue);
       }
 
-      const newErrors = validateForm(newValues);
-      if (onAutoSave && size(newErrors) === 0) {
+      const parseRes = schema.safeParse(newValues);
+      if (onAutoSave) {
         debouncedAutoSave.cancel();
-        autoSave(newValues);
+        autoSave(parseRes);
+      } else {
+        validateForm(parseRes);
       }
     },
     onChange: (value: string): void => {
       const newValues = set(copy(values), field, value);
       setValues(newValues);
+      const parseRes = schema.safeParse(newValues);
       if (errors[field]) {
-        validateForm(newValues);
+        validateForm(parseRes);
       }
       if (onAutoSave) {
-        debouncedAutoSave(newValues);
+        debouncedAutoSave(parseRes);
       }
     },
     value: get(values, field),

@@ -5,7 +5,6 @@ import type { SQLiteRunResult } from "expo-sqlite";
 import { db } from "@/db/config";
 import type { Item, NewItem } from "@/db/schema";
 import { items } from "@/db/schema";
-import { sanitizeDbItem } from "@/db/utils";
 
 import type { FindFirstQuery, SelectQuery } from "./types";
 
@@ -26,7 +25,7 @@ const getItems = async (): Promise<Item[]> => {
 };
 
 const insertItem = async (item: Omit<NewItem, "id">): Promise<SQLiteRunResult> => {
-  return await db.insert(items).values({ ...sanitizeDbItem(item), id: randomUUID() });
+  return await db.insert(items).values({ ...item, id: randomUUID() });
 };
 
 const searchItems = (searchText: string): SelectQuery<typeof items> => {
@@ -53,7 +52,7 @@ const searchItems = (searchText: string): SelectQuery<typeof items> => {
 };
 
 const updateItem = async (id: string, data: Partial<NewItem>): Promise<SQLiteRunResult> => {
-  return await db.update(items).set(sanitizeDbItem(data)).where(eq(items.id, id));
+  return await db.update(items).set(data).where(eq(items.id, id));
 };
 
 export { deleteItem, getItem, getItemByCode, getItems, insertItem, searchItems, updateItem };

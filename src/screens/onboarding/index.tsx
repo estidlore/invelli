@@ -1,14 +1,15 @@
 import { Image } from "expo-image";
 import { useState } from "react";
 import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import { Button, Input, Screen, Text } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
+import { useBusinessStore } from "@/screens/settings/Business";
 import { logError } from "@/utils";
 
-import { useBusinessStore } from "../settings/Business";
 import { schema } from "./schema";
 import { styles } from "./styles";
 import { translations } from "./translations";
@@ -35,7 +36,7 @@ const OnboardingScreen = (): React.JSX.Element => {
 
   return (
     <Screen title={"Invelli"}>
-      <View style={styles.container}>
+      <KeyboardAwareScrollView bottomOffset={16} contentContainerStyle={styles.container}>
         <View style={styles.header}>
           <Image
             contentFit={"contain"}
@@ -50,7 +51,7 @@ const OnboardingScreen = (): React.JSX.Element => {
         <Button color={"primary"} disabled={isSubmitting} onPress={handleSubmit} variant={"solid"}>
           {t.start}
         </Button>
-      </View>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

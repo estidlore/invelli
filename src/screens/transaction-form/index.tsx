@@ -1,11 +1,13 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import {
   Alert,
   Button,
+  FloatingButton,
   Input,
   List,
   QueryFallback,
@@ -133,14 +135,12 @@ const TransactionFormscreen = (): React.JSX.Element => {
           options={txReasonOptions}
           style={styles.input}
         />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <Input
-            {...getFieldProps("notes")}
-            label={t.label.notes}
-            maxLength={500}
-            style={styles.input}
-          />
-        </KeyboardAvoidingView>
+        <Input
+          {...getFieldProps("notes")}
+          label={t.label.notes}
+          maxLength={500}
+          style={styles.input}
+        />
 
         <View style={commonStyles.row}>
           <Text style={commonStyles.grow} type={"subtitle"}>
@@ -160,18 +160,13 @@ const TransactionFormscreen = (): React.JSX.Element => {
           error={txItemsError}
           errorMsg={t.items.loadError}
           renderItem={({ item }) => <TransactionItem data={item} key={item.id} tx={tx} />}
+          renderScrollComponent={(scrollProps) => (
+            <KeyboardAwareScrollView {...scrollProps} bottomOffset={16} />
+          )}
         />
       </View>
 
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        icon={"check"}
-        iconSize={32}
-        onPress={handleSubmit}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton disabled={isSubmitting} icon={"check"} onPress={handleSubmit} />
     </Screen>
   );
 };

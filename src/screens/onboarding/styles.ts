@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 16,
     justifyContent: "center",
-    marginBottom: 100,
   },
   header: {
     alignItems: "center",

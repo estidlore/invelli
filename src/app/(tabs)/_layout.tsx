@@ -18,7 +18,7 @@ const TabsLayout = (): React.JSX.Element => {
           backgroundColor: colors.background,
           paddingLeft: insets.left + 16,
           paddingRight: insets.right + 16,
-          paddingTop: insets.top + 16,
+          paddingTop: insets.top + 8,
         },
         tabBarActiveTintColor: "primary",
         tabBarInactiveTintColor: "text",

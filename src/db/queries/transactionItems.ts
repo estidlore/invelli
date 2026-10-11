@@ -5,7 +5,6 @@ import type { SQLiteRunResult } from "expo-sqlite";
 import { db } from "@/db/config";
 import type { NewTransactionItem, TransactionItem } from "@/db/schema";
 import { transactionItems } from "@/db/schema";
-import { sanitizeDbTxItem } from "@/db/utils";
 
 import type {
   DetailedTransactionItem,
@@ -50,7 +49,7 @@ const incrementTransactionItem = async (id: string): Promise<void> => {
 
 const insertTransactionItem = async (item: Omit<NewTransactionItem, "id">): Promise<string> => {
   const id = randomUUID();
-  await db.insert(transactionItems).values({ ...sanitizeDbTxItem(item), id });
+  await db.insert(transactionItems).values({ ...item, id });
   return id;
 };
 
@@ -58,10 +57,7 @@ const updateTransactionItem = async (
   id: string,
   data: Partial<NewTransactionItem>,
 ): Promise<SQLiteRunResult> => {
-  return await db
-    .update(transactionItems)
-    .set(sanitizeDbTxItem(data))
-    .where(eq(transactionItems.id, id));
+  return await db.update(transactionItems).set(data).where(eq(transactionItems.id, id));
 };
 
 export {

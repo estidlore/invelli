@@ -1,14 +1,12 @@
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { setButtonStyleAsync } from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { View } from "react-native";
 import "react-native-reanimated";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { QueryFallback, Toast } from "@/components";
+import { AppProviders, QueryFallback, Toast } from "@/components";
 import { createTranslations, useTranslation } from "@/core/language";
 import { commonStyles, useColors, useTheme } from "@/core/theme";
 import { db, migrations } from "@/db";
@@ -24,15 +22,6 @@ const translations = createTranslations({
   },
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 2,
-      staleTime: 1000 * 60 * 5,
-    },
-  },
-});
-
 const RootLayout = (): React.JSX.Element => {
   const theme = useTheme();
   const barsStyle = theme === "dark" ? "light" : "dark";
@@ -41,34 +30,23 @@ const RootLayout = (): React.JSX.Element => {
   const { error, success } = useMigrations(db, migrations);
   const t = useTranslation(translations);
   const colors = useColors();
-  const appTheme = {
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      ...colors,
-    },
-  };
 
   if (error || !success) {
     return <QueryFallback error={error} errorMsg={t.dbMigrationError} isPending={!success} />;
   }
 
   return (
-    <SafeAreaProvider>
+    <AppProviders>
       <StatusBar style={barsStyle} />
-      <ThemeProvider value={appTheme}>
-        <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
-          <QueryClientProvider client={queryClient}>
-            <OnboardingGuard />
-            <Stack screenOptions={{ animation: "fade", headerShown: false }}>
-              <Stack.Screen name={"(tabs)"} />
-              <Stack.Screen name={"(stack)"} />
-            </Stack>
-            <Toast />
-          </QueryClientProvider>
-        </View>
-      </ThemeProvider>
-    </SafeAreaProvider>
+      <View style={[commonStyles.grow, { backgroundColor: colors.background }]}>
+        <OnboardingGuard />
+        <Stack screenOptions={{ animation: "fade", headerShown: false }}>
+          <Stack.Screen name={"(tabs)"} />
+          <Stack.Screen name={"(stack)"} />
+        </Stack>
+        <Toast />
+      </View>
+    </AppProviders>
   );
 };
 

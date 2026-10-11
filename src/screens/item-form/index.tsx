@@ -1,8 +1,9 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState, useTransition } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
-import { Button, Input, QueryFallback, Screen, Text, useToast } from "@/components";
+import { Button, FloatingButton, Input, QueryFallback, Screen, Text, useToast } from "@/components";
 import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
@@ -33,18 +34,12 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   const { getFieldProps, isSubmitting, submit } = useForm({
     onSubmit: async (values) => {
-      const data = {
-        buyPrice: parseFloat(values.buyPrice),
-        code: values.code,
-        name: values.name,
-        quantity: parseFloat(values.quantity),
-        sellPrice: parseFloat(values.sellPrice),
-      };
-
       if (isEditMode && params.id) {
-        await updateItem(params.id, data);
+        await updateItem(params.id, values);
+        showToast(t.item.updated);
       } else {
-        await insertItem(data);
+        await insertItem(values);
+        showToast(t.item.added);
       }
 
       router.back();
@@ -84,80 +79,69 @@ const ItemFormScreen = (): React.JSX.Element => {
 
   if (isPending) {
     return (
-      <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
+      <Screen goBack title={isEditMode ? t.item.edit : t.item.add}>
         <QueryFallback isPending={isPending} />
       </Screen>
     );
   }
 
   const handleSubmit = (): void => {
-    submit()
-      .then(() => {
-        showToast(isEditMode ? t.toast.itemUpdated : t.toast.itemAdded);
-      })
-      .catch((err) => {
-        showToast(isEditMode ? t.toast.itemUpdateError : t.toast.itemAddError, "error");
-        logError(err);
-      });
+    submit().catch((err) => {
+      logError(err);
+      const errMsg = err?.message ?? String(err);
+
+      if (errMsg.includes("UNIQUE constraint failed: items.code")) {
+        showToast(t.item.codeInUse, "error");
+      } else {
+        showToast(isEditMode ? t.item.updateError : t.item.addError, "error");
+      }
+    });
   };
 
   return (
-    <Screen goBack title={isEditMode ? t.editItem : t.addItem}>
-      <ScrollView keyboardShouldPersistTaps={"handled"}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={commonStyles.grow}
-        >
-          <Text type={"small"}>{t.label.code}</Text>
-          <View style={styles.codeRow}>
-            <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
-            <Input
-              placeholder={t.placeholder.code}
-              style={commonStyles.grow}
-              {...getFieldProps("code")}
-            />
-          </View>
+    <Screen goBack title={isEditMode ? t.item.edit : t.item.add}>
+      <KeyboardAwareScrollView bottomOffset={16} keyboardShouldPersistTaps={"handled"}>
+        <Text type={"small"}>{t.label.code}</Text>
+        <View style={styles.codeRow}>
+          <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
           <Input
-            label={t.label.name}
-            placeholder={t.placeholder.name}
-            style={styles.input}
-            {...getFieldProps("name")}
+            placeholder={t.placeholder.code}
+            style={commonStyles.grow}
+            {...getFieldProps("code")}
           />
-          <Input
-            label={t.label.quantity}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("quantity")}
-          />
-          <Input
-            label={t.label.buyPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("buyPrice")}
-          />
-          <Input
-            label={t.label.sellPrice}
-            min={0}
-            placeholder={t.placeholder.number}
-            style={styles.input}
-            type={"numeric"}
-            {...getFieldProps("sellPrice")}
-          />
-        </KeyboardAvoidingView>
-      </ScrollView>
-      <Button
-        color={"primary"}
-        disabled={isSubmitting}
-        icon={"check"}
-        iconSize={32}
-        onPress={handleSubmit}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+        </View>
+        <Input
+          label={t.label.name}
+          placeholder={t.placeholder.name}
+          style={styles.input}
+          {...getFieldProps("name")}
+        />
+        <Input
+          label={t.label.quantity}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("quantity")}
+        />
+        <Input
+          label={t.label.buyPrice}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("buyPrice")}
+        />
+        <Input
+          label={t.label.sellPrice}
+          min={0}
+          placeholder={t.placeholder.number}
+          style={styles.input}
+          type={"numeric"}
+          {...getFieldProps("sellPrice")}
+        />
+      </KeyboardAwareScrollView>
+      <FloatingButton disabled={isSubmitting} icon={"check"} onPress={handleSubmit} />
     </Screen>
   );
 };

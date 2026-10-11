@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useDebounce } from "use-debounce";
 
-import { Button, Input, List } from "@/components";
+import { Button, FloatingButton, Input, List } from "@/components";
 import { useTranslation } from "@/core/language";
 import { commonStyles } from "@/core/theme";
 import { searchItems } from "@/db";
@@ -42,27 +42,20 @@ const InventoryScreen = (): React.JSX.Element => {
         <Button icon={"qrcode"} onPress={handleScan} variant={"outline"} />
         <Input
           onChange={setSearchInput}
-          placeholder={t.searchPlaceholder}
+          placeholder={t.items.searchPlaceholder}
           style={commonStyles.grow}
           value={searchInput}
         />
       </View>
       <List
         data={items}
-        emptyMsg={t.itemsNotFound}
+        emptyMsg={searchInput === "" ? t.items.empty : t.items.notFound}
         error={itemsError}
-        errorMsg={t.itemsSearchError}
+        errorMsg={t.items.searchError}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ItemCard item={item} key={item.id} />}
       />
-      <Button
-        color={"primary"}
-        icon={"plus"}
-        iconSize={40}
-        onPress={handleAdd}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton icon={"plus"} iconSize={40} onPress={handleAdd} />
     </>
   );
 };

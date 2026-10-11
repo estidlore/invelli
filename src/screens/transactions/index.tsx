@@ -1,9 +1,8 @@
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 
-import { Button, List, Screen, useToast } from "@/components";
+import { FloatingButton, List, Screen, useToast } from "@/components";
 import { useTranslation } from "@/core/language";
-import { commonStyles } from "@/core/theme";
 import { getTransactions, insertTransactionDraft } from "@/db";
 import { logError } from "@/utils";
 
@@ -44,14 +43,7 @@ const TransactionsScreen = (): React.JSX.Element => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <TransactionCard data={item} key={item.id} />}
       />
-      <Button
-        color={"primary"}
-        icon={"cart"}
-        iconSize={32}
-        onPress={handleAdd}
-        style={commonStyles.floatingBtn}
-        variant={"solid"}
-      />
+      <FloatingButton icon={"cart"} onPress={handleAdd} />
     </Screen>
   );
 };

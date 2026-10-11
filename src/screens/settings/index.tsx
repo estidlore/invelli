@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import { Screen } from "@/components";
 import { useTranslation } from "@/core/language";
@@ -14,11 +14,15 @@ const SettingsScreen = (): React.JSX.Element => {
 
   return (
     <Screen title={t.title}>
-      <ScrollView contentContainerStyle={styles.column} keyboardShouldPersistTaps={"handled"}>
+      <KeyboardAwareScrollView
+        bottomOffset={16}
+        contentContainerStyle={styles.column}
+        keyboardShouldPersistTaps={"handled"}
+      >
         <BusinessSettings />
         <PreferencesSettings />
         <DataSettings />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

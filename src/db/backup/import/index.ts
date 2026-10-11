@@ -24,12 +24,12 @@ const parseJsonBackup = (json: string): UnknownBackup => {
   return backup as UnknownBackup;
 };
 
-const importFromJson = async (): Promise<void> => {
+const importFromJson = async (): Promise<boolean> => {
   const result = await DocumentPicker.getDocumentAsync({
     type: ["application/json", "text/plain"],
   });
-  if (result.canceled || !result.assets) {
-    return;
+  if (result.canceled || result.assets.length === 0) {
+    return false;
   }
 
   const file = new File(result.assets[0].uri);
@@ -37,6 +37,8 @@ const importFromJson = async (): Promise<void> => {
   const jsonBackup = parseJsonBackup(content);
   const backup = backupMigration(jsonBackup);
   await insertBackup(backup.payload);
+
+  return true;
 };
 
 export { importFromJson };

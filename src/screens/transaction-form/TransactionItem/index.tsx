@@ -35,18 +35,10 @@ const TransactionItem = ({ data, tx }: TransactionItemProps): React.JSX.Element 
 
   const { getFieldProps, isSubmitting } = useForm({
     onAutoSave: async (values) => {
-      await updateTransactionItem(data.id, {
-        buyPrice: parseFloat(values.buyPrice),
-        quantity: parseFloat(values.quantity),
-        sellPrice: hasSellPrice ? parseFloat(values.sellPrice) : data.sellPrice,
-      });
+      await updateTransactionItem(data.id, hasSellPrice ? values : { ...values, sellPrice: null });
     },
     onSubmit: async (values): Promise<void> => {
-      await updateTransactionItem(data.id, {
-        buyPrice: parseFloat(values.buyPrice),
-        quantity: parseFloat(values.quantity),
-        sellPrice: hasSellPrice ? parseFloat(values.sellPrice) : data.sellPrice,
-      });
+      await updateTransactionItem(data.id, hasSellPrice ? values : { ...values, sellPrice: null });
     },
     schema: hasSellPrice ? fullSchema : (baseSchema as typeof fullSchema),
     setValues,
