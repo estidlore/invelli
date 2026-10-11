@@ -14,6 +14,7 @@ const NAMES = {
   chart: { android: "trending-up", ios: "chart.line.uptrend.xyaxis" },
   check: { android: "check", ios: "checkmark" },
   chevronDown: { android: "keyboard-arrow-down", ios: "chevron.down" },
+  chevronUp: { android: "keyboard-arrow-up", ios: "chevron.up" },
   circleHalf: { android: "contrast", ios: "circle.lefthalf.filled" },
   copy: { android: "content-copy", ios: "square.on.square" },
   dollar: { android: "attach-money", ios: "dollarsign" },
