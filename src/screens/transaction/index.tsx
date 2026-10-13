@@ -16,7 +16,7 @@ import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import { COLOR_BY_TX_STATUS, completeTransaction, getTransaction, getTransactionItems } from "@/db";
 import { useBusinessStore } from "@/screens/settings/Business/store";
-import { NUM_FORMATS, dateTimeString, hasEnoughStock, logError } from "@/utils";
+import { NUM_FORMATS, dateTimeString, hasEnoughStock, isSaleRelated, logError } from "@/utils";
 
 import { TransactionActions } from "./TransactionActions";
 import { TransactionItem } from "./TransactionItem";
@@ -44,7 +44,7 @@ const TransactionScreen = (): React.JSX.Element => {
     }
 
     let total = 0;
-    if (tx.reason === "SALE" || tx.reason === "SALE_RETURN") {
+    if (isSaleRelated(tx.reason)) {
       for (const item of txItems) {
         total += (item.sellPrice ?? 0) * item.quantity;
       }

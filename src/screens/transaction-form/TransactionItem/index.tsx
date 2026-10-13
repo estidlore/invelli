@@ -6,14 +6,14 @@ import { useForm } from "@/core/form";
 import { useTranslation } from "@/core/language";
 import { commonStyles, useColors } from "@/core/theme";
 import { deleteTransactionItem, updateTransactionItem } from "@/db";
-import { NUM_FORMATS, hasEnoughStock, logError } from "@/utils";
+import { NUM_FORMATS, hasEnoughStock, isSaleRelated, logError } from "@/utils";
 
 import { baseSchema, fullSchema } from "./schema";
 import { translations } from "./translations";
 import type { TransactionItemProps } from "./types";
 
 const TransactionItem = ({ data, tx }: TransactionItemProps): React.JSX.Element => {
-  const hasSellPrice = tx.reason === "SALE" || tx.reason === "SALE_RETURN";
+  const hasSellPrice = isSaleRelated(tx.reason);
   const [expand, toggleExpand] = useReducer((val) => !val, false);
 
   const [values, setValues] = useState({

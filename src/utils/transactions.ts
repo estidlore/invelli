@@ -11,4 +11,8 @@ const hasEnoughStock = (
   return txItems.every((el) => el.quantity <= el.stock);
 };
 
-export { hasEnoughStock };
+const isSaleRelated = (txReason: Transaction["reason"]): boolean => {
+  return txReason === "SALE" || txReason === "SALE_RETURN";
+};
+
+export { hasEnoughStock, isSaleRelated };
